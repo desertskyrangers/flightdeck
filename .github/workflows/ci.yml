@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  DSR_PRODUCT: 'flightdeck.desertskyrangers.org'
+  DSR_GPG_PASSWORD: ${{ secrets.DSR_GPG_PASSWORD }}
+  DSR_REPO_USERNAME: ${{ secrets.DSR_REPO_USERNAME }}
+  WEBSITE_DEPLOY_PATH: '/opt/dsr/flightdeck/react'
+
+  JAVA_VERSION: "25"
+  NODE_VERSION: "22"
+
+jobs:
+  build:
+    name: Client
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v6
+
+      - name: Fetch CI/CD resources
+        uses: actions/checkout@v6
+        with:
+          repository: desertskyrangers/cicd
+          path: .github
+
+      - name: Configuration
+        shell: bash
+        run: |
+          source .github/config.sh
+
+      - name: NPM Repository Cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{env.NODE_VERSION}}
+          cache: 'npm'
+
+      - name: Install
+        run: npm install
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+        
+      - name: Package
+        run: |
+          cd dist
+          zip -r ../client.zip *
+
+      - name: Copy Client ZIP
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        run: |
+          ssh -t ${{env.DSR_REPO_USERNAME}}@acromere.com "mkdir -p /opt/dsr/repo/latest/${{env.DSR_PRODUCT}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B client.zip ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/client.zip
+
+      - name: Update the Website Client
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        run: ssh ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org bin/update-flightdeck-website-client
+
+#      - name: Deploy
+#        run: |
+#          ssh -t ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org "mkdir -p ${{env.WEBSITE_DEPLOY_PATH}};" 2>&1
+#          if [ $? -ne 0 ]; then exit 1; fi
+#          scp -r -B build/* ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:${{env.WEBSITE_DEPLOY_PATH}} 2>&1
+#          if [ $? -ne 0 ]; then exit 1; fi
