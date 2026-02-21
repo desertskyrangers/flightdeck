@@ -1,4 +1,7 @@
 .idea/
+.parcel-cache/
+dist/
+node_modules/
 
 *.iml
 *.log*
