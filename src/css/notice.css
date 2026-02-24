@@ -1,0 +1,110 @@
+.notice {
+	width: 100%;
+
+	color: lightgrey;
+	background: #404040;
+	border: 1px solid #b8b8b8;
+	border-radius: 5px;
+	padding: 0.5rem;
+
+	box-sizing: border-box;
+
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.notice .icon {
+	color: #a0a0a0;
+}
+
+.notice .icon:hover {
+	color: lightgrey;
+}
+
+.notice-error {
+	color: red;
+	background: #302020;
+	border: 1px solid #c04040;
+}
+
+.notice-error .icon {
+	color: #c00000;
+}
+
+.notice-error .icon:hover {
+	color: red;
+}
+
+.notice-warn {
+	color: yellow;
+	background: #303020;
+	border: 1px solid #c0c040;
+}
+
+.notice-warn .icon {
+	color: #c0c000;
+}
+
+.notice-warn .icon:hover {
+	color: yellow;
+}
+
+
+.notice-info {
+	color: #c0ffc0;
+	background: #304030;
+	border: 1px solid #90c090;
+}
+
+.notice-info .icon {
+	color: #60c060;
+}
+
+.notice-info .icon:hover {
+	color: #c0ffc0;
+}
+
+/*.notice-info {*/
+/*	color: #c0c0ff;*/
+/*	background: #303040;*/
+/*	border: 1px solid #9090c0;*/
+/*}*/
+
+/*.notice-info .icon {*/
+/*	color: #6060c0;*/
+/*}*/
+
+/*.notice-info .icon:hover {*/
+/*	color: #c0c0ff;*/
+/*}*/
+
+.notice-messages {
+	background: transparent;
+
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: flex-start;
+}
+
+.notice-message {
+	background: transparent;
+}
+
+.notice-close {
+	border: none;
+
+	/*float: right;*/
+	padding: 16px;
+	margin: -16px;
+	text-align: center;
+	cursor: pointer;
+	background: none;
+	border: 0;
+}
+
+.notice-close:hover {
+	border: none;
+	background: none;
+}
