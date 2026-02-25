@@ -1,4 +1,4 @@
-name: CI
+name: Desert Sky Rangers FlightDeck CI
 
 on:
   push:
@@ -52,12 +52,12 @@ jobs:
       - name: Install
         run: npm install
 
-      - name: Test
-        run: npm test
-
       - name: Build
         run: npm run build
-        
+
+      - name: Test
+        run: npm run test
+
       - name: Package
         run: |
           cd dist

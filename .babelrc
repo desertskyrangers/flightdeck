@@ -1,0 +1,7 @@
+{
+	"plugins": ["ignore-html-and-css-imports"],
+	"presets": [
+		["@babel/preset-env", { "targets": { "node": "current" } }],
+		"@babel/preset-react"
+	]
+}
