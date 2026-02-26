@@ -66,7 +66,7 @@ jobs:
       - name: Copy Client ZIP
         if: ${{ github.actor != 'dependabot[bot]' }}
         run: |
-          ssh -t ${{env.DSR_REPO_USERNAME}}@acromere.com "mkdir -p /opt/dsr/repo/latest/${{env.DSR_PRODUCT}};"
+          ssh -t ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org "mkdir -p /opt/dsr/repo/latest/${{env.DSR_PRODUCT}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B client.zip ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/client.zip
 
