@@ -1,0 +1,249 @@
+/*
+base - #403c38 ( do not use directly )
+
+100% - #ffffff
+ 95% - #f3f2f1
+ 90% - #e7e6e4
+ 95% - #dbd9d6
+ 80% - #d0ccc8
+ 75% - #c4bfbb
+ 70% - #b8b3ad
+ 65% - #aca6a0
+ 60% - #a09992
+ 55% - #948c84
+ 50% - #888077
+ 45% - #7b736b
+ 40% - #6d665f
+ 35% - #5f5953
+ 30% - #524d47
+ 25% - #44403b
+ 20% - #37332f
+ 15% - #292624
+ 10% - #1b1a18
+  5% - #0e0d0c
+  0% - #000000
+*/
+
+:root {
+	--app-background: #303030;
+
+	--foreground-0: #808080;
+	--foreground-1: #d0ccc8;
+
+	--background-0: #404040;
+	--background-1: #37332f;
+	--background-2: #383838;
+	--background-3: #44403b;
+	--background-4: #524d47;
+	--background-5: #6d665f;
+
+	--border-0: var(--foreground-0);
+	--border-1: #888077;
+	--border-2: #948c84;
+
+	--action-color-0: var(--foreground-0);
+	--action-color-1: #9C916D;
+	--action-color-2: #B5AD92;
+	--action-background-0: var(--background-0);
+	--action-background-1: var(--background-3);
+	--action-background-2: var(--background-4);
+
+	--submit-background-0: var(--background-0);
+	--submit-background-1: #344037;
+	--submit-background-2: #3e4d42;
+
+	--tooltip-background-0: #202020;
+	--tooltip-background-1: var(--background-4);
+
+	--button-background-0: var(--background-0);
+	--button-background-1: #44403b;
+	--button-background-2: #524d47;
+
+	/* mountain wheat */
+	--link-color-primary: #9C916D;
+	--link-hover-primary: #B5AD92;
+	--link-disabled-primary: #808080;
+
+	--primary-black: #2a332c;
+	--primary-gray: #b0b0b0;
+	--primary-white: #e0e0e0;
+
+	--secondary-black: #3f4d42;
+	--secondary-gray: #c0c0c0;
+	--secondary-white: #f0f0f0;
+
+	--text-black: var(--primary-black);
+	--text-white: var(--primary-white);
+
+	/*
+	cactus: A0C0A8
+
+	80%: #a9ccb1
+	75%: #a0c0a8
+	70%: #92b399
+	50%: #6a806f
+	30%: #3f4d42
+	20%: #2a332c
+	 */
+}
+
+body {
+	color: var(--foreground-1);
+	background-color: var(--app-background);
+	margin: 0;
+	padding: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+a {
+	color: var(--link-color-primary);
+	text-decoration: none;
+}
+
+a:hover {
+	color: var(--link-hover-primary);
+}
+
+button {
+	font-size: 1rem;
+
+	color: var(--action-color-1);
+	background: var(--action-background-1);
+	border: 1px solid var(--action-color-1);
+	border-radius: 5px;
+	padding: 0.5rem;
+	cursor: pointer;
+}
+
+button:hover {
+	color: var(--action-color-2);
+	background: var(--action-background-2);
+	border-color: var(--action-color-2);
+}
+
+hr {
+	width: 5rem;
+}
+
+/*.icon {*/
+/*	width: 1rem;*/
+/*	height: 1rem;*/
+
+/*	fill: currentColor;*/
+
+/*	display: inline-block;*/
+/*	box-sizing: border-box;*/
+
+/*	text-align: center;*/
+/*	vertical-align: text-bottom;*/
+/*	cursor: pointer;*/
+/*}*/
+
+/* format a button to be just an icon */
+button.icon {
+	width: 2.5rem;
+	font-size: 1rem;
+	cursor: pointer;
+}
+
+span.icon {
+	cursor: pointer;
+}
+
+.left {
+	align-self: flex-start;
+}
+
+.centered {
+	align-self: center;
+}
+
+.right {
+	align-self: flex-end;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.app {
+	min-height: 100vh;
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-start;
+}
+
+.header {
+	padding: 0.5rem;
+	background-color: var(--background-2);
+
+	align-self: stretch;
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-start;
+}
+
+.content {
+	/*max-width: 60rem;*/
+	/*min-width: 10rem;*/
+
+	padding: 0 1rem 0 1rem;
+
+	flex: 100 1 auto;
+
+	display: flex;
+	flex-flow: column nowrap;
+	/* along the main axis */
+	justify-content: flex-start;
+	/* along the cross axis */
+	align-items: stretch;
+}
+
+.footer {
+	padding: 0.5rem;
+	background-color: var(--background-2);
+
+	align-self: stretch;
+
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+}
+
+.footer .copyright {
+}
+
+.footer .tagline {
+}
+
+.no-margin {
+	margin: 0;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+
+.hbox {
+	display: flex;
+	flex-flow: row nowrap;
+	/* along the main axis */
+	justify-content: flex-start;
+	/* along the cross axis */
+	align-items: center;
+	gap: 0.5em;
+}
+
+.vbox {
+	display: flex;
+	flex-flow: column nowrap;
+	/* along the main axis */
+	justify-content: flex-start;
+	/* along the cross axis */
+	align-items: stretch;
+	gap: 0.5em;
+}

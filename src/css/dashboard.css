@@ -1,0 +1,18 @@
+.dashboard-header {
+	font-size: 0.8rem;
+	width: 100%;
+	white-space: nowrap;
+	text-align: center;
+}
+
+table.dashboard {
+	width: 100%;
+}
+
+table.dashboard td:first-child {
+	width: 20%;
+}
+
+table.location td:nth-child(2) {
+	text-align: right;
+}
