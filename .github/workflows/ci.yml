@@ -76,5 +76,12 @@ jobs:
 #        run: |
 #          ssh -t ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org "mkdir -p ${{env.WEBSITE_DEPLOY_PATH}};" 2>&1
 #          if [ $? -ne 0 ]; then exit 1; fi
-#          scp -r -B target/flightdeck.jar ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/ 2>&1
+#          scp -r -B target/flightdeck.jar ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/server.jar 2>&1
 #          if [ $? -ne 0 ]; then exit 1; fi
+#          scp -B source/etc/* ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}
+#          if [ $? -ne 0 ]; then exit 1; fi
+#          scp -B target/main/images/product*.png ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}} 2>&1
+#          if [ $? -ne 0 ]; then exit 1; fi
+#          echo `date` > target/publish.flag
+#          if [ $? -ne 0 ]; then exit 1; fi
+#          scp -B target/publish.flag ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}
