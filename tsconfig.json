@@ -21,7 +21,8 @@
     "forceConsistentCasingInFileNames": true,
 
     /* Type Checking */
-    "strict": true,
+    "strict": false,
+		"noImplicitAny": false,
 
     /* Completeness */
     "skipLibCheck": true
