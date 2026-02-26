@@ -63,20 +63,18 @@ jobs:
           cd dist
           zip -r ../client.zip *
 
-      - name: Copy Client ZIP
+      - name: Update the Application Client
         if: ${{ github.actor != 'dependabot[bot]' }}
         run: |
           ssh -t ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org "mkdir -p /opt/dsr/repo/latest/${{env.DSR_PRODUCT}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B client.zip ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/client.zip
+#          if [ $? -ne 0 ]; then exit 1; fi
+#          ssh ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org bin/update-flightdeck-website-client
 
-      - name: Update the Website Client
-        if: ${{ github.actor != 'dependabot[bot]' }}
-        run: ssh ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org bin/update-flightdeck-website-client
-
-#      - name: Deploy
+#      - name: Update the Application Server
 #        run: |
 #          ssh -t ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org "mkdir -p ${{env.WEBSITE_DEPLOY_PATH}};" 2>&1
 #          if [ $? -ne 0 ]; then exit 1; fi
-#          scp -r -B build/* ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:${{env.WEBSITE_DEPLOY_PATH}} 2>&1
+#          scp -r -B target/flightdeck.jar ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/ 2>&1
 #          if [ $? -ne 0 ]; then exit 1; fi
