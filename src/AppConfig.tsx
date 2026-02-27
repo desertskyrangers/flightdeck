@@ -22,8 +22,8 @@ class AppConfig {
 			this.APP_URL = 'http://localhost:3000';
 		}
 
-		console.log("API_URL=" + this.API_URL)
-		console.log("APP_URL=" + this.APP_URL)
+		// console.log("API_URL=" + this.API_URL)
+		// console.log("APP_URL=" + this.APP_URL)
 	}
 
 }

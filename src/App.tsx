@@ -16,13 +16,19 @@ import Footer from "./Footer.tsx";
 // import Profile from "./edit/Profile";
 import Menu from "./Menu.tsx";
 import NotFound from "./part/NotFound.tsx";
+import UserFlights from "./UserFlights.tsx";
+import UserGroups from "./UserGroups.tsx";
+import UserLocations from "./UserLocations.tsx";
+import UserBatteries from "./UserBatteries.tsx";
+import UserAircraft from "./UserAircraft.tsx";
+import FlightTimer from "./FlightTimer.tsx";
 // import UserAircraft from "./UserAircraft";
 // import UserBatteries from "./UserBatteries";
 // import UserFlights from "./UserFlights"
 // import Aircraft from "./edit/Aircraft";
 // import About from "./About";
 // import React, {useEffect, useState} from "react";
-// import Flight from "./edit/Flight";
+// import Flight from "./edit/Flight.tsx";
 // import Battery from "./edit/Battery";
 // import FlightTimer from "./FlightTimer";
 // import Recover from "./Recover";
@@ -30,7 +36,10 @@ import NotFound from "./part/NotFound.tsx";
 // import Password from "./edit/Password";
 // import UserGroups from "./UserGroups";
 // import Group from "./edit/Group";
-// import Location from "./edit/Location";
+import Location from "./edit/Location.tsx";
+import DataExport from "./DataExport.tsx";
+// import Battery from "./edit/Battery.tsx";
+// import Aircraft from "./edit/Aircraft.tsx";
 // import Preferences from "./edit/Preferences";
 // import PublicDashboard from "./PublicDashboard";
 // import Dashboards from "./Dashboards";
@@ -41,6 +50,22 @@ const manifest = require('./manifest.json')
 
 function Protect({children}) {
   return TokenService.isAuthenticated() ? <div><Menu/>{children}</div> : <Navigate to={AppPath.LOGIN}/>;
+}
+
+function Password() {
+  return null;
+}
+
+function Profile() {
+  return null;
+}
+
+function Preferences() {
+  return null;
+}
+
+function Group() {
+  return null;
 }
 
 export function App() {
@@ -88,25 +113,25 @@ export function App() {
             {/*<Route path={AppPath.SETUP} element={<Protect children={<SetupActions/>}/>}/>*/}
             {/*<Route path={AppPath.USER} element={<Protect children={<UserActions/>}/>}/>*/}
 
-            {/*/!* Entry *!/*/}
+            {/* Entry */}
             {/*<Route path={AppPath.AIRCRAFT + "/:id"} element={<Protect children={<Aircraft/>}/>}/>*/}
             {/*<Route path={AppPath.BATTERY + "/:id"} element={<Protect children={<Battery/>}/>}/>*/}
-            {/*<Route path={AppPath.EXPORT} element={<Protect children={<DataExport/>}/>}/>*/}
+            <Route path={AppPath.EXPORT} element={<Protect children={<DataExport/>}/>}/>
             {/*<Route path={AppPath.FLIGHT + "/:id"} element={<Protect children={<Flight/>}/>}/>*/}
-            {/*<Route path={AppPath.FLIGHT_TIMER} element={<Protect children={<FlightTimer/>}/>}/>*/}
+            <Route path={AppPath.FLIGHT_TIMER} element={<Protect children={<FlightTimer/>}/>}/>
             {/*<Route path={AppPath.FLIGHT + "/:id/:timestamp/:duration"} element={<Protect children={<Flight/>}/>}/>*/}
-            {/*<Route path={AppPath.GROUP + "/:id"} element={<Protect children={<Group/>}/>}/>*/}
-            {/*<Route path={AppPath.LOCATION + "/:id"} element={<Protect children={<Location/>}/>}/>*/}
-            {/*<Route path={AppPath.PASSWORD} element={<Protect children={<Password/>}/>}/>*/}
-            {/*<Route path={AppPath.PREFERENCES} element={<Protect children={<Preferences/>}/>}/>*/}
-            {/*<Route path={AppPath.PROFILE} element={<Protect children={<Profile/>}/>}/>*/}
-            {/*<Route path={AppPath.SECURITY} element={<Protect children={<Password/>}/>}/>*/}
-            {/*/!*<Route path={AppPath.ORG + "/:id"} element={<Protect children={<Org/>}/>}/>*!/*/}
-            {/*<Route path={AppPath.USER_AIRCRAFT} element={<Protect children={<UserAircraft/>}/>}/>*/}
-            {/*<Route path={AppPath.USER_BATTERIES} element={<Protect children={<UserBatteries/>}/>}/>*/}
-            {/*<Route path={AppPath.USER_LOCATIONS} element={<Protect children={<UserLocations/>}/>}/>*/}
-            {/*<Route path={AppPath.USER_FLIGHTS} element={<Protect children={<UserFlights/>}/>}/>*/}
-            {/*<Route path={AppPath.USER_GROUPS} element={<Protect children={<UserGroups/>}/>}/>*/}
+            <Route path={AppPath.GROUP + "/:id"} element={<Protect children={<Group/>}/>}/>
+            <Route path={AppPath.LOCATION + "/:id"} element={<Protect children={<Location/>}/>}/>
+            <Route path={AppPath.PASSWORD} element={<Protect children={<Password/>}/>}/>
+            <Route path={AppPath.PREFERENCES} element={<Protect children={<Preferences/>}/>}/>
+            <Route path={AppPath.PROFILE} element={<Protect children={<Profile/>}/>}/>
+            <Route path={AppPath.SECURITY} element={<Protect children={<Password/>}/>}/>
+            {/*<Route path={AppPath.ORG + "/:id"} element={<Protect children={<Org/>}/>}/>*/}
+            <Route path={AppPath.USER_AIRCRAFT} element={<Protect children={<UserAircraft/>}/>}/>
+            <Route path={AppPath.USER_BATTERIES} element={<Protect children={<UserBatteries/>}/>}/>
+            <Route path={AppPath.USER_LOCATIONS} element={<Protect children={<UserLocations/>}/>}/>
+            <Route path={AppPath.USER_FLIGHTS} element={<Protect children={<UserFlights/>}/>}/>
+            <Route path={AppPath.USER_GROUPS} element={<Protect children={<UserGroups/>}/>}/>
 
             <Route path='*' element={<NotFound/>}/>
           </Routes>
