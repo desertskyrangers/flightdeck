@@ -1,8 +1,8 @@
 import React from 'react';
 import {cleanup, render, screen} from '@testing-library/react';
-import {App} from './App';
 import '@testing-library/jest-dom';
 import Mock from "./util/Mock.tsx";
+import {App} from './App';
 
 
 test('renders application', () => {

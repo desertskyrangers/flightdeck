@@ -5,7 +5,7 @@ import AppPath from "./AppPath.tsx";
 import AppService from "./api/AppService.tsx";
 import TokenService from "./api/TokenService.tsx";
 
-// import Footer from "./Footer";
+import Footer from "./Footer.tsx";
 // import Legal from "./Legal";
 // import Login from "./Login";
 // import Register from "./Register";
@@ -15,7 +15,7 @@ import TokenService from "./api/TokenService.tsx";
 // import UserActions from "./action/UserActions";
 // import Profile from "./edit/Profile";
 import Menu from "./Menu.tsx";
-import NotFound from "./page/NotFound.tsx";
+import NotFound from "./part/NotFound.tsx";
 // import UserAircraft from "./UserAircraft";
 // import UserBatteries from "./UserBatteries";
 // import UserFlights from "./UserFlights"
@@ -111,7 +111,7 @@ export function App() {
             <Route path='*' element={<NotFound/>}/>
           </Routes>
         </div>
-        {/*<Footer version={apiVersion}/>*/}
+        <Footer version={apiVersion}/>
       </Router>
     </div>
   )
