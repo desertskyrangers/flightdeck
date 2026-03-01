@@ -1,40 +1,49 @@
 {
-  "compilerOptions": {
+	"compilerOptions": {
 		/* Visit https://aka.ms/tsconfig to read more about this file */
-    "target": "ES2022",
+		"target": "ES2022",
 		"jsx": "react-jsx",
-		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-		"types": ["vite/client"],
-		"useDefineForClassFields": true,
+		"lib": [
+			"ES2022",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"types": [
+			"node",
+			"vite/client"
+		],
+		//		"useDefineForClassFields": true,
 		// "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
 		/* Modules */
 		"module": "ESNext",
 		"moduleResolution": "bundler",
-		"moduleDetection": "force",
+		//		"moduleDetection": "force",
 
 		/* Emit */
 		"noEmit": true,
-
 		/* Interop Constraints */
-    "allowImportingTsExtensions": true,
+		"allowImportingTsExtensions": true,
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
-		"verbatimModuleSyntax": true,
+		//		"verbatimModuleSyntax": true,
 
-    /* Linting */
+		/* Linting */
 		"strict": false,
 		"noImplicitAny": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+		//    "noUnusedLocals": false,
+		//    "noUnusedParameters": true,
+		//    "erasableSyntaxOnly": true,
+		//    "noFallthroughCasesInSwitch": true,
+		//    "noUncheckedSideEffectImports": true,
 
 		/* Completeness */
 		"skipLibCheck": true
-  },
-  "include": ["src"]
+	},
+	"include": [
+		"src/**/*.tsx",
+		"node_modules/vitest/globals.d.ts"
+	]
 }
