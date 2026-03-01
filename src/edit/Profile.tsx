@@ -26,8 +26,8 @@ export default function Profile(props) {
 	const [messages, setMessages] = useState(props.messages || '')
 	const [smsCarriers, setSmsCarriers] = useState([])
 
-	const oldFirstName = useRef()
-	const oldLastName = useRef()
+	const oldFirstName = useRef(firstName)
+	const oldLastName = useRef(lastName)
 	const previousMessages = useRef(messages)
 
 	function close() {
