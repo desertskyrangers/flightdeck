@@ -1,0 +1,23 @@
+server:
+  port: 8050
+  compression:
+    enabled: true
+
+logging:
+  level:
+    # Start with only WARN messages
+    root: WARN
+    # Increase verbosity as needed
+    com:
+      desertskyrangers:
+        flightdeck: INFO
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/flightdeck?ssl-mode=REQUIRED
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
