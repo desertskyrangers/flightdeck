@@ -32,7 +32,7 @@ logging:
 spring:
   application:
     name: FlightDeck
-    version: ${version}
+    version: @project.version@
   main:
     banner-mode: LOG
   datasource:

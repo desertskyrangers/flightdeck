@@ -187,21 +187,20 @@
 		<resources>
 			<resource>
 				<directory>source/main/resources</directory>
+				<excludes>
+					<exclude>**/*.yml</exclude>
+					<exclude>**/*.yaml</exclude>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>source/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
 					<include>**/*.yml</include>
 					<include>**/*.yaml</include>
 					<include>**/*.properties</include>
 				</includes>
-			</resource>
-			<resource>
-				<directory>source/main/resources</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>**/*.yml</exclude>
-					<exclude>**/*.yaml</exclude>
-					<exclude>**/*.properties</exclude>
-				</excludes>
 			</resource>
 		</resources>
 
@@ -212,10 +211,6 @@
 		</testResources>
 
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
