@@ -127,3 +127,11 @@ jobs:
         run: |
           mvn ${{env.MAVEN_PARMS}} compile
 
+      - name: Test
+        run: |
+          mvn ${{env.MAVEN_PARMS}} test
+
+      - name: Deploy to Maven Repo
+        run: |
+          mvn ${{env.MAVEN_PARMS}} deploy -Dmaven.test.skip=true
+
