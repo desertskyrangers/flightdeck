@@ -10,11 +10,10 @@ on:
 env:
   DSR_PRODUCT: 'flightdeck.desertskyrangers.org'
   DSR_GPG_PASSWORD: ${{ secrets.DSR_GPG_PASSWORD }}
-  DSR_REPO_USERNAME: ${{ secrets.DSR_REPO_USERNAME }}
   ACM_MAVEN_REPO_USERNAME: ${{ secrets.ACM_MAVEN_REPO_USERNAME }}
   ACM_MAVEN_REPO_PASSWORD: ${{ secrets.ACM_MAVEN_REPO_PASSWORD }}
-#  ACM_XENON_REPO_USERNAME: ${{ secrets.ACM_XENON_REPO_USERNAME }}
-#  ACM_XENON_REPO_PASSWORD: ${{ secrets.ACM_XENON_REPO_PASSWORD }}
+  ACM_XENON_REPO_USERNAME: ${{ secrets.ACM_XENON_REPO_USERNAME }}
+  ACM_XENON_REPO_PASSWORD: ${{ secrets.ACM_XENON_REPO_PASSWORD }}
   WEBSITE_DEPLOY_PATH: '/opt/dsr/flightdeck/react'
 
   DISPLAY: ":99"
@@ -74,25 +73,25 @@ jobs:
       - name: Update the Application Client
         if: ${{ github.actor != 'dependabot[bot]' }}
         run: |
-          ssh -t ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org "mkdir -p /opt/dsr/repo/latest/${{env.DSR_PRODUCT}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org "mkdir -p /opt/dsr/repo/latest/${{env.DSR_PRODUCT}};"
           if [ $? -ne 0 ]; then exit 1; fi
-          scp -B client.zip ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/client.zip
+          scp -B client.zip ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/client.zip
 #          if [ $? -ne 0 ]; then exit 1; fi
-#          ssh ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org bin/update-flightdeck-website-client
+#          ssh ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org bin/update-flightdeck-website-client
 
 #      - name: Update the Application Server
 #        run: |
-#          ssh -t ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org "mkdir -p ${{env.WEBSITE_DEPLOY_PATH}};" 2>&1
+#          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org "mkdir -p ${{env.WEBSITE_DEPLOY_PATH}};" 2>&1
 #          if [ $? -ne 0 ]; then exit 1; fi
-#          scp -r -B target/flightdeck.jar ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/server.jar 2>&1
+#          scp -r -B target/flightdeck.jar ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}/server.jar 2>&1
 #          if [ $? -ne 0 ]; then exit 1; fi
-#          scp -B source/etc/* ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}
+#          scp -B source/etc/* ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}
 #          if [ $? -ne 0 ]; then exit 1; fi
-#          scp -B target/main/images/product*.png ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}} 2>&1
+#          scp -B target/main/images/product*.png ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}} 2>&1
 #          if [ $? -ne 0 ]; then exit 1; fi
 #          echo `date` > target/publish.flag
 #          if [ $? -ne 0 ]; then exit 1; fi
-#          scp -B target/publish.flag ${{env.DSR_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}
+#          scp -B target/publish.flag ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:/opt/dsr/repo/latest/${{env.DSR_PRODUCT}}
 
   server:
     name: Server
@@ -143,3 +142,24 @@ jobs:
         run: |
           mvn ${{env.MAVEN_PARMS}} deploy -Dmaven.test.skip=true
 
+      - name: Deploy to Xenon Repo
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        run: |
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/acromere.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${{env.PRODUCT_DEPLOY_PATH}}/server.jar
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B source/etc/* ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${{env.PRODUCT_DEPLOY_PATH}}
+
+#      - name: Deploy Product Icons
+#        run: |
+#          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}};"
+#          if [ $? -ne 0 ]; then exit 1; fi
+#          scp -B target/main/images/product*.png ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH} 2>&1
+#
+#      - name: Publish
+#        if: ${{ github.actor != 'dependabot[bot]' }}
+#        run: |
+#          echo `date` > target/publish.flag
+#          if [ $? -ne 0 ]; then exit 1; fi
+#          scp -B target/publish.flag ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${{env.PRODUCT_DEPLOY_PATH}}
