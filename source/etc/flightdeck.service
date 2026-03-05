@@ -1,0 +1,11 @@
+[Unit]
+Description=flightdeck
+After=syslog.target
+
+[Service]
+User=dsr
+ExecStart=java -jar /opt/acm/web/flighdeck.desertskyrangers.com/server/server.jar --server.port=5050
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
