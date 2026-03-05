@@ -60,13 +60,13 @@
 
 	<distributionManagement>
 		<repository>
-			<id>dsr-release</id>
-			<url>https://repo.acromere.com/dsr-release/</url>
+			<id>acm-release</id>
+			<url>https://repo.acromere.com/acm-release/</url>
 		</repository>
 
 		<snapshotRepository>
-			<id>dsr-snapshot</id>
-			<url>https://repo.acromere.com/dsr-snapshot/</url>
+			<id>acm-snapshot</id>
+			<url>https://repo.acromere.com/acm-snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
 

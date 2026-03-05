@@ -11,6 +11,10 @@ env:
   DSR_PRODUCT: 'flightdeck.desertskyrangers.org'
   DSR_GPG_PASSWORD: ${{ secrets.DSR_GPG_PASSWORD }}
   DSR_REPO_USERNAME: ${{ secrets.DSR_REPO_USERNAME }}
+  ACM_MAVEN_REPO_USERNAME: ${{ secrets.ACM_MAVEN_REPO_USERNAME }}
+  ACM_MAVEN_REPO_PASSWORD: ${{ secrets.ACM_MAVEN_REPO_PASSWORD }}
+#  ACM_XENON_REPO_USERNAME: ${{ secrets.ACM_XENON_REPO_USERNAME }}
+#  ACM_XENON_REPO_PASSWORD: ${{ secrets.ACM_XENON_REPO_PASSWORD }}
   WEBSITE_DEPLOY_PATH: '/opt/dsr/flightdeck/react'
 
   DISPLAY: ":99"
