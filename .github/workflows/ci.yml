@@ -13,8 +13,12 @@ env:
   DSR_REPO_USERNAME: ${{ secrets.DSR_REPO_USERNAME }}
   WEBSITE_DEPLOY_PATH: '/opt/dsr/flightdeck/react'
 
+  DISPLAY: ":99"
+  GITHUB_REF: ${{ github.ref }}
   JAVA_VERSION: "21"
+  MAVEN_PARMS: "-B -U -V --settings .github/settings.xml --file pom.xml"
   NODE_VERSION: "22"
+  XVFB_PARMS: "-screen 0 1920x1080x24 -nolisten unix"
 
 jobs:
   client:
