@@ -8,6 +8,9 @@ on:
   workflow_dispatch:
 
 env:
+  ACM_PRODUCT: flightdeck
+  ACM_RELEASE: latest
+
   DSR_PRODUCT: 'flightdeck.desertskyrangers.org'
   DSR_GPG_PASSWORD: ${{ secrets.DSR_GPG_PASSWORD }}
   ACM_MAVEN_REPO_USERNAME: ${{ secrets.ACM_MAVEN_REPO_USERNAME }}
