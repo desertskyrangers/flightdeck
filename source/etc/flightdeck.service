@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 User=dsr
-ExecStart=java -jar /opt/dsr/web/flightdeck.desertskyrangers.com/server/flightdeck.jar --server.port=5050
+ExecStart=java -jar /opt/dsr/web/flightdeck.desertskyrangers.com/server/flightdeck.jar --server.port=8050 --spring.profiles.active=prod
 SuccessExitStatus=143
 
 [Install]
