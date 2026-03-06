@@ -51,5 +51,5 @@ or higher.
   ```
 * Restore the database
   ```shell
-  sudo mariadb < Temp/flightdeck.sql
+  sudo mariadb flightdeck < Temp/flightdeck.sql
   ```
