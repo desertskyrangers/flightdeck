@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  ACM_PRODUCT: flightdeck
-  ACM_RELEASE: latest
+  ACM_PRODUCT: 'flightdeck'
+  ACM_RELEASE: 'latest'
 
   DSR_PRODUCT: 'flightdeck.desertskyrangers.org'
   DSR_GPG_PASSWORD: ${{ secrets.DSR_GPG_PASSWORD }}
@@ -159,10 +159,10 @@ jobs:
 #          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}};"
 #          if [ $? -ne 0 ]; then exit 1; fi
 #          scp -B target/main/images/product*.png ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:${PRODUCT_DEPLOY_PATH} 2>&1
-#
-#      - name: Publish
-#        if: ${{ github.actor != 'dependabot[bot]' }}
-#        run: |
-#          echo `date` > target/publish.flag
-#          if [ $? -ne 0 ]; then exit 1; fi
-#          scp -B target/publish.flag ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:${{env.PRODUCT_DEPLOY_PATH}}
+
+      - name: Publish
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        run: |
+          echo `date` > target/publish.flag
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/publish.flag ${{env.ACM_XENON_REPO_USERNAME}}@desertskyrangers.org:${{env.PRODUCT_DEPLOY_PATH}}
