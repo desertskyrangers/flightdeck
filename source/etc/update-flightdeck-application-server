@@ -22,13 +22,12 @@ echo "To disable: sudo systemctl disable $SERVICE"
 mkdir -p $SERVER_TARGET
 cp $SERVER_SOURCE/server.jar $SERVER_TARGET/$SERVICE.jar
 cp $SERVER_SOURCE/$SERVICE.service $SERVER_TARGET/$SERVICE.service
-cp $SERVER_SOURCE/application.yml $SERVER_TARGET/application-prod.yml
+cp $SERVER_SOURCE/application.yml $SERVER_TARGET/application.yml
 cp $SERVER_SOURCE/$SERVICE.conf $SERVER_TARGET/$SERVICE.conf
-chmod a+x $SERVER_TARGET/$SERVICE.jar
-chown -R dsr:dsr $SERVER_TARGET
 rm $SERVER_SOURCE/publish.flag
 
-chown nova:nova $SERVER_TARGET/*
+chmod a+x "$SERVER_TARGET/$SERVICE.jar"
+chown -R dsr:dsr "$SERVER_TARGET"
 
 systemctl daemon-reload
 systemctl restart $SERVICE.service
