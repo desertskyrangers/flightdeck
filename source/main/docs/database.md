@@ -18,3 +18,13 @@ or higher.
   ```
   grant all privileges on flightdeck.* to 'flightdeck'@'localhost' identified by '<password>' with grant option;
   ```
+
+## Maintenance
+* Backup the database
+  ```shell
+  sudo mysqldump flightdeck > Temp/flightdeck.sql
+  ```
+* Restore the database
+  ```shell
+  sudo mariadb < Temp/flightdeck.sql
+  ```
