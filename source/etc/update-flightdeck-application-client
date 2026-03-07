@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SERVICE=flightdeck
+CLIENT_SOURCE=/opt/dsr/repo/latest/flightdeck
+CLIENT_TARGET=/opt/dsr/web/flightdeck.desertskyrangers.com/client
+CLIENT_LATEST=$(ls -t $CLIENT_SOURCE)
+
+echo "Deploying client: $CLIENT_LATEST"
+echo "              To: $CLIENT_TARGET/$SERVICE.zip"
+
+mkdir -p "$CLIENT_TARGET"
+cp $CLIENT_LATEST $CLIENT_TARGET/$SERVICE.zip && unzip -o -d $CLIENT_TARGET $CLIENT_TARGET/$SERVICE.zip
