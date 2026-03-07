@@ -3,7 +3,7 @@ import {StrictMode} from 'react'
 import {onCLS, onINP, onLCP} from 'web-vitals'
 import App from './App'
 
-let container = document.getElementById("app")!;
+let container = document.getElementById("root")!;
 let root = createRoot(container)
 root.render(
   <StrictMode>
