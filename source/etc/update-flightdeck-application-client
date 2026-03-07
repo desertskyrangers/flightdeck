@@ -9,4 +9,4 @@ echo "Deploying client: $CLIENT_LATEST"
 echo "              To: $CLIENT_TARGET/$SERVICE.zip"
 
 mkdir -p "$CLIENT_TARGET"
-cp $CLIENT_LATEST $CLIENT_TARGET/$SERVICE.zip && unzip -o -d $CLIENT_TARGET $CLIENT_TARGET/$SERVICE.zip
+cp $CLIENT_LATEST $CLIENT_TARGET/client*.zip && unzip -o -d $CLIENT_TARGET $CLIENT_TARGET/$SERVICE.zip
