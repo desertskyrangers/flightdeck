@@ -31,8 +31,7 @@ import UserActions from "./action/UserActions";
 import Aircraft from "./edit/Aircraft";
 import Battery from "./edit/Battery";
 import Flight from "./edit/Flight";
-
-const manifest: any = import.meta.glob('./manifest.json')
+import Manifest from './manifest.json';
 
 function Protect({children}) {
   return TokenService.isAuthenticated() ? <div><Menu/>{children}</div> : <Navigate to={AppPath.LOGIN}/>;
@@ -54,20 +53,20 @@ function Group() {
   return null;
 }
 
-export default function App() {
+export function App() {
 
-  const [appVersion, setAppVersion] = useState()
-  const [apiVersion, setApiVersion] = useState()
+  const [appVersion, setAppVersion] = useState('')
+  const [apiVersion, setApiVersion] = useState('')
 
   useEffect(() => loadAppInformation(), [])
   useEffect(() => loadApiInformation(), [])
 
   function loadAppInformation() {
-    setAppVersion(manifest.version)
+    setAppVersion(Manifest.version)
   }
 
   function loadApiInformation() {
-    AppService.getProgramInformation((result) => {
+    AppService.getProgramInformation((result:any) => {
       setApiVersion(result.version)
     }, () => {
     })

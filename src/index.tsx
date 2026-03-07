@@ -1,7 +1,7 @@
 import {createRoot} from 'react-dom/client'
 import {StrictMode} from 'react'
 import {onCLS, onINP, onLCP} from 'web-vitals'
-import App from './App'
+import {App} from './App'
 
 let container = document.getElementById("root")!;
 let root = createRoot(container)
