@@ -9,8 +9,8 @@ test('renders application', () => {
 	render(<App/>)
 
 	// then
-	const element = screen.getByText(/Page/i)
+	const element = screen.getByText(/Username/i)
 	expect(element).toBeInTheDocument()
-	expect(element).toHaveTextContent('Page Not Found')
+	expect(element).toHaveTextContent('Username or email address')
 })
 
