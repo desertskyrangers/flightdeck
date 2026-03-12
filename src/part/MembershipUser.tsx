@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import MembershipIcon from "./MembershipStatusIcon";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import MembershipService from "../api/MembershipService";
 
 export function MembershipUser(props) {
@@ -68,12 +68,12 @@ export function MembershipUser(props) {
 		<div className='hbox'>
 			<div className='page-row' onClick={doClick}>
 				<MembershipIcon status={props.membership.status}/>
-				{/*&nbsp;{Icons.fromGroupType(props.membership.group.type)}*/}
+				{/*&nbsp;{Icon.fromGroupType(props.membership.group.type)}*/}
 				<span className='page-text'>{props.membership.user.name}</span>
 			</div>
-			{acceptAction ? <button className='icon' onClick={doAccept}>{Icons.ACCEPT}</button> : null}
-			{cancelAction ? <button className='icon' onClick={doCancel}>{Icons.CANCEL}</button> : null}
-			{revokeAction ? <button className='icon' onClick={doRevoke}>{Icons.REVOKE}</button> : null}
+			{acceptAction ? <button className='icon' onClick={doAccept}>{Icon.ACCEPT}</button> : null}
+			{cancelAction ? <button className='icon' onClick={doCancel}>{Icon.CANCEL}</button> : null}
+			{revokeAction ? <button className='icon' onClick={doRevoke}>{Icon.REVOKE}</button> : null}
 			{props.actionIcon ? <button className='icon' onClick={props.onAction}>{props.actionIcon}</button> : null}
 		</div>
 	)

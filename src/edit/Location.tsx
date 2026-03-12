@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router";
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import EntryField from "../part/EntryField";
 import Notice from "../part/Notice";
 import DeleteWithConfirm from "../part/DeleteWithConfirm";
@@ -121,22 +121,22 @@ export default function Location(props) {
 				<div className='page-form'>
 
 					<div className='hbox'>
-						<button className='icon' onClick={close}>{Icons.BACK}</button>
+						<button className='icon' onClick={close}>{Icon.BACK}</button>
 						<span className='page-header'>{name}</span>
 					</div>
 
 					<EntryField id='name' text='Name' type='text' value={name} required={true} autoFocus='autofocus' onChange={(event) => setName(event.target.value)} onKeyDown={onKeyDown}/>
-					<EntryField id='latitude' text='Latitude' type='text' value={latitude} onChange={(event) => setLatitude(event.target.value)} onKeyDown={onKeyDown} fieldActionIcon={Icons.LOCATION}
+					<EntryField id='latitude' text='Latitude' type='text' value={latitude} onChange={(event) => setLatitude(event.target.value)} onKeyDown={onKeyDown} fieldActionIcon={Icon.LOCATION}
 											onFieldAction={requestPositionUpdate}/>
 					<EntryField id='longitude' text='Latitude' type='text' value={longitude} onChange={(event) => setLongitude(event.target.value)} onKeyDown={onKeyDown}
-											fieldActionIcon={Icons.LOCATION} onFieldAction={requestPositionUpdate}/>
+											fieldActionIcon={Icon.LOCATION} onFieldAction={requestPositionUpdate}/>
 					<EntryField id='altitude' text='Altitude' type='text' value={altitude} onChange={(event) => setAltitude(event.target.value)} onKeyDown={onKeyDown}
-											fieldActionIcon={Icons.LOCATION} onFieldAction={requestPositionUpdate}/>
+											fieldActionIcon={Icon.LOCATION} onFieldAction={requestPositionUpdate}/>
 					<EntryField id='size' text='Size (m)' type='number' value={size} required={true} onChange={(event) => setSize(event.target.value)} onKeyDown={onKeyDown}/>
 
 					<Notice priority='error' messages={messages} clearMessages={clearMessages}/>
 					<div className='hbox'>
-						{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icons.COLLAPSE : Icons.DELETE}</button>}
+						{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icon.COLLAPSE : Icon.DELETE}</button>}
 						{requestDelete ? null : <button disabled={messages.length > 0} className='page-submit' onClick={update}>{isNewRef.current ? 'Save' : 'Update'}</button>}
 					</div>
 

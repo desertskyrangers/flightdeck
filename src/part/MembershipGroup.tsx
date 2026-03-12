@@ -3,7 +3,7 @@ import AppPath from "../AppPath";
 import MembershipIcon from "./MembershipStatusIcon";
 import {useCallback, useEffect, useState} from "react";
 import MembershipService from "../api/MembershipService";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import React from "react";
 
 export function MembershipGroup(props) {
@@ -61,11 +61,11 @@ export function MembershipGroup(props) {
 		<div className='hbox'>
 			<div className={isOwner() ? 'page-result' : 'page-row'} onClick={doClick}>
 				<MembershipIcon status={props.membership.status}/>
-				{/*&nbsp;{Icons.fromGroupType(props.membership.group.type)}*/}
+				{/*&nbsp;{Icon.fromGroupType(props.membership.group.type)}*/}
 				<span className='page-text, no-wrap'>{props.membership.group.name}</span>
 			</div>
-			{acceptAction ? <button className='icon' onClick={doAccept}>{Icons.ACCEPT}</button> : null}
-			{cancelAction ? <button className='icon' onClick={doCancel}>{Icons.CANCEL}</button> : null}
+			{acceptAction ? <button className='icon' onClick={doAccept}>{Icon.ACCEPT}</button> : null}
+			{cancelAction ? <button className='icon' onClick={doCancel}>{Icon.CANCEL}</button> : null}
 			{props.actionIcon ? <button className='icon page-field-action-button' onClick={props.onAction}>{props.actionIcon}</button> : null}
 		</div>
 	)

@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useRef, useState} from "react"
 import LookupService from "../api/LookupService"
 import {useNavigate, useParams} from "react-router"
 import EntryField from "../part/EntryField"
-import Icons from "../util/Icons"
+import Icon from "../util/Icon.tsx"
 import GroupService from "../api/GroupService";
 import Notice from "../part/Notice";
 import DeleteWithConfirm from "../part/DeleteWithConfirm";
@@ -136,7 +136,7 @@ export default function Group(props) {
 			<div className='page-body'>
 				<div className='page-form'>
 
-					<div className='hbox'><button className='icon' onClick={close}>{Icons.BACK}</button><span className='page-header'>{name}</span></div>
+					<div className='hbox'><button className='icon' onClick={close}>{Icon.BACK}</button><span className='page-header'>{name}</span></div>
 
 					<EntryField id='name' text='Name' type='text' value={name} required={true} autoFocus='autofocus' onChange={(event) => setName(event.target.value)} onKeyDown={onKeyDown}/>
 
@@ -147,7 +147,7 @@ export default function Group(props) {
 
 					<Notice priority='error' messages={messages} clearMessages={clearMessages}/>
 					<div className='hbox'>
-						{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icons.COLLAPSE : Icons.DELETE}</button>}
+						{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icon.COLLAPSE : Icon.DELETE}</button>}
 						{requestDelete ? null : <button disabled={messages.length > 0} className='page-submit' onClick={update}>{isNewRef.current ? 'Save' : 'Update'}</button>}
 					</div>
 
@@ -155,13 +155,13 @@ export default function Group(props) {
 
 					<div className='vbox'>
 						{membershipList}
-						<button className='page-action' onClick={toggleInvite}>{Icons.ADD}</button>
+						<button className='page-action' onClick={toggleInvite}>{Icon.ADD}</button>
 						{inviteMember ? <EntryField id='invitee'
 																				type='text'
 																				value={invitee}
 																				onChange={(event) => setInvitee(event.target.value)}
 																				onKeyDown={onInviteKeyDown}
-																				fieldActionIcon={Icons.SEND}
+																				fieldActionIcon={Icon.SEND}
 																				onFieldAction={doInvite}/> : null}
 					</div>
 				</div>

@@ -31,7 +31,7 @@ import UserActions from "./action/UserActions";
 import Aircraft from "./edit/Aircraft";
 import Battery from "./edit/Battery";
 import Flight from "./edit/Flight";
-import Manifest from './manifest.json';
+import Manifest from './public/manifest.json';
 
 function Protect({children}) {
   return TokenService.isAuthenticated() ? <div><Menu/>{children}</div> : <Navigate to={AppPath.LOGIN}/>;

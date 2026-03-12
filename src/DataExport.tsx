@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import Notice from "./part/Notice";
 import EntrySelect from "./part/EntrySelect";
 
@@ -29,7 +29,7 @@ export default function DataExport(props) {
 				<div className='page-form'>
 
 					<div className='hbox'>
-						<button className='icon' onClick={close}>{Icons.BACK}</button>
+						<button className='icon' onClick={close}>{Icon.BACK}</button>
 						<span className='page-header'>Data Export</span>
 					</div>
 

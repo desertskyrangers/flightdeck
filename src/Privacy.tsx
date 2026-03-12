@@ -1,5 +1,5 @@
 import React from "react";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import {useNavigate} from "react-router";
 
 export default function Privacy() {
@@ -12,7 +12,7 @@ export default function Privacy() {
 
 					<div className='page-header-row'>
 						<h1>Privacy Policy</h1>
-						<span className='icon' onClick={() => navigate(-1)}>{Icons.CLOSE}</span>
+						<span className='icon' onClick={() => navigate(-1)}>{Icon.CLOSE}</span>
 					</div>
 
 					<div>

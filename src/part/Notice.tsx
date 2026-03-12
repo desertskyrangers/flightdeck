@@ -2,7 +2,7 @@ import '../css/app.css'
 import '../css/notice.css'
 
 import React from 'react';
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 
 export default function Notice(props) {
 	const visible = props.messages.length > 0
@@ -26,6 +26,6 @@ function NoticeElement(props) {
 
 function CloseButton(props) {
 	return (
-		<button className='notice-close' onClick={props.onClick}>{Icons.CLOSE}</button>
+		<button className='notice-close' onClick={props.onClick}>{Icon.CLOSE}</button>
 	)
 }

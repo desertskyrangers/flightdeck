@@ -1,4 +1,4 @@
-import Icons from './util/Icons'
+import Icon from './util/Icon.tsx'
 import './css/nav.css'
 import {Link} from "react-router";
 import AppPath from "./AppPath";
@@ -8,10 +8,10 @@ export default function Menu() {
 
   return (
     <div className='nav-bar'>
-      <NavButton to={AppPath.HOME} icon={Icons.FLIGHTDECK}/>
-      <NavButton to={AppPath.USER_FLIGHTS} icon={Icons.FLIGHTS}/>
-      <NavButton to={AppPath.SETUP} icon={Icons.SETUP}/>
-      <NavButton to={AppPath.USER} icon={Icons.USER}/>
+      <NavButton to={AppPath.HOME} icon={Icon.FLIGHTDECK}/>
+      <NavButton to={AppPath.USER_FLIGHTS} icon={Icon.FLIGHTS}/>
+      <NavButton to={AppPath.SETUP} icon={Icon.SETUP}/>
+      <NavButton to={AppPath.USER} icon={Icon.USER}/>
     </div>
   )
 

@@ -1,6 +1,6 @@
 import EntryField from "../part/EntryField";
 import Notice from "../part/Notice";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import DeleteWithConfirm from "../part/DeleteWithConfirm";
 import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router";
@@ -416,7 +416,7 @@ export default function Flight(props) {
 				<div className='page-form'>
 
 					<div className='hbox'>
-						<button className='icon' onClick={close}>{Icons.BACK}</button>
+						<button className='icon' onClick={close}>{Icon.BACK}</button>
 						<span className='page-header'>Flight Record</span></div>
 
 					<EntrySelect id='pilot' text='Pilot/Student' value={pilot} required onChange={(event) => setPilot(event.target.value)}>
@@ -452,7 +452,7 @@ export default function Flight(props) {
 											required
 											onChange={(event) => updateStartTime(event.target.value)}
 											onKeyDown={onKeyDown}
-											fieldActionIcon={Icons.CLOCK}
+											fieldActionIcon={Icon.CLOCK}
 											onFieldAction={doSetStartTime}/>
 
 					<div>
@@ -463,7 +463,7 @@ export default function Flight(props) {
 							<input id='durationHH' data-testid='durationHH' className='page-field' type='number' value={durationHH} min={0} max={99} onChange={hhChanged}/>:
 							<input id='durationMM' data-testid='durationMM' className='page-field' type='number' value={durationMM} min={0} max={59} onChange={mmChanged} onKeyUp={mmKeyUp}/>:
 							<input id='durationSS' data-testid='durationSS' className='page-field' type='number' value={durationSS} min={0} max={59} onChange={ssChanged} onKeyUp={ssKeyUp}/>
-							<button className='icon page-field-action-button' onClick={updateDurationFromStartTime}>{Icons.CLOCK}</button>
+							<button className='icon page-field-action-button' onClick={updateDurationFromStartTime}>{Icon.CLOCK}</button>
 						</div>
 					</div>
 
@@ -493,7 +493,7 @@ export default function Flight(props) {
 
 					<Notice priority='error' messages={messages} clearMessages={clearMessages}/>
 					<div className='hbox'>
-						{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icons.COLLAPSE : Icons.DELETE}</button>}
+						{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icon.COLLAPSE : Icon.DELETE}</button>}
 						{requestDelete ? null : <button disabled={!canSave} className='page-submit' onClick={update}>{isNewRef.current ? 'Save' : 'Update'}</button>}
 					</div>
 
@@ -519,7 +519,7 @@ function BatteryField(props) {
 								 onChange={(event) => props.setBattery(event.target.value)}
 								 fieldActionTitle='Add another battery'
 								 onFieldAction={props.addBattery}
-								 fieldActionIcon={Icons.ADD}>
+								 fieldActionIcon={Icon.ADD}>
 			{props.batteryOptions.map((option) => <option key={option.id} value={option.id}>{option.name}</option>)}
 		</EntrySelect>
 	)
@@ -534,7 +534,7 @@ function ExtraBatteryField(props) {
 							 onChange={(event) => props.setBattery(event.target.value)}
 							 fieldActionTitle='Remove this battery'
 							 onFieldAction={props.removeBattery}
-							 fieldActionIcon={Icons.DELETE}/>
+							 fieldActionIcon={Icon.DELETE}/>
 	)
 
 }

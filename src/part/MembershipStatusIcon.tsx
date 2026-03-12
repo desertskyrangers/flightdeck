@@ -1,21 +1,21 @@
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 
 export default function MembershipIcon(props) {
 
 	function getIcon(key) {
 		switch (key) {
 			case'owner':
-				return Icons.OWNER
+				return Icon.OWNER
 			case'accepted':
-				return Icons.MEMBER
+				return Icon.MEMBER
 			case'invited':
-				return Icons.ENVELOPE
+				return Icon.ENVELOPE
 			case'requested':
-				return Icons.ENVELOPE
+				return Icon.ENVELOPE
 			case'revoked':
-				return Icons.CANCEL
+				return Icon.CANCEL
 			default:
-				return Icons.UNKNOWN
+				return Icon.UNKNOWN
 		}
 	}
 

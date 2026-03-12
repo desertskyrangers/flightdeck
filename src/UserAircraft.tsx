@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Loading from "./part/Loading";
 import NoResults from "./part/NoResults";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import Notice from "./part/Notice";
 import {useNavigate} from "react-router";
 import AppPath from "./AppPath";
@@ -81,7 +81,7 @@ function AircraftList(props) {
 	let unavailableAircraftContent: React.JSX.Element;
 	let unavailableIcon: React.JSX.Element;
 	if (props.showUnavailable === false) {
-		unavailableIcon = Icons.ADVANCED_V;
+		unavailableIcon = Icon.ADVANCED_V;
 	} else {
 		if (props.unavailablePage.content.length === 0) {
 			unavailableAircraftContent = <NoResults message='No unavailable aircraft found'/>
@@ -92,7 +92,7 @@ function AircraftList(props) {
 				</tbody>
 			</table>
 		}
-		unavailableIcon = Icons.COLLAPSE;
+		unavailableIcon = Icon.COLLAPSE;
 	}
 
 	function add() {
@@ -114,9 +114,9 @@ function AircraftList(props) {
 	return (
 		<div className='vbox'>
 			<div className='hbox'>
-				<button className='page-action icon' onClick={prior} disabled={props.page.first}>{Icons.PAGE_PRIOR}</button>
+				<button className='page-action icon' onClick={prior} disabled={props.page.first}>{Icon.PAGE_PRIOR}</button>
 				<button className='page-action' onClick={add}>Add an Aircraft</button>
-				<button className='page-action icon' onClick={next} disabled={props.page.last}>{Icons.PAGE_NEXT}</button>
+				<button className='page-action icon' onClick={next} disabled={props.page.last}>{Icon.PAGE_NEXT}</button>
 			</div>
 			{content}
 			<button className='icon centered' onClick={toggleUnavailable}>{unavailableIcon}</button>
@@ -137,7 +137,7 @@ function AircraftRow(props) {
 	return (
 		<tr onClick={open}>
 			<td>
-				<span style={{'color':props.aircraft.trimColor, 'backgroundColor':props.aircraft.baseColor,'padding':'0.2rem', 'borderRadius':'0.2rem'}}>{Icons.fromAircraftTypeAndStatus(props.aircraft.type, props.aircraft.status)}</span>
+				<span style={{'color':props.aircraft.trimColor, 'backgroundColor':props.aircraft.baseColor,'padding':'0.2rem', 'borderRadius':'0.2rem'}}>{Icon.fromAircraftTypeAndStatus(props.aircraft.type, props.aircraft.status)}</span>
 			</td>
 			<td className='no-wrap' >
 				{props.aircraft.name}

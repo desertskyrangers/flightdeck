@@ -1,6 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 
 export default function About(props) {
 	const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function About(props) {
 			<div className='page-body'>
 				<div className='page-form'>
 					<div>
-						<div className='hbox'><button className='icon' onClick={close}>{Icons.BACK}</button><h1>About</h1></div>
+						<div className='hbox'><button className='icon' onClick={close}>{Icon.BACK}</button><h1>About</h1></div>
 						<div><span className='page-label'>app version</span> {props.appVersion}</div>
 						<div><span className='page-label'>api version</span> {props.apiVersion}</div>
 						<hr/>

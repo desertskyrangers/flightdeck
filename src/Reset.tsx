@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router";
 import EntryField from "./part/EntryField";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import Notice from "./part/Notice";
 import {isEqual} from "lodash";
 import AppConfig from "./AppConfig";
@@ -76,7 +76,7 @@ export default function Reset(props) {
 											value={password}
 											onChange={(event) => setPassword(event.target.value)}
 											onKeyDown={onKeyDown}
-											labelActionIcon={Icons.CLOSE}
+											labelActionIcon={Icon.CLOSE}
 											onLabelAction={close}/>
 					<EntryField id='verify-password' text='Verify Password' type='password' value={verifyPassword} onChange={(event) => setVerifyPassword(event.target.value)} onKeyDown={onKeyDown}/>
 					<Notice priority='error' messages={messages} clearMessages={clearMessages}/>

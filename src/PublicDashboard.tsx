@@ -5,7 +5,7 @@ import {useParams} from "react-router"
 import './css/dashboard.css'
 import Times from "./util/Times";
 import Ago from "./part/Ago";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 
 export default function PublicDashboard(props) {
 
@@ -114,7 +114,7 @@ function AircraftRow(props) {
 	return (
 		<tr>
 			<td>
-				<span style={{'color':props.aircraft.trimColor, 'backgroundColor':props.aircraft.baseColor,'padding':'0.2rem', 'borderRadius':'0.2rem','display':'inline-block'}}>{Icons.fromAircraftTypeAndStatus(props.aircraft.type, props.aircraft.status)}</span>
+				<span style={{'color':props.aircraft.trimColor, 'backgroundColor':props.aircraft.baseColor,'padding':'0.2rem', 'borderRadius':'0.2rem','display':'inline-block'}}>{Icon.fromAircraftTypeAndStatus(props.aircraft.type, props.aircraft.status)}</span>
 			</td>
 			<td>{props.aircraft.name}</td>
 			<td>{props.aircraft.flightCount}</td>

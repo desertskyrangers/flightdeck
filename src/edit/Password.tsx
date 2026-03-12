@@ -2,7 +2,7 @@ import React, {useLayoutEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router";
 import AppConfig from "../AppConfig";
 import EntryField from "../part/EntryField";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import Notice from "../part/Notice";
 import TokenService from "../api/TokenService";
 import UserService from "../api/UserService";
@@ -68,7 +68,7 @@ export default function Password(props) {
 		<div className='page-container'>
 			<div className='page-body'>
 				<div className='page-form'>
-					<div className='hbox'><button className='icon' onClick={close}>{Icons.BACK}</button><span className='page-header'>Change Password</span></div>
+					<div className='hbox'><button className='icon' onClick={close}>{Icon.BACK}</button><span className='page-header'>Change Password</span></div>
 
 					<EntryField id='current-password'
 											text='Current Password'
@@ -76,7 +76,7 @@ export default function Password(props) {
 											value={currentPassword}
 											onChange={(event) => setCurrentPassword(event.target.value)}
 											onKeyDown={onKeyDown}
-											labelActionIcon={Icons.CLOSE}
+											labelActionIcon={Icon.CLOSE}
 											onLabelAction={close}/>
 					<EntryField id='password' text='New Password' type='password' value={password} onChange={(event) => setPassword(event.target.value)} onKeyDown={onKeyDown}/>
 					<EntryField id='verify-password' text='Verify Password' type='password' value={verifyPassword} onChange={(event) => setVerifyPassword(event.target.value)} onKeyDown={onKeyDown}/>

@@ -5,7 +5,7 @@ import {isEqual} from "lodash";
 import UserService from "../api/UserService";
 import LookupService from "../api/LookupService";
 import EntryField from "../part/EntryField";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import {useNavigate} from "react-router";
 
 export default function Profile(props) {
@@ -139,7 +139,7 @@ export default function Profile(props) {
 		<div className='page-container'>
 			<div className='page-body'>
 				<div className='page-form'>
-					<div className='hbox'><button className='icon' onClick={close}>{Icons.BACK}</button><span className='page-header'>User Profile</span></div>
+					<div className='hbox'><button className='icon' onClick={close}>{Icon.BACK}</button><span className='page-header'>User Profile</span></div>
 
 					<EntryField id='username'
 											text='Username'
@@ -148,7 +148,7 @@ export default function Profile(props) {
 											autoFocus='autofocus'
 											onChange={(event) => setUsername(event.target.value)}
 											onKeyDown={onKeyDown}
-											labelActionIcon={Icons.CLOSE}
+											labelActionIcon={Icon.CLOSE}
 											onLabelAction={close}/>
 					<EntryField id='firstName' text='First Name' type='text' value={firstName} onChange={updateFirstName} onKeyDown={onKeyDown}/>
 					<EntryField id='lastName' text='Last Name' type='text' value={lastName} onChange={updateLastName} onKeyDown={onKeyDown}/>

@@ -9,7 +9,7 @@ import ApiPath from "./AppPath";
 import AppPath from "./AppPath";
 import AppConfig from "./AppConfig";
 import {isEqual} from "lodash";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import EntryField from "./part/EntryField";
 
 export default function Register(props) {
@@ -79,7 +79,7 @@ export default function Register(props) {
                       value={username}
                       onChange={(event) => setUsername(event.target.value)}
                       onKeyDown={onKeyDown}
-                      labelActionIcon={Icons.CLOSE}
+                      labelActionIcon={Icon.CLOSE}
                       onLabelAction={close}/>
           <EntryField id='password' text='Password' type='password' value={password} onChange={(event) => setPassword(event.target.value)} onKeyDown={onKeyDown}/>
           <EntryField id='verify-password' text='Verify Password' type='password' value={verifyPassword} onChange={(event) => setVerifyPassword(event.target.value)} onKeyDown={onKeyDown}/>

@@ -50,9 +50,10 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import DroneIcon from "../icon/DroneIcon"
 import CloseIcon from "../icon/CloseIcon"
-import FlightDeckIcon from "../../public/image/logo.png";
 
-class Icons {
+class Icon {
+
+  static LOGO_URL = new URL('/logo.png', import.meta.url);
 
   ACCEPT = <FontAwesomeIcon icon={faCheck}/>
   ADD = <FontAwesomeIcon icon={faPlus}/>
@@ -88,7 +89,7 @@ class Icons {
   ENVELOPE = <FontAwesomeIcon icon={faEnvelope}/>
   EXPAND = <FontAwesomeIcon icon={faAngleDown}/>
   EXPORT = <FontAwesomeIcon icon={faDownload}/>
-  FLIGHTDECK = <img src={FlightDeckIcon} alt='FlightDeck Icon' className="nav-icon"/>
+  FLIGHTDECK = <img src={Icon.LOGO_URL.toString()} alt='FlightDeck Icon' className="nav-icon"/>
   FLIGHTS = <FontAwesomeIcon icon={faBars}/>
   GUAGE = <FontAwesomeIcon icon={faGauge}/>
   GROUP = <FontAwesomeIcon icon={faUsers}/>
@@ -118,14 +119,14 @@ class Icons {
   USER = <FontAwesomeIcon icon={faUserAlt}/>
   WAIT = <FontAwesomeIcon icon={faSpinner}/>
 
-  private aircraftTypeIcons: { [key: string]: ReactElement<any, any> } = {
+  private aircraftTypeIcon: { [key: string]: ReactElement<any, any> } = {
     fixedwing: this.PLANE,
     helicopter: this.HELICOPTER,
     multirotor: this.DRONE,
     other: this.DRONE
   }
 
-  private aircraftStatusIcons: { [key: string]: ReactElement<any, any> } = {
+  private aircraftStatusIcon: { [key: string]: ReactElement<any, any> } = {
     preflight: this.PLANE,
     airworthy: this.PLANE,
     inoperative: this.AIRCRAFT_INOPERATIVE,
@@ -133,50 +134,50 @@ class Icons {
     destroyed: this.AIRCRAFT_DESTROYED
   }
 
-  private userFlightRoleIcons: { [key: string]: ReactElement<any, any> } = {
+  private userFlightRoleIcon: { [key: string]: ReactElement<any, any> } = {
     pilot: this.PILOT,
     observer: this.OBSERVER,
     owner: this.OWNER,
     other: this.UNKNOWN
   }
 
-  private groupTypeIcons: { [key: string]: ReactElement<any, any> } = {
+  private groupTypeIcon: { [key: string]: ReactElement<any, any> } = {
     club: this.CLUB,
     company: this.COMPANY,
     group: this.GROUP,
   }
 
-  private batteryStatusIcons: { [key: string]: ReactElement<any, any> } = {
+  private batteryStatusIcon: { [key: string]: ReactElement<any, any> } = {
     new: this.BATTERY_NEW,
     available: this.BATTERY,
     destroyed: this.BATTERY_DESTROYED
   }
 
-  private locationStatusIcons: { [key: string]: ReactElement<any, any> } = {
+  private locationStatusIcon: { [key: string]: ReactElement<any, any> } = {
     active: this.LOCATION,
     deleted: this.LOCATION_REMOVED
   }
 
   fromAircraftType(type: string): ReactElement<any, any> {
-    let icon: ReactElement<any, any> = instance.aircraftTypeIcons[type]
+    let icon: ReactElement<any, any> = instance.aircraftTypeIcon[type]
     if (!icon) icon = instance.PLANE
     return icon
   }
 
   fromUserFlightRole(role: string): ReactElement<any, any> {
-    let icon: ReactElement<any, any> = instance.userFlightRoleIcons[role]
+    let icon: ReactElement<any, any> = instance.userFlightRoleIcon[role]
     if (!icon) icon = instance.PLANE
     return icon
   }
 
   fromGroupType(type: string): ReactElement<any, any> {
-    let icon: ReactElement<any, any> = instance.groupTypeIcons[type]
+    let icon: ReactElement<any, any> = instance.groupTypeIcon[type]
     if (!icon) icon = instance.GROUP
     return icon
   }
 
   fromAircraftStatus(status: string): ReactElement<any, any> {
-    let icon: ReactElement<any, any> = instance.aircraftStatusIcons[status]
+    let icon: ReactElement<any, any> = instance.aircraftStatusIcon[status]
     if (!icon) icon = instance.PLANE
     return icon
   }
@@ -190,7 +191,7 @@ class Icons {
   }
 
   fromBatteryStatus(status: string): ReactElement<any, any> {
-    let icon = instance.batteryStatusIcons[status]
+    let icon = instance.batteryStatusIcon[status]
     if (!icon) icon = instance.BATTERY
     return icon
   }
@@ -208,13 +209,13 @@ class Icons {
   }
 
   fromLocationStatus(status: string): ReactElement<any, any> {
-    let icon = instance.locationStatusIcons[status]
+    let icon = instance.locationStatusIcon[status]
     if (!icon) icon = instance.LOCATION
     return icon
   }
 
 }
 
-const instance = new Icons()
+const instance = new Icon()
 Object.freeze(instance)
 export default instance

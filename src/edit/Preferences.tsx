@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import {useNavigate} from "react-router";
 import EntryCheck from "../part/EntryCheck";
 import AppPath from "../AppPath";
@@ -82,7 +82,7 @@ export default function Preferences(props) {
 			<div className='page-body'>
 				<div className='page-form'>
 
-					<div className='hbox'><button className='icon' onClick={close}>{Icons.BACK}</button><span className='page-header'>Preferences</span></div>
+					<div className='hbox'><button className='icon' onClick={close}>{Icon.BACK}</button><span className='page-header'>Preferences</span></div>
 
 					<Notice priority='error' messages={messages} clearMessages={clearMessages}/>
 
@@ -121,10 +121,10 @@ export default function Preferences(props) {
 								updatePreference('enablePublicDashboard', !preferences.enablePublicDashboard)
 							}}
 						/>
-						{preferences.enablePublicDashboard ? <EntryLink to={dashboardUsernameUrl} value='Friendly Link' fieldActionIcon={Icons.SHARE} fieldActionTitle='Copy Link' onFieldAction={() => {
+						{preferences.enablePublicDashboard ? <EntryLink to={dashboardUsernameUrl} value='Friendly Link' fieldActionIcon={Icon.SHARE} fieldActionTitle='Copy Link' onFieldAction={() => {
 							share(dashboardUsernameUrl, "FlightDeck Dashboard", "FlightDeck Dashboard")
 						}}/> : null}
-						{preferences.enablePublicDashboard ? <EntryLink to={dashboardIdUrl} value='Forever Link' fieldActionIcon={Icons.SHARE} fieldActionTitle='Copy Link' onFieldAction={() => {
+						{preferences.enablePublicDashboard ? <EntryLink to={dashboardIdUrl} value='Forever Link' fieldActionIcon={Icon.SHARE} fieldActionTitle='Copy Link' onFieldAction={() => {
 							share(dashboardIdUrl, "FlightDeck Dashboard", "FlightDeck Dashboard")
 						}}/> : null}
 						<EntryCheck
@@ -185,7 +185,7 @@ function PreferenceSection(props) {
 		<div className={'vbox'}>
 			<div className={'page-section'} onClick={() => setExpanded(!expanded)}>
 				<div className='page-header'>{props.title}</div>
-				<span className='icon'>{expanded ? Icons.COLLAPSE : Icons.EXPAND}</span>
+				<span className='icon'>{expanded ? Icon.COLLAPSE : Icon.EXPAND}</span>
 			</div>
 			{expanded ? props.children : null}
 		</div>

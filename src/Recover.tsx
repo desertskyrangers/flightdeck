@@ -3,7 +3,7 @@ import EntryField from "./part/EntryField";
 import {useState} from "react";
 import Notice from "./part/Notice";
 import {useNavigate} from "react-router";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import AuthService from "./api/AuthService";
 
 export default function Recover(props) {
@@ -47,7 +47,7 @@ export default function Recover(props) {
 											value={username}
 											onChange={(event) => setUsername(event.target.value)}
 											onKeyDown={onKeyDown}
-											labelActionIcon={Icons.CLOSE}
+											labelActionIcon={Icon.CLOSE}
 											onLabelAction={close}/>
 					<Notice priority='error' messages={messages} clearMessages={clearMessages}/>
 					<button disabled={messages.length > 0} className='page-submit' onClick={submit}>Send Recovery Email</button>

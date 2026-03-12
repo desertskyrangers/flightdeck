@@ -1,7 +1,7 @@
 import "./css/member.css"
 import React, {useEffect, useState} from "react";
 import NoResults from "./part/NoResults";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import Notice from "./part/Notice";
 import {useNavigate} from "react-router";
 import AppPath from "./AppPath";
@@ -98,7 +98,7 @@ function JoinRequest(props) {
 									 required
 									 defaultValue='unspecified'
 									 onChange={(event) => setGroup(event.target.value)}
-									 fieldActionIcon={Icons.GROUP_ADD}
+									 fieldActionIcon={Icon.GROUP_ADD}
 									 onFieldAction={requestMembership}>
 				<option key='unspecified' hidden>Select a group</option>
 				{props.groups.map((option) => <option key={option.id} value={option.id}>{option.name}</option>)}

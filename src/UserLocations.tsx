@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Loading from "./part/Loading";
 import NoResults from "./part/NoResults";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import Notice from "./part/Notice";
 import {useNavigate} from "react-router";
 import AppPath from "./AppPath";
@@ -79,7 +79,7 @@ function LocationList(props) {
 	let unavailableLocationContent: React.JSX.Element;
 	// let unavailableIcon: React.JSX.Element;
 	// if (props.showUnavailable === false) {
-	// 	unavailableIcon = Icons.ADVANCED_V;
+	// 	unavailableIcon = Icon.ADVANCED_V;
 	// } else {
 	// 	if (props.unavailablePage.content.length === 0) {
 	// 		unavailableLocationContent = <NoResults message='No unavailable locations found'/>
@@ -90,7 +90,7 @@ function LocationList(props) {
 	// 			</tbody>
 	// 		</table>
 	// 	}
-	// 	unavailableIcon = Icons.COLLAPSE;
+	// 	unavailableIcon = Icon.COLLAPSE;
 	// }
 
 	function add() {
@@ -112,9 +112,9 @@ function LocationList(props) {
 	return (
 		<div className='vbox'>
 			<div className='hbox'>
-				<button className='page-action icon' onClick={prior} disabled={props.page.first}>{Icons.PAGE_PRIOR}</button>
+				<button className='page-action icon' onClick={prior} disabled={props.page.first}>{Icon.PAGE_PRIOR}</button>
 				<button className='page-action' onClick={add}>Add a Location</button>
-				<button className='page-action icon' onClick={next} disabled={props.page.last}>{Icons.PAGE_NEXT}</button>
+				<button className='page-action icon' onClick={next} disabled={props.page.last}>{Icon.PAGE_NEXT}</button>
 			</div>
 			{content}
 			{/*<button className='icon centered' onClick={toggleUnavailable}>{unavailableIcon}</button>*/}
@@ -134,7 +134,7 @@ function LocationRow(props) {
 
 	return (
 		<tr onClick={open}>
-			<td className='no-wrap'>{Icons.fromLocationStatus(props.location.status)} {props.location.name}</td>
+			<td className='no-wrap'>{Icon.fromLocationStatus(props.location.status)} {props.location.name}</td>
 			{/*<td>{props.location.flightCount}</td>*/}
 			{/*<td>{Times.toSummaryFlightTime(props.location.flightTime)}</td>*/}
 		</tr>

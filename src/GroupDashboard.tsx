@@ -4,7 +4,7 @@ import GroupService from "./api/GroupService";
 import {Link} from "react-router";
 import AppPath from "./AppPath";
 import Times from "./util/Times";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import Dates from "./util/Dates";
 
 export default function GroupDashboard(props) {
@@ -58,7 +58,7 @@ export default function GroupDashboard(props) {
 			</table>
 
 			<div className='hbox'>
-				<button className='page-action' onClick={groupCallout}>{Icons.CALLOUT} Callout</button>
+				<button className='page-action' onClick={groupCallout}>{Icon.CALLOUT} Callout</button>
 			</div>
 
 			{!!dashboard.memberStats ?

@@ -3,7 +3,7 @@ import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
 import BatteryService from "../api/BatteryService";
 import LookupService from "../api/LookupService";
 import EntryField from "../part/EntryField";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import Notice from "../part/Notice";
 import DeleteWithConfirm from "../part/DeleteWithConfirm";
 import EntrySelect from "../part/EntrySelect";
@@ -201,7 +201,7 @@ export default function Battery(props) {
 			<div className='page-body'>
 				<div className='page-form'>
 
-					<div className='hbox'><button className='icon' onClick={close}>{Icons.BACK}</button><span className='page-header'>{name}</span></div>
+					<div className='hbox'><button className='icon' onClick={close}>{Icon.BACK}</button><span className='page-header'>{name}</span></div>
 
 					{/* Aircraft information */}
 					<div className='vbox'>
@@ -224,7 +224,7 @@ export default function Battery(props) {
 						</table>
 					</div>
 
-					<button className='icon centered' onClick={toggleAdvanced}>{advanced ? Icons.COLLAPSE : Icons.ADVANCED_V}</button>
+					<button className='icon centered' onClick={toggleAdvanced}>{advanced ? Icon.COLLAPSE : Icon.ADVANCED_V}</button>
 
 					{
 						advanced ? <div className='vbox'>
@@ -252,7 +252,7 @@ export default function Battery(props) {
 
 							<Notice priority='error' messages={messages} clearMessages={clearMessages}/>
 							<div className='hbox'>
-								{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icons.COLLAPSE : Icons.DELETE}</button>}
+								{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icon.COLLAPSE : Icon.DELETE}</button>}
 								{requestDelete ? null : <button disabled={!canSave} className='page-submit' onClick={update}>{isNewRef.current ? 'Save' : 'Update'}</button>}
 							</div>
 

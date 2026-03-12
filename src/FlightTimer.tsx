@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import './css/timer.css';
 import {useNavigate} from "react-router";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import AppPath from "./AppPath";
 
 export default function FlightTimer() {
@@ -47,7 +47,7 @@ export default function FlightTimer() {
 				<div className='page-form'>
 					<div className='page-label-row'>
 						<span>Flight timer running...</span>
-						<span className='icon' onClick={close}>{Icons.CLOSE}</span>
+						<span className='icon' onClick={close}>{Icon.CLOSE}</span>
 					</div>
 
 					<div className='flight-timer-clock'>{String(hh).padStart(2, '0')}:{String(mm).padStart(2, '0')}:{String(ss).padStart(2, '0')}</div>

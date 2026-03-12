@@ -7,7 +7,7 @@ import {Link, useNavigate} from "react-router"
 import './css/dashboard.css'
 import Ago from "./part/Ago";
 import {FlightStats, FlightStatsHeader} from "./part/FlightStats"
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import GroupService from "./api/GroupService";
 
 export default function Dashboard(props) {
@@ -49,7 +49,7 @@ export default function Dashboard(props) {
 
 	const groupCount = !!!dashboard.groups ? 0 : dashboard.groups.length
 
-	let callout = <button className='page-action' disabled={groupCount === 0} onClick={() => groupCallout(dashboard.groups[0].id)}>{Icons.CALLOUT} Callout</button>
+	let callout = <button className='page-action' disabled={groupCount === 0} onClick={() => groupCallout(dashboard.groups[0].id)}>{Icon.CALLOUT} Callout</button>
 	if (groupCount > 1) callout = <select id='groupCallout' name='groupCallout' className='page-field' onChange={groupCalloutChange} onKeyDown={props.onKeyDown}>
 		<option key='callout' value='callout'>Callout</option>
 		{dashboard.groups.map((group) => <option key={group.id} value={group.id}>{group.name}</option>)}
@@ -71,8 +71,8 @@ export default function Dashboard(props) {
 				{callout}
 			</div>
 			<div className='hbox'>
-				<button className='page-action' onClick={() => navigate(ApiPath.FLIGHT_TIMER)}>{Icons.TIMER}</button>
-				<button className='page-action' onClick={() => navigate(AppPath.FLIGHT + "/new")}>{Icons.LOG}</button>
+				<button className='page-action' onClick={() => navigate(ApiPath.FLIGHT_TIMER)}>{Icon.TIMER}</button>
+				<button className='page-action' onClick={() => navigate(AppPath.FLIGHT + "/new")}>{Icon.LOG}</button>
 			</div>
 
 			{!!dashboard.aircraftStats ?
@@ -116,7 +116,7 @@ function AircraftRow(props) {
 		<tr>
 			<td>
 				<span style={{'color': props.aircraft.trimColor, 'backgroundColor': props.aircraft.baseColor, 'padding': '0.2rem', 'borderRadius': '0.2rem', 'display': 'inline-block'}}>
-					{Icons.fromAircraftTypeAndStatus(props.aircraft.type, props.aircraft.status)}
+					{Icon.fromAircraftTypeAndStatus(props.aircraft.type, props.aircraft.status)}
 				</span>
 			</td>
 			<td><Link to={AppPath.AIRCRAFT + "/" + props.aircraft.id}>{props.aircraft.name}</Link></td>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Loading from "./part/Loading";
 import NoResults from "./part/NoResults";
-import Icons from "./util/Icons";
+import Icon from "./util/Icon.tsx";
 import Notice from "./part/Notice";
 import {useNavigate} from "react-router";
 import AppPath from "./AppPath";
@@ -82,13 +82,13 @@ function FlightList(props) {
 	return (
 		<div className='vbox'>
 			<div className='hbox'>
-				<button className='page-action icon' onClick={prior} disabled={props.page.first}>{Icons.PAGE_PRIOR}</button>
+				<button className='page-action icon' onClick={prior} disabled={props.page.first}>{Icon.PAGE_PRIOR}</button>
 				<button className='page-action' onClick={add}>Log a Flight</button>
-				<button className='page-action icon' onClick={next} disabled={props.page.last}>{Icons.PAGE_NEXT}</button>
+				<button className='page-action icon' onClick={next} disabled={props.page.last}>{Icon.PAGE_NEXT}</button>
 			</div>
 			{page}
 			<div className='hbox'>
-				<button className='page-action icon' onClick={exportData}>{Icons.EXPORT}</button>
+				<button className='page-action icon' onClick={exportData}>{Icon.EXPORT}</button>
 			</div>
 		</div>
 	)
@@ -105,9 +105,9 @@ function FlightRow(props) {
 
 	return (
 		<tr onClick={open}>
-			<td>{Icons.fromUserFlightRole(props.flight.userFlightRole)}</td>
+			<td>{Icon.fromUserFlightRole(props.flight.userFlightRole)}</td>
 			<td>
-				<span style={{'color':props.flight.trimColor, 'backgroundColor':props.flight.baseColor,'padding':'0.2rem', 'borderRadius':'0.2rem'}}>{Icons.fromAircraftTypeAndStatus(props.flight.type, props.flight.status)}</span>
+				<span style={{'color':props.flight.trimColor, 'backgroundColor':props.flight.baseColor,'padding':'0.2rem', 'borderRadius':'0.2rem'}}>{Icon.fromAircraftTypeAndStatus(props.flight.type, props.flight.status)}</span>
 			</td>
 			<td>{props.flight.name}</td>
 			<td>{Times.toFlightTime(props.flight.duration)}</td>

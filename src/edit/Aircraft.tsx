@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import LookupService from "../api/LookupService";
 import {useNavigate, useParams} from "react-router";
 import AircraftService from "../api/AircraftService";
-import Icons from "../util/Icons";
+import Icon from "../util/Icon.tsx";
 import EntryField from "../part/EntryField";
 import DeleteWithConfirm from "../part/DeleteWithConfirm";
 import EntrySelect from "../part/EntrySelect";
@@ -197,7 +197,7 @@ export default function Aircraft(props) {
 				<div className='page-form'>
 
 					<div className='hbox'>
-						<button className='icon' onClick={close}>{Icons.BACK}</button>
+						<button className='icon' onClick={close}>{Icon.BACK}</button>
 						<span className='page-header'>{name}</span></div>
 
 					{/* Aircraft information */}
@@ -224,7 +224,7 @@ export default function Aircraft(props) {
 						<Notice priority='warn' messages={notices}/>
 					</div>
 
-					<button className='icon centered' onClick={toggleAdvanced}>{advanced ? Icons.COLLAPSE : Icons.ADVANCED_V}</button>
+					<button className='icon centered' onClick={toggleAdvanced}>{advanced ? Icon.COLLAPSE : Icon.ADVANCED_V}</button>
 
 					{
 						advanced ? <div className='vbox'>
@@ -262,7 +262,7 @@ export default function Aircraft(props) {
 
 							<Notice priority='error' messages={messages} clearMessages={clearMessages}/>
 							<div className='hbox'>
-								{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icons.COLLAPSE : Icons.DELETE}</button>}
+								{isNewRef.current ? null : <button className='icon' onClick={toggleDelete}>{requestDelete ? Icon.COLLAPSE : Icon.DELETE}</button>}
 								{requestDelete ? null : <button disabled={messages.length > 0} className='page-submit' onClick={update}>{isNewRef.current ? 'Save' : 'Update'}</button>}
 							</div>
 
