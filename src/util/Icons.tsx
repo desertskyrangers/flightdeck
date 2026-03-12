@@ -50,7 +50,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import DroneIcon from "../icon/DroneIcon"
 import CloseIcon from "../icon/CloseIcon"
-import FlightDeckIcon from "../image/logo.png";
+import FlightDeckIcon from "../../public/image/logo.png";
 
 class Icons {
 
