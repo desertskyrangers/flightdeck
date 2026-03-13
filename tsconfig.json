@@ -43,7 +43,7 @@
 		"skipLibCheck": true
 	},
 	"include": [
-		"src/**/*.tsx",
+		"client/**/*.tsx",
 		"node_modules/vitest/globals.d.ts"
 	]
 }

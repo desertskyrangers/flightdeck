@@ -181,12 +181,12 @@
 	</dependencyManagement>
 
 	<build>
-		<sourceDirectory>source/main/java</sourceDirectory>
-		<testSourceDirectory>source/test/java</testSourceDirectory>
+		<sourceDirectory>server/main/java</sourceDirectory>
+		<testSourceDirectory>server/test/java</testSourceDirectory>
 
 		<resources>
 			<resource>
-				<directory>source/main/resources</directory>
+				<directory>server/main/resources</directory>
 				<excludes>
 					<exclude>**/*.yml</exclude>
 					<exclude>**/*.yaml</exclude>
@@ -194,7 +194,7 @@
 				</excludes>
 			</resource>
 			<resource>
-				<directory>source/main/resources</directory>
+				<directory>server/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
 					<include>**/*.yml</include>
@@ -206,7 +206,7 @@
 
 		<testResources>
 			<testResource>
-				<directory>source/test/resources</directory>
+				<directory>server/test/resources</directory>
 			</testResource>
 		</testResources>
 
