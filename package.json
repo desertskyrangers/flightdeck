@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "source": "./src/index.html",
+  "source": "./client/index.html",
 	"engines": {
 		"node": ">=24",
 		"npm": ">=11"
