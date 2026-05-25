@@ -7,6 +7,7 @@ import com.desertskyrangers.flightdeck.port.DashboardServices;
 import com.desertskyrangers.flightdeck.port.GroupServices;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
 import com.desertskyrangers.flightdeck.util.Json;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,6 +33,9 @@ public class GroupControllerTest extends BaseControllerTest {
 	private StatePersisting statePersisting;
 
 	@Autowired
+	private EntityManager entityManager;
+
+	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
@@ -45,6 +49,9 @@ public class GroupControllerTest extends BaseControllerTest {
 
 		// Need some flights for the group dashboard
 		statePersisting.upsert( createTestFlight( user ) );
+
+		entityManager.flush();
+		entityManager.clear();
 
 		// NOTE The group has to be retrieved again after adding the memberships
 		dashboardServices.update( groupServices.find( group.id() ).orElse( null ) ).get();

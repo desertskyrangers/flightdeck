@@ -6,6 +6,7 @@ import com.desertskyrangers.flightdeck.adapter.store.entity.MemberEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
 import com.desertskyrangers.flightdeck.core.model.Group;
 import com.desertskyrangers.flightdeck.core.model.Member;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +22,9 @@ public class UserRepoTest extends BaseTest {
 
 	@Autowired
 	private MemberRepo memberRepo;
+
+	@Autowired
+	private EntityManager entityManager;
 
 	@Test
 	void testCreateAndRetrieve() {
@@ -41,6 +45,9 @@ public class UserRepoTest extends BaseTest {
 		GroupEntity group = groupRepo.save( createTestGroupEntity( "Test Group", Group.Type.CLUB ) );
 		memberRepo.save( createTestMemberEntity( user, group, Member.Status.ACCEPTED ) );
 
+		entityManager.flush();
+		entityManager.clear();
+
 		// when
 		UserEntity actual = userRepo.findById( user.getId() ).orElse( null );
 
@@ -55,6 +62,9 @@ public class UserRepoTest extends BaseTest {
 		UserEntity user = userRepo.save( createTestUserEntity( "Test User", "testuser@example.com" ) );
 		GroupEntity group = groupRepo.save( createTestGroupEntity( "Test Group", Group.Type.CLUB ) );
 		MemberEntity member = memberRepo.save( createTestMemberEntity( user, group, Member.Status.ACCEPTED ) );
+
+		entityManager.flush();
+		entityManager.clear();
 
 		// when
 		UserEntity actual = userRepo.findById( user.getId() ).orElse( null );
