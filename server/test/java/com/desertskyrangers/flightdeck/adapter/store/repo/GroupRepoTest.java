@@ -6,13 +6,14 @@ import com.desertskyrangers.flightdeck.adapter.store.entity.MemberEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
 import com.desertskyrangers.flightdeck.core.model.Group;
 import com.desertskyrangers.flightdeck.core.model.Member;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@Transactional
 public class GroupRepoTest extends BaseTest {
 
 	@Autowired
@@ -23,6 +24,9 @@ public class GroupRepoTest extends BaseTest {
 
 	@Autowired
 	private MemberRepo memberRepo;
+
+	@Autowired
+	private EntityManager entityManager;
 
 	@Test
 	void testCreateAndRetrieve() {
@@ -43,6 +47,9 @@ public class GroupRepoTest extends BaseTest {
 		GroupEntity group = groupRepo.save( createTestGroupEntity( "Test Group", Group.Type.CLUB ) );
 		memberRepo.save( createTestMemberEntity( user, group, Member.Status.ACCEPTED ) );
 
+		entityManager.flush();
+		entityManager.clear();
+
 		// when
 		GroupEntity actual = groupRepo.findById( group.getId() ).orElse( null );
 
@@ -57,6 +64,9 @@ public class GroupRepoTest extends BaseTest {
 		UserEntity user = userRepo.save( createTestUserEntity( "Test User", "testuser@example.com" ) );
 		GroupEntity group = groupRepo.save( createTestGroupEntity( "Test Group", Group.Type.CLUB ) );
 		MemberEntity member = memberRepo.save( createTestMemberEntity( user, group, Member.Status.ACCEPTED ) );
+
+		entityManager.flush();
+		entityManager.clear();
 
 		// when
 		GroupEntity actual = groupRepo.findById( group.getId() ).orElse( null );

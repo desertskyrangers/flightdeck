@@ -1,9 +1,12 @@
 package com.desertskyrangers.flightdeck.core.service;
 
 import com.desertskyrangers.flightdeck.BaseTest;
-import com.desertskyrangers.flightdeck.core.model.*;
+import com.desertskyrangers.flightdeck.core.model.Group;
+import com.desertskyrangers.flightdeck.core.model.Member;
+import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
 import com.desertskyrangers.flightdeck.port.UserServices;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +24,9 @@ public class UserServiceTest extends BaseTest {
 	@Autowired
 	private UserServices userServices;
 
+	@Autowired
+	private EntityManager entityManager;
+
 	@Test
 	void testFindAllGroupPeers() {
 		// given
@@ -33,6 +39,9 @@ public class UserServiceTest extends BaseTest {
 		statePersisting.upsert( new Member().user( kara ).group( group ).status( Member.Status.REQUESTED ) );
 		statePersisting.upsert( new Member().user( paul ).group( group ).status( Member.Status.REVOKED ) );
 		statePersisting.upsert( new Member().user( sara ).group( group ).status( Member.Status.ACCEPTED ) );
+
+		entityManager.flush();
+		entityManager.clear();
 
 		// when
 		Set<User> users = userServices.findAllGroupPeers( john );
@@ -53,6 +62,9 @@ public class UserServiceTest extends BaseTest {
 		statePersisting.upsert( new Member().user( kara ).group( group ).status( Member.Status.REQUESTED ) );
 		statePersisting.upsert( new Member().user( paul ).group( group ).status( Member.Status.REVOKED ) );
 		statePersisting.upsert( new Member().user( sara ).group( group ).status( Member.Status.ACCEPTED ) );
+
+		entityManager.flush();
+		entityManager.clear();
 
 		// when
 		Set<User> users = userServices.findAllAcceptedGroupPeers( john );
