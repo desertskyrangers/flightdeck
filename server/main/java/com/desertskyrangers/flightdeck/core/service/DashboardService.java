@@ -73,7 +73,7 @@ public class DashboardService implements DashboardServices {
 		if( user.publicDashboardId() == null ) user.publicDashboardId( UUID.randomUUID() );
 
 		// FIXME Temporarily disable assigning dashboard ids
-		statePersisting.upsert( user );
+		//statePersisting.upsert( user );
 
 		// Update the user dashboards
 		update( user, user.publicDashboardId(), true );
