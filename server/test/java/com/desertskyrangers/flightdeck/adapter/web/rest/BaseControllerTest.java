@@ -6,7 +6,7 @@ import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.core.model.UserToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import java.util.Objects;
 import java.util.Set;
 
-@AutoConfigureMockMvc
+@AutoConfigureTestRestTemplate
 @WithMockUser( authorities = "USER" )
 public abstract class BaseControllerTest extends BaseTest {
 

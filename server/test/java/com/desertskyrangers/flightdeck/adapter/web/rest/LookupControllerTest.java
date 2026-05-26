@@ -2,13 +2,16 @@ package com.desertskyrangers.flightdeck.adapter.web.rest;
 
 import com.desertskyrangers.flightdeck.adapter.web.ApiPath;
 import com.desertskyrangers.flightdeck.adapter.web.model.ReactOption;
-import com.desertskyrangers.flightdeck.core.model.*;
+import com.desertskyrangers.flightdeck.core.model.Aircraft;
+import com.desertskyrangers.flightdeck.core.model.AircraftType;
+import com.desertskyrangers.flightdeck.core.model.Battery;
+import com.desertskyrangers.flightdeck.core.model.Group;
 import com.desertskyrangers.flightdeck.util.Json;
 import com.desertskyrangers.flightdeck.util.SmsCarrier;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
