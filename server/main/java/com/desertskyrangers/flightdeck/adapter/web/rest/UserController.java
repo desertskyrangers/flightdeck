@@ -6,6 +6,7 @@ import com.desertskyrangers.flightdeck.core.exception.UnauthorizedException;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.*;
 import com.desertskyrangers.flightdeck.util.Uuid;
+import jakarta.annotation.security.PermitAll;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.security.PermitAll;
 import java.util.*;
 
 @RestController
@@ -233,7 +233,9 @@ public class UserController extends BaseController {
 	@PreAuthorize( "hasAuthority('USER')" )
 	@GetMapping( path = ApiPath.USER_FLIGHT )
 	ResponseEntity<ReactPageResponse<?>> getFlightPage(
-		Authentication authentication, @RequestParam( value = "pg", defaultValue = "0" ) int page, @RequestParam( value = "pz", defaultValue = DEFAULT_PAGE_SIZE ) int size
+		Authentication authentication,
+		@RequestParam( value = "pg", defaultValue = "0" ) int page,
+		@RequestParam( value = "pz", defaultValue = DEFAULT_PAGE_SIZE ) int size
 	) {
 		List<String> messages = new ArrayList<>();
 
@@ -252,7 +254,9 @@ public class UserController extends BaseController {
 	@PreAuthorize( "hasAuthority('USER')" )
 	@GetMapping( path = ApiPath.USER_GROUP )
 	ResponseEntity<ReactPageResponse<?>> getGroupPage(
-		Authentication authentication, @RequestParam( value = "pg", defaultValue = "0" ) int page, @RequestParam( value = "pz", defaultValue = DEFAULT_PAGE_SIZE ) int size
+		Authentication authentication,
+		@RequestParam( value = "pg", defaultValue = "0" ) int page,
+		@RequestParam( value = "pz", defaultValue = DEFAULT_PAGE_SIZE ) int size
 	) {
 		List<String> messages = new ArrayList<>();
 
@@ -286,7 +290,7 @@ public class UserController extends BaseController {
 			User user = getRequester( authentication );
 			if( size == 0 ) {
 				List<ReactLocation> locationList = locationServices.findByUserAndStatus( user, status ).stream().map( ReactLocation::from ).sorted().toList();
-				Page<ReactLocation> locationPage = new PageImpl<>(locationList);
+				Page<ReactLocation> locationPage = new PageImpl<>( locationList );
 				return new ResponseEntity<>( ReactPageResponse.of( locationPage ), HttpStatus.OK );
 			} else {
 				Page<ReactLocation> locationPage = locationServices.findPageByUserAndStatus( user, status, page, size ).map( ReactLocation::from );

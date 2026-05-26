@@ -2,7 +2,10 @@ package com.desertskyrangers.flightdeck.adapter.web.rest;
 
 import com.desertskyrangers.flightdeck.adapter.web.ApiPath;
 import com.desertskyrangers.flightdeck.adapter.web.model.ReactOption;
-import com.desertskyrangers.flightdeck.core.model.*;
+import com.desertskyrangers.flightdeck.core.model.Aircraft;
+import com.desertskyrangers.flightdeck.core.model.AircraftType;
+import com.desertskyrangers.flightdeck.core.model.Battery;
+import com.desertskyrangers.flightdeck.core.model.Group;
 import com.desertskyrangers.flightdeck.util.SmsCarrier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,7 +18,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-public class LookupController {
+public class LookupController extends BaseController {
 
 	@GetMapping( path = ApiPath.AIRCRAFT_STATUS )
 	ResponseEntity<List<ReactOption>> aircraftStatus() {

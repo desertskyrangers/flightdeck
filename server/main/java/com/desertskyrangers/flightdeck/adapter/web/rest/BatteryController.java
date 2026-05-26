@@ -3,7 +3,9 @@ package com.desertskyrangers.flightdeck.adapter.web.rest;
 import com.desertskyrangers.flightdeck.adapter.web.ApiPath;
 import com.desertskyrangers.flightdeck.adapter.web.model.ReactBattery;
 import com.desertskyrangers.flightdeck.adapter.web.model.ReactBatteryResponse;
-import com.desertskyrangers.flightdeck.core.model.*;
+import com.desertskyrangers.flightdeck.core.model.Battery;
+import com.desertskyrangers.flightdeck.core.model.OwnerType;
+import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.port.BatteryServices;
 import com.desertskyrangers.flightdeck.port.UserServices;
 import com.desertskyrangers.flightdeck.util.Text;
@@ -18,7 +20,7 @@ import java.util.*;
 
 @RestController
 @Slf4j
-public class BatteryController {
+public class BatteryController extends BaseController {
 
 	private final BatteryServices batteryServices;
 

@@ -11,9 +11,10 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-public class MonitorController {
+public class MonitorController extends BaseController {
 
-	@Value("${spring.application.version:unknown}") String version;
+	@Value( "${spring.application.version:unknown}" )
+	String version;
 
 	@GetMapping( ApiPath.MONITOR_STATUS )
 	public Map<String, String> monitorStatus() {

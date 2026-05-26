@@ -82,7 +82,7 @@ public class FlightController extends BaseController {
 	}
 
 	@DeleteMapping( path = ApiPath.FLIGHT )
-	ResponseEntity<ReactFlightResponse> deleteFlight(Authentication authentication, @RequestBody Map<String, Object> flight ) {
+	ResponseEntity<ReactFlightResponse> deleteFlight( Authentication authentication, @RequestBody Map<String, Object> flight ) {
 		UUID id = UUID.fromString( String.valueOf( flight.get( "id" ) ) );
 		log.info( "Delete flight" );
 		List<String> messages = new ArrayList<>();

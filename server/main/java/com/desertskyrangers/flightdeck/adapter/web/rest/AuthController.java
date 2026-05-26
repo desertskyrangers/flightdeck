@@ -27,7 +27,7 @@ import java.util.*;
 
 @RestController
 @Slf4j
-public class AuthController {
+public class AuthController extends BaseController {
 
 	private final AuthServices authServices;
 
