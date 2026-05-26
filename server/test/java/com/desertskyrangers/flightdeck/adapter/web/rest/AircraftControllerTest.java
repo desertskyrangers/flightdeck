@@ -76,6 +76,32 @@ public class AircraftControllerTest extends BaseControllerTest {
 	}
 
 	@Test
+	void testModifyAircraftWithSuccess() throws Exception {
+		// given
+		ReactAircraft aircraft = createTestReactAircraft();
+		aircraft.setName( "Afton" );
+		aircraft.setStatus( Aircraft.Status.PREFLIGHT.name() );
+
+		// when
+		MvcResult result = this.mockMvc.perform( put( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+
+		// then
+		Map<?, ?> map = Json.asMap( result.getResponse().getContentAsString() );
+		Map<?, ?> resultAircraft = (Map<?, ?>)map.get( "data" );
+		assertThat( resultAircraft.get( "name" ) ).isEqualTo( "Afton" );
+		assertThat( resultAircraft.get( "status" ) ).isEqualTo( Aircraft.Status.PREFLIGHT.name() );
+
+		// when
+		aircraft.setStatus( Aircraft.Status.AIRWORTHY.name() );
+		MvcResult updateResult = this.mockMvc.perform( post( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+
+		// then
+		Map<?, ?> updateMap = Json.asMap( updateResult.getResponse().getContentAsString() );
+		Map<?, ?> updateAircraft = (Map<?, ?>)updateMap.get( "data" );
+		assertThat( updateAircraft.get( "status" ) ).isEqualTo( Aircraft.Status.AIRWORTHY.name() );
+	}
+
+	@Test
 	void testUpdateAircraftWithBadRequest() throws Exception {
 		ReactAircraft aircraft = createTestReactAircraft();
 		aircraft.setType( "invalid" );
