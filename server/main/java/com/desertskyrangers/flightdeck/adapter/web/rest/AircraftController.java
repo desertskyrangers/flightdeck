@@ -3,7 +3,10 @@ package com.desertskyrangers.flightdeck.adapter.web.rest;
 import com.desertskyrangers.flightdeck.adapter.web.ApiPath;
 import com.desertskyrangers.flightdeck.adapter.web.model.ReactAircraft;
 import com.desertskyrangers.flightdeck.adapter.web.model.ReactResponse;
-import com.desertskyrangers.flightdeck.core.model.*;
+import com.desertskyrangers.flightdeck.core.model.Aircraft;
+import com.desertskyrangers.flightdeck.core.model.AircraftType;
+import com.desertskyrangers.flightdeck.core.model.OwnerType;
+import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.port.AircraftServices;
 import com.desertskyrangers.flightdeck.port.UserServices;
 import com.desertskyrangers.flightdeck.util.Text;
@@ -18,7 +21,7 @@ import java.util.*;
 
 @RestController
 @Slf4j
-public class AircraftController {
+public class AircraftController extends BaseController {
 
 	private final AircraftServices aircraftServices;
 

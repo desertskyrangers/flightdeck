@@ -2,7 +2,9 @@ package com.desertskyrangers.flightdeck.adapter.web.rest;
 
 import com.desertskyrangers.flightdeck.adapter.web.ApiPath;
 import com.desertskyrangers.flightdeck.adapter.web.model.*;
-import com.desertskyrangers.flightdeck.core.model.*;
+import com.desertskyrangers.flightdeck.core.model.Group;
+import com.desertskyrangers.flightdeck.core.model.Member;
+import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.port.GroupServices;
 import com.desertskyrangers.flightdeck.port.MembershipServices;
 import com.desertskyrangers.flightdeck.port.ProjectionServices;
