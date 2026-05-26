@@ -72,7 +72,8 @@ public class DashboardService implements DashboardServices {
 		if( user.dashboardId() == null ) user.dashboardId( UUID.randomUUID() );
 		if( user.publicDashboardId() == null ) user.publicDashboardId( UUID.randomUUID() );
 
-		// FIXME Temporarily disable assigning dashboard ids
+		// FIXME Why does this line cause a TransientObjectException in production?
+		//  So far I don't have a test to reproduce it either.
 		//statePersisting.upsert( user );
 
 		// Update the user dashboards
