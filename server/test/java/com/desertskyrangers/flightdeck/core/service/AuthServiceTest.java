@@ -26,9 +26,6 @@ public class AuthServiceTest {
 	@MockitoBean
 	private StateRetrieving stateRetrieving;
 
-	//	@Mock
-	//	private HumanInterface humanInterface;
-
 	@Autowired
 	private AuthService service;
 
