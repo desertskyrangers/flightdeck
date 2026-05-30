@@ -175,7 +175,9 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public User upsert( User user ) {
-		return UserEntity.toUser( userRepo.save( UserEntity.from( user ) ) );
+		User storedUser = UserEntity.toUser( userRepo.save( UserEntity.from( user ) ) );
+		userRepo.flush();
+		return storedUser;
 	}
 
 	@Override
