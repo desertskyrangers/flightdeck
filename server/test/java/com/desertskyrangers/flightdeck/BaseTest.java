@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @Transactional
-public class BaseTest {
+public abstract class BaseTest {
 
 	@Autowired
 	protected StatePersisting statePersisting;
