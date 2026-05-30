@@ -96,7 +96,11 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Flight upsert( Flight flight ) {
-		return FlightEntity.toFlight( flightRepo.save( FlightEntity.from( flight ) ) );
+		FlightEntity entity = FlightEntity.from( flight );
+		if( entity.getPilot() != null ) entity.setPilot( userRepo.findById( entity.getPilot().getId() ).orElse( entity.getPilot() ) );
+		if( entity.getObserver() != null ) entity.setObserver( userRepo.findById( entity.getObserver().getId() ).orElse( entity.getObserver() ) );
+		if( entity.getAircraft() != null ) entity.setAircraft( aircraftRepo.findById( entity.getAircraft().getId() ).orElse( entity.getAircraft() ) );
+		return FlightEntity.toFlight( flightRepo.save( entity ) );
 	}
 
 	@Override
@@ -126,7 +130,9 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Location upsert( Location location ) {
-		return LocationEntity.toLocation( locationRepo.save( LocationEntity.from( location ) ) );
+		LocationEntity entity = LocationEntity.from( location );
+		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
+		return LocationEntity.toLocation( locationRepo.save( entity ) );
 	}
 
 	@Override
@@ -142,7 +148,10 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Member upsert( Member member ) {
-		return MemberEntity.toMember( memberRepo.save( MemberEntity.from( member ) ) );
+		MemberEntity entity = MemberEntity.from( member );
+		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
+		if( entity.getGroup() != null ) entity.setGroup( groupRepo.findById( entity.getGroup().getId() ).orElse( entity.getGroup() ) );
+		return MemberEntity.toMember( memberRepo.save( entity ) );
 	}
 
 	@Override
@@ -170,12 +179,16 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public void upsert( UserToken token ) {
-		tokenRepo.save( TokenEntity.from( token ) );
+		TokenEntity entity = TokenEntity.from( token );
+		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
+		tokenRepo.save( entity );
 	}
 
 	@Override
 	public User upsert( User user ) {
-		return UserEntity.toUser( userRepo.save( UserEntity.from( user ) ) );
+		User storedUser = UserEntity.toUser( userRepo.save( UserEntity.from( user ) ) );
+		userRepo.flush();
+		return storedUser;
 	}
 
 	@Override

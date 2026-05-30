@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @Transactional
-public class BaseTest {
+public abstract class BaseTest {
 
 	@Autowired
 	protected StatePersisting statePersisting;
@@ -48,6 +48,8 @@ public class BaseTest {
 		statePersisting.removeAllGroups();
 		// Clean old flights
 		statePersisting.removeAllFlights();
+		// Add unlisted user
+		statePersisting.upsert( unlistedUser );
 	}
 
 	protected User getUnlistedUser() {

@@ -70,7 +70,7 @@ public class FlightControllerTest extends BaseControllerTest {
 
 	@Test
 	void getFlightWithBadRequest() throws Exception {
-		this.mockMvc.perform( get( ApiPath.FLIGHT + "/" + "bad-id" ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( get( ApiPath.FLIGHT + "/" + "bad-id" ).with( jwt() ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
