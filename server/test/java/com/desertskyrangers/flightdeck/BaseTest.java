@@ -48,6 +48,8 @@ public abstract class BaseTest {
 		statePersisting.removeAllGroups();
 		// Clean old flights
 		statePersisting.removeAllFlights();
+		// Add unlisted user
+		statePersisting.upsert( unlistedUser );
 	}
 
 	protected User getUnlistedUser() {
