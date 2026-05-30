@@ -61,7 +61,7 @@ public class MembershipControllerTest extends BaseControllerTest {
 		Map<String, String> request = new HashMap<>();
 		request.put( "id", membership.id().toString() );
 		request.put( "status", "invalid" );
-		this.mockMvc.perform( put( ApiPath.MEMBERSHIP ).content( Json.stringify( request ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( put( ApiPath.MEMBERSHIP ).with( jwt() ).content( Json.stringify( request ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
