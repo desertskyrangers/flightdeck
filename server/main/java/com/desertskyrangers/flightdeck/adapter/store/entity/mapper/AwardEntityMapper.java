@@ -24,6 +24,7 @@ public abstract class AwardEntityMapper {
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
+	@Mapping( target = "type", source = "awardType" )
 	@Mapping( target = "recipient", source = "entity", qualifiedBy = RecipientQualifier.class )
 	@Mapping( target = "presenter", source = "entity", qualifiedBy = PresenterQualifier.class )
 	@Mapping( target = "earnedDate", expression = "java(new Date(entity.getEarnedDate()))" )
@@ -51,6 +52,7 @@ public abstract class AwardEntityMapper {
 	@Retention( RetentionPolicy.CLASS )
 	@interface PresenterQualifier {}
 
+	@Mapping( target = "awardType", source = "type" )
 	@Mapping( target = "recipientId", source = "award.recipient.id" )
 	@Mapping( target = "recipientType", source = "award.recipient.type" )
 	@Mapping( target = "presenterId", source = "award.presenter.id" )

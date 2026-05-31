@@ -19,6 +19,9 @@ public class AwardEntity {
 	@Id
 	private UUID id;
 
+	@Column( name = "awardtype" )
+	private String awardType;
+
 	@Column( name = "recipienttype" )
 	private String recipientType;
 
