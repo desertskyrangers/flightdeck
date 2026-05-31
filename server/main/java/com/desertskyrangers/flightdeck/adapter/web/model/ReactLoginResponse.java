@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import java.util.List;
 
 /**
- * @deprecated In favor of {@link ReactResponse}
+ * @deprecated In favor of {@link ReactResponse<JwtToken>}
  */
 @Data
 @Accessors( chain = true )

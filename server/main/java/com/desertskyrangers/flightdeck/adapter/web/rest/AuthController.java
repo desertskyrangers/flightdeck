@@ -165,6 +165,8 @@ public class AuthController extends BaseController {
 			return new ResponseEntity<>( new ReactLoginResponse().setMessages( messages ), HttpStatus.BAD_REQUEST );
 		}
 
+		log.warn("username={}", request.getUsername());
+
 		// Authenticate
 		try {
 			log.trace( "login request=" + request.getUsername() );
