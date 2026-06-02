@@ -8,6 +8,7 @@ import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.FlightEntityM
 import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.GroupEntityMapper;
 import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.LocationEntityMapper;
 import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.MemberEntityMapper;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.PreferencesEntityMapper;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.LocationServices;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
@@ -52,6 +53,9 @@ public abstract class BaseTest {
 
 	@Autowired
 	protected FlightEntityMapper flightEntityMapper;
+
+	@Autowired
+	protected PreferencesEntityMapper preferencesEntityMapper;
 
 	@Autowired
 	protected User unlistedUser;

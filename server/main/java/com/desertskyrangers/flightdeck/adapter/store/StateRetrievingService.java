@@ -60,6 +60,8 @@ public class StateRetrievingService implements StateRetrieving {
 
 	private final FlightEntityMapper flightMapper;
 
+	private final PreferencesEntityMapper preferencesMapper;
+
 	private final TokenRepo tokenRepo;
 
 	private final VerificationRepo verificationRepo;
@@ -339,8 +341,9 @@ public class StateRetrievingService implements StateRetrieving {
 		return tokenRepo.findById( id ).map( tokenMapper::toUserToken );
 	}
 
+	@Override
 	public Map<String, Object> findPreferences( User user ) {
-		return Json.asMap( preferencesRepo.findById( user.id() ).orElse( new PreferencesProjection().setJson( "{}" ) ).getJson() );
+		return preferencesRepo.findById( user.id() ).map( preferencesMapper::toPreferences ).orElse( Map.of() );
 	}
 
 	public boolean isPreferenceSet( User user, String key ) {

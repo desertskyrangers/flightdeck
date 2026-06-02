@@ -63,6 +63,8 @@ public class StatePersistingService implements StatePersisting {
 
 	private final FlightEntityMapper flightMapper;
 
+	private final PreferencesEntityMapper preferencesMapper;
+
 //	public StatePersistingService(
 //		AircraftRepo aircraftRepo,
 //		BatteryRepo batteryRepo,
@@ -179,7 +181,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Map<String, Object> upsertPreferences( User user, Map<String, Object> preferences ) {
-		return Json.asMap( preferencesRepo.save( PreferencesEntity.from( user, preferences ) ).getJson() );
+		return Json.asMap( preferencesRepo.save( preferencesMapper.toProjection( user, preferences ) ).getJson() );
 	}
 
 	@Override
