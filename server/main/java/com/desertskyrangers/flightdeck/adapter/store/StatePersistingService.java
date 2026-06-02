@@ -57,6 +57,8 @@ public class StatePersistingService implements StatePersisting {
 	
 	private final VerificationEntityMapper verificationMapper;
 
+	private final BatteryEntityMapper batteryMapper;
+
 //	public StatePersistingService(
 //		AircraftRepo aircraftRepo,
 //		BatteryRepo batteryRepo,
@@ -98,7 +100,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Battery upsert( Battery battery ) {
-		return BatteryEntity.toBattery( batteryRepo.save( BatteryEntity.from( battery ) ) );
+		return batteryMapper.toBattery( batteryRepo.save( batteryMapper.toEntity( battery ) ) );
 	}
 
 	@Override

@@ -54,6 +54,8 @@ public class StateRetrievingService implements StateRetrieving {
 
 	private final VerificationEntityMapper verificationMapper;
 
+	private final BatteryEntityMapper batteryMapper;
+
 	private final TokenRepo tokenRepo;
 
 	private final VerificationRepo verificationRepo;
@@ -117,7 +119,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<Battery> findBattery( UUID id ) {
-		return batteryRepo.findById( id ).map( BatteryEntity::toBattery );
+		return batteryRepo.findById( id ).map( batteryMapper::toBattery );
 	}
 
 	public Page<Award> findAwards( UUID id, int page, int size ) {
@@ -131,13 +133,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Page<Battery> findBatteriesPageByOwner( UUID owner, int page, int size ) {
-		return batteryRepo.findBatteryEntitiesByOwnerOrderByName( owner, PageRequest.of( page, size ) ).map( BatteryEntity::toBattery );
+		return batteryRepo.findBatteryEntitiesByOwnerOrderByName( owner, PageRequest.of( page, size ) ).map( batteryMapper::toBattery );
 	}
 
 	@Override
 	public Page<Battery> findBatteriesPageByOwnerAndStatus( UUID owner, Set<Battery.Status> status, int page, int size ) {
 		Set<String> statusValues = status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() );
-		return batteryRepo.findBatteryEntitiesByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size ) ).map( BatteryEntity::toBattery );
+		return batteryRepo.findBatteryEntitiesByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size ) ).map( batteryMapper::toBattery );
 	}
 
 	@Override
@@ -217,7 +219,7 @@ public class StateRetrievingService implements StateRetrieving {
 	}
 
 	private List<Battery> convertBatteries( Iterable<BatteryEntity> entities ) {
-		return StreamSupport.stream( entities.spliterator(), false ).map( BatteryEntity::toBattery ).toList();
+		return StreamSupport.stream( entities.spliterator(), false ).map( batteryMapper::toBattery ).toList();
 	}
 
 	private List<Flight> convertFlights( List<FlightEntity> entities ) {
@@ -429,13 +431,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public int getBatteryFlightCount( Battery battery ) {
-		Integer count = flightRepo.countByBattery( BatteryEntity.from( battery ) );
+		Integer count = flightRepo.countByBattery( batteryMapper.toEntity( battery ) );
 		return count == null ? 0 : count;
 	}
 
 	@Override
 	public long getBatteryFlightTime( Battery battery ) {
-		Long time = flightRepo.getFlightTimeByBattery( BatteryEntity.from( battery ) );
+		Long time = flightRepo.getFlightTimeByBattery( batteryMapper.toEntity( battery ) );
 		return time == null ? 0 : time;
 	}
 
