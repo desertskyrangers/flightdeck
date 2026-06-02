@@ -105,7 +105,7 @@ public class UserEntity {
 
 	/**
 	 * This method is specifically built to avoid a stack overflow when converting
-	 * a user record from the {@link GroupEntity#toGroup(GroupEntity)} method.
+	 * a user record from the {@link com.desertskyrangers.flightdeck.adapter.store.entity.mapper.GroupEntityMapper#toGroup(GroupEntity)} method.
 	 *
 	 * @param entity
 	 * @param groups
@@ -164,7 +164,7 @@ public class UserEntity {
 		user.publicDashboardId( entity.getPublicDashboardId() );
 		if( Text.isNotBlank( entity.getSmsCarrier() ) ) user.smsCarrier( SmsCarrier.valueOf( entity.getSmsCarrier().toUpperCase() ) );
 		user.smsVerified( entity.getSmsVerified() != null && entity.getSmsVerified() );
-		user.tokens( entity.getTokens().stream().map( c -> TokenEntity.toUserToken( c ).user( user ) ).collect( Collectors.toSet() ) );
+		// Removed circular dependency on TokenEntity
 		user.roles( entity.getRoles() );
 
 		return user;

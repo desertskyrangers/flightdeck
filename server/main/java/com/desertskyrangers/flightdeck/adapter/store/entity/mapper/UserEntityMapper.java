@@ -20,9 +20,12 @@ public class UserEntityMapper {
 
 	private final TokenRepo tokenRepo;
 
-	public UserEntityMapper( GroupRepo groupRepo, TokenRepo tokenRepo ) {
+	private final TokenEntityMapper tokenMapper;
+
+	public UserEntityMapper( GroupRepo groupRepo, TokenRepo tokenRepo, TokenEntityMapper tokenMapper ) {
 		this.groupRepo = groupRepo;
 		this.tokenRepo = tokenRepo;
+		this.tokenMapper = tokenMapper;
 	}
 
 	public UserEntity toEntity( User user ) {
@@ -92,7 +95,7 @@ public class UserEntityMapper {
 		if( Text.isNotBlank( entity.getSmsCarrier() ) ) user.smsCarrier( SmsCarrier.valueOf( entity.getSmsCarrier().toUpperCase() ) );
 		user.smsVerified( entity.getSmsVerified() != null && entity.getSmsVerified() );
 		user.roles( entity.getRoles() );
-		user.tokens( entity.getTokens().stream().map( c -> TokenEntity.toUserToken( c ).user( user ) ).collect( Collectors.toSet() ) );
+		user.tokens( entity.getTokens().stream().map( c -> tokenMapper.toUserToken( c ).user( user ) ).collect( Collectors.toSet() ) );
 
 		return user;
 	}

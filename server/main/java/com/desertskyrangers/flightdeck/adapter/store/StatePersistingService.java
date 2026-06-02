@@ -53,6 +53,8 @@ public class StatePersistingService implements StatePersisting {
 
 	private final MemberEntityMapper memberMapper;
 
+	private final TokenEntityMapper tokenMapper;
+
 //	public StatePersistingService(
 //		AircraftRepo aircraftRepo,
 //		BatteryRepo batteryRepo,
@@ -185,9 +187,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public void upsert( UserToken token ) {
-		TokenEntity entity = TokenEntity.from( token );
-		if( token.user() != null ) entity.setUser( userRepo.getReferenceById( token.user().id() ) );
-		tokenRepo.save( entity );
+		tokenRepo.save( tokenMapper.toEntity( token ) );
 	}
 
 	@Override

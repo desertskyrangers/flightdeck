@@ -50,6 +50,8 @@ public class StateRetrievingService implements StateRetrieving {
 
 	private final MemberEntityMapper memberMapper;
 
+	private final TokenEntityMapper tokenMapper;
+
 	private final TokenRepo tokenRepo;
 
 	private final VerificationRepo verificationRepo;
@@ -326,7 +328,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<UserToken> findUserToken( UUID id ) {
-		return tokenRepo.findById( id ).map( TokenEntity::toUserToken );
+		return tokenRepo.findById( id ).map( tokenMapper::toUserToken );
 	}
 
 	public Map<String, Object> findPreferences( User user ) {
@@ -353,7 +355,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<UserToken> findUserTokenByPrincipal( String username ) {
-		return tokenRepo.findByPrincipal( username ).map( TokenEntity::toUserTokenDeep );
+		return tokenRepo.findByPrincipal( username ).map( tokenMapper::toUserTokenDeep );
 	}
 
 	@Override
