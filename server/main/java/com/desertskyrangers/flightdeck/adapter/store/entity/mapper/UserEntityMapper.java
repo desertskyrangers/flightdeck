@@ -1,9 +1,13 @@
 package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
-import com.desertskyrangers.flightdeck.adapter.store.entity.*;
+import com.desertskyrangers.flightdeck.adapter.store.entity.TokenEntity;
+import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
 import com.desertskyrangers.flightdeck.adapter.store.repo.GroupRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.TokenRepo;
-import com.desertskyrangers.flightdeck.core.model.*;
+import com.desertskyrangers.flightdeck.core.model.Group;
+import com.desertskyrangers.flightdeck.core.model.Location;
+import com.desertskyrangers.flightdeck.core.model.Member;
+import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.util.SmsCarrier;
 import com.desertskyrangers.flightdeck.util.Text;
 import org.springframework.stereotype.Component;
@@ -48,15 +52,18 @@ public class UserEntityMapper {
 		entity.setRoles( user.roles() );
 
 		if( user.groups() != null ) {
-			entity.setGroups( user.groups().stream()
-				.map( g -> groupRepo.getReferenceById( g.id() ) )
-				.collect( Collectors.toSet() ) );
+			entity.setGroups( user.groups().stream().map( g -> groupRepo.getReferenceById( g.id() ) ).collect( Collectors.toSet() ) );
 		}
 
 		if( user.tokens() != null ) {
-			entity.setTokens( user.tokens().stream()
-				.map( t -> tokenRepo.getReferenceById( t.id() ) )
-				.collect( Collectors.toSet() ) );
+			entity.setTokens( user.tokens().stream().map( t -> {
+				TokenEntity tokenEntity = new TokenEntity();
+				tokenEntity.setId( t.id() );
+				tokenEntity.setPrincipal( t.principal() );
+				tokenEntity.setCredential( t.credential() );
+				tokenEntity.setUser( entity );
+				return tokenEntity;
+			} ).collect( Collectors.toSet() ) );
 		}
 
 		return entity;
