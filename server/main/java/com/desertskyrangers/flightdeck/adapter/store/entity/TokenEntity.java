@@ -28,23 +28,7 @@ public class TokenEntity {
 	private String credential;
 
 	public static TokenEntity from( UserToken token ) {
-		TokenEntity entity = fromTokenShallow( token );
-
-		Map<UUID, UserEntity> users = new HashMap<>();
-		Map<UUID, TokenEntity> tokens = new HashMap<>();
-		entity.setUser( UserEntity.fromUserFromToken( token.user(), users, tokens ) );
-
-		return entity;
-	}
-
-	static TokenEntity fromTokenFromUser( UserToken token, Map<UUID, TokenEntity> tokens, Map<UUID, UserEntity> users ) {
-		TokenEntity entity = tokens.get( token.id() );
-		if( entity != null ) return entity;
-
-		entity = fromTokenShallow( token );
-		tokens.put( token.id(), entity );
-		entity.setUser( UserEntity.fromUserFromToken( token.user(), users, tokens ) );
-		return entity;
+		return fromTokenShallow( token );
 	}
 
 	private static TokenEntity fromTokenShallow( UserToken token ) {

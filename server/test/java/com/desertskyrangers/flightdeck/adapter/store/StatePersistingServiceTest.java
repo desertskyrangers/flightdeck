@@ -32,7 +32,7 @@ public class StatePersistingServiceTest extends BaseTest {
 		// then
 		GroupEntity actual = groupRepo.findById( expected.id() ).orElse( null );
 		assertThat( actual ).isNotNull();
-		assertThat( GroupEntity.toGroup( actual ) ).isEqualTo( expected );
+		assertThat( groupEntityMapper.toGroup( actual ) ).isEqualTo( expected );
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class StatePersistingServiceTest extends BaseTest {
 		// then
 		GroupEntity actual = groupRepo.findById( expected.id() ).orElse( null );
 		assertThat( actual ).isNotNull();
-		assertThat( GroupEntity.toGroup( actual ) ).isEqualTo( expected );
+		assertThat( groupEntityMapper.toGroup( actual ) ).isEqualTo( expected );
 
 		// when
 		statePersisting.remove( expected );

@@ -1,7 +1,7 @@
 package com.desertskyrangers.flightdeck.adapter.store;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.*;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.AwardEntityMapper;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.*;
 import com.desertskyrangers.flightdeck.adapter.store.repo.*;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.StateRetrieving;
@@ -41,6 +41,14 @@ public class StateRetrievingService implements StateRetrieving {
 	private final ProjectionRepo projectionRepo;
 
 	private final UserRepo userRepo;
+	
+	private final UserEntityMapper userMapper;
+
+	private final GroupEntityMapper groupMapper;
+
+	private final LocationEntityMapper locationMapper;
+
+	private final MemberEntityMapper memberMapper;
 
 	private final TokenRepo tokenRepo;
 
@@ -141,7 +149,7 @@ public class StateRetrievingService implements StateRetrieving {
 			UUID locationId = fe.getLocationId();
 			if( locationId != null ) {
 				Optional<LocationEntity> optional = locationRepo.findById( locationId );
-				optional.ifPresentOrElse( entity -> flight.location( LocationEntity.toLocation( entity ) ), () -> flight.location( Location.forId( locationId ) ) );
+				optional.ifPresentOrElse( entity -> flight.location( locationMapper.toLocation( entity ) ), () -> flight.location( Location.forId( locationId ) ) );
 			}
 
 			return flight;
@@ -233,48 +241,48 @@ public class StateRetrievingService implements StateRetrieving {
 	@Override
 	public Set<Group> findAllAvailableGroups( User user ) {
 		Set<Group> groups = findAllGroups();
-		groups.removeAll( memberRepo.findAllByUser( UserEntity.from( user ) ).stream().map( MemberEntity::getGroup ).map( GroupEntity::toGroup ).collect( Collectors.toSet() ) );
+		groups.removeAll( memberRepo.findAllByUser( userMapper.toEntity( user ) ).stream().map( MemberEntity::getGroup ).map( g -> groupMapper.toGroup( g ) ).collect( Collectors.toSet() ) );
 		return groups;
 	}
 
 	public Set<Group> findAllGroups() {
-		return groupRepo.findAll().stream().map( GroupEntity::toGroup ).collect( Collectors.toSet() );
+		return groupRepo.findAll().stream().map( g -> groupMapper.toGroup( g ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Optional<Group> findGroup( UUID id ) {
-		return groupRepo.findById( id ).map( GroupEntity::toGroup );
+		return groupRepo.findById( id ).map( g -> groupMapper.toGroup( g ) );
 	}
 
 	@Override
 	public Set<Group> findGroupsByOwner( User user ) {
-		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getGroup ).map( GroupEntity::toGroup ).collect( Collectors.toSet() );
+		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getGroup ).map( g -> groupMapper.toGroup( g ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Page<Group> findGroupsPageByOwner( User user, int page, int size ) {
-		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase(), PageRequest.of( page, size ) ).map( MemberEntity::getGroup ).map( GroupEntity::toGroup );
+		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase(), PageRequest.of( page, size ) ).map( MemberEntity::getGroup ).map( g -> groupMapper.toGroup( g ) );
 	}
 
 	@Override
 	public Set<User> findGroupOwners( Group group ) {
-		return memberRepo.findAllByGroup_IdAndStatus( group.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getUser ).map( UserEntity::toUser ).collect( Collectors.toSet() );
+		return memberRepo.findAllByGroup_IdAndStatus( group.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getUser ).map( u -> userMapper.toUser( u ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Set<Location> findAllActiveLocations( User user ) {
 		Set<Location> locations = findAllLocations();
-		locations.removeAll( locationRepo.findAllByUser( UserEntity.from( user ) ).stream().map( LocationEntity::toLocation ).collect( Collectors.toSet() ) );
+		locations.removeAll( locationRepo.findAllByUser( userMapper.toEntity( user ) ).stream().map( l -> locationMapper.toLocation( l ) ).collect( Collectors.toSet() ) );
 		return locations;
 	}
 
 	public Set<Location> findAllLocations() {
-		return locationRepo.findAll().stream().map( LocationEntity::toLocation ).collect( Collectors.toSet() );
+		return locationRepo.findAll().stream().map( l -> locationMapper.toLocation( l ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Optional<Location> findLocation( UUID id ) {
-		return locationRepo.findById( id ).map( LocationEntity::toLocation );
+		return locationRepo.findById( id ).map( l -> locationMapper.toLocation( l ) );
 	}
 
 	@Override
@@ -285,35 +293,35 @@ public class StateRetrievingService implements StateRetrieving {
 	@Override
 	public Set<Location> findLocationsByUserAndStatus( User user, Set<Location.Status> status ) {
 		return locationRepo
-			.findAllByUserAndStatusIn( UserEntity.from( user ), status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() ) )
+			.findAllByUserAndStatusIn( userMapper.toEntity( user ), status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() ) )
 			.stream()
-			.map( LocationEntity::toLocation )
+			.map( l -> locationMapper.toLocation( l ) )
 			.collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Page<Location> findLocationsPageByUser( User user, int page, int size ) {
-		return locationRepo.findAllPageByUserAndStatusIn( UserEntity.from( user ), Set.of( Location.Status.ACTIVE.name().toLowerCase() ), PageRequest.of( page, size ) ).map( LocationEntity::toLocation );
+		return locationRepo.findAllPageByUserAndStatusIn( userMapper.toEntity( user ), Set.of( Location.Status.ACTIVE.name().toLowerCase() ), PageRequest.of( page, size ) ).map( l -> locationMapper.toLocation( l ) );
 	}
 
 	@Override
 	public Optional<Member> findMembership( UUID id ) {
-		return memberRepo.findById( id ).map( MemberEntity::toMember );
+		return memberRepo.findById( id ).map( m -> memberMapper.toMember( m ) );
 	}
 
 	@Override
 	public Optional<Member> findMembership( Group group, User user ) {
-		return memberRepo.findByGroupAndUser( GroupEntity.from( group ), UserEntity.from( user ) ).map( MemberEntity::toMember );
+		return memberRepo.findByGroupAndUser( groupMapper.toEntity( group ), userMapper.toEntity( user ) ).map( m -> memberMapper.toMember( m ) );
 	}
 
 	@Override
 	public Set<Member> findMemberships( User user ) {
-		return memberRepo.findAllByUser( UserEntity.from( user ) ).stream().map( MemberEntity::toMember ).collect( Collectors.toSet() );
+		return memberRepo.findAllByUser( userMapper.toEntity( user ) ).stream().map( m -> memberMapper.toMember( m ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Set<Member> findMemberships( Group group ) {
-		return memberRepo.findAllByGroup( GroupEntity.from( group ) ).stream().map( MemberEntity::toMember ).collect( Collectors.toSet() );
+		return memberRepo.findAllByGroup( groupMapper.toEntity( group ) ).stream().map( m -> memberMapper.toMember( m ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
@@ -350,13 +358,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Set<User> findAllUsers() {
-		return userRepo.findAll().stream().map( UserEntity::toUser ).collect( Collectors.toSet() );
+		return userRepo.findAll().stream().map( u -> userMapper.toUser( u ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Optional<User> findUser( UUID id ) {
 		if( id == null ) return Optional.empty();
-		return userRepo.findById( id ).map( UserEntity::toUser );
+		return userRepo.findById( id ).map( u -> userMapper.toUser( u ) );
 	}
 
 	@Override

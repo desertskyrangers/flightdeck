@@ -1,7 +1,7 @@
 package com.desertskyrangers.flightdeck.adapter.store;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.*;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.AwardEntityMapper;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.*;
 import com.desertskyrangers.flightdeck.adapter.store.repo.*;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
@@ -44,6 +44,14 @@ public class StatePersistingService implements StatePersisting {
 	private final UserRepo userRepo;
 
 	private final VerificationRepo verificationRepo;
+
+	private final UserEntityMapper userMapper;
+
+	private final GroupEntityMapper groupMapper;
+
+	private final LocationEntityMapper locationMapper;
+
+	private final MemberEntityMapper memberMapper;
 
 //	public StatePersistingService(
 //		AircraftRepo aircraftRepo,
@@ -97,9 +105,9 @@ public class StatePersistingService implements StatePersisting {
 	@Override
 	public Flight upsert( Flight flight ) {
 		FlightEntity entity = FlightEntity.from( flight );
-		if( entity.getPilot() != null ) entity.setPilot( userRepo.findById( entity.getPilot().getId() ).orElse( entity.getPilot() ) );
-		if( entity.getObserver() != null ) entity.setObserver( userRepo.findById( entity.getObserver().getId() ).orElse( entity.getObserver() ) );
-		if( entity.getAircraft() != null ) entity.setAircraft( aircraftRepo.findById( entity.getAircraft().getId() ).orElse( entity.getAircraft() ) );
+		if( flight.pilot() != null ) entity.setPilot( userRepo.getReferenceById( flight.pilot().id() ) );
+		if( flight.observer() != null ) entity.setObserver( userRepo.getReferenceById( flight.observer().id() ) );
+		if( flight.aircraft() != null ) entity.setAircraft( aircraftRepo.getReferenceById( flight.aircraft().id() ) );
 		return FlightEntity.toFlight( flightRepo.save( entity ) );
 	}
 
@@ -115,7 +123,8 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Group upsert( Group group ) {
-		return GroupEntity.toGroup( groupRepo.save( GroupEntity.from( group ) ) );
+		GroupEntity entity = groupMapper.toEntity( group );
+		return groupMapper.toGroup( groupRepo.save( entity ) );
 	}
 
 	@Override
@@ -130,9 +139,8 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Location upsert( Location location ) {
-		LocationEntity entity = LocationEntity.from( location );
-		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
-		return LocationEntity.toLocation( locationRepo.save( entity ) );
+		LocationEntity entity = locationMapper.toEntity( location );
+		return locationMapper.toLocation( locationRepo.save( entity ) );
 	}
 
 	@Override
@@ -148,10 +156,8 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Member upsert( Member member ) {
-		MemberEntity entity = MemberEntity.from( member );
-		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
-		if( entity.getGroup() != null ) entity.setGroup( groupRepo.findById( entity.getGroup().getId() ).orElse( entity.getGroup() ) );
-		return MemberEntity.toMember( memberRepo.save( entity ) );
+		MemberEntity entity = memberMapper.toEntity( member );
+		return memberMapper.toMember( memberRepo.save( entity ) );
 	}
 
 	@Override
@@ -180,13 +186,13 @@ public class StatePersistingService implements StatePersisting {
 	@Override
 	public void upsert( UserToken token ) {
 		TokenEntity entity = TokenEntity.from( token );
-		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
+		if( token.user() != null ) entity.setUser( userRepo.getReferenceById( token.user().id() ) );
 		tokenRepo.save( entity );
 	}
 
 	@Override
 	public User upsert( User user ) {
-		User storedUser = UserEntity.toUser( userRepo.save( UserEntity.from( user ) ) );
+		User storedUser = userMapper.toUser( userRepo.save( userMapper.toEntity( user ) ) );
 		userRepo.flush();
 		return storedUser;
 	}

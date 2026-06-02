@@ -30,6 +30,14 @@ public abstract class AwardEntityMapper {
 	@Mapping( target = "earnedDate", expression = "java(new Date(entity.getEarnedDate()))" )
 	public abstract Award toAward( AwardEntity entity );
 
+	@Mapping( target = "awardType", source = "type" )
+	@Mapping( target = "recipientId", source = "award.recipient.id" )
+	@Mapping( target = "recipientType", source = "award.recipient.type" )
+	@Mapping( target = "presenterId", source = "award.presenter.id" )
+	@Mapping( target = "presenterType", source = "award.presenter.type" )
+	@Mapping( target = "earnedDate", source="award.earnedDate.time")
+	public abstract AwardEntity toEntity( Award award );
+
 	@RecipientQualifier
 	Actor mapRecipient( AwardEntity entity ) {
 		if( entity.getRecipientId() == null || entity.getRecipientType() == null ) return Actor.NONE;
@@ -51,14 +59,6 @@ public abstract class AwardEntityMapper {
 	@Target( ElementType.METHOD )
 	@Retention( RetentionPolicy.CLASS )
 	@interface PresenterQualifier {}
-
-	@Mapping( target = "awardType", source = "type" )
-	@Mapping( target = "recipientId", source = "award.recipient.id" )
-	@Mapping( target = "recipientType", source = "award.recipient.type" )
-	@Mapping( target = "presenterId", source = "award.presenter.id" )
-	@Mapping( target = "presenterType", source = "award.presenter.type" )
-	@Mapping( target = "earnedDate", source="award.earnedDate.time")
-	public abstract AwardEntity toEntity( Award award );
 
 	String toJson( Map<String, String> map ) throws JsonProcessingException {
 		return MAPPER.writeValueAsString( map );
