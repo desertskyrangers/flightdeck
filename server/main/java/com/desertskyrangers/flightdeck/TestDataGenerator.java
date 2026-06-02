@@ -1,6 +1,7 @@
 package com.desertskyrangers.flightdeck;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.LocationEntity;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.LocationEntityMapper;
 import com.desertskyrangers.flightdeck.adapter.store.repo.LocationRepo;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.*;
@@ -29,13 +30,16 @@ public class TestDataGenerator {
 
 	private final LocationRepo locationRepo;
 
+	private final LocationEntityMapper locationMapper;
+
 	private User unlisted;
 
-	public TestDataGenerator( FlightDeckApp app, StatePersisting statePersisting, StateRetrieving stateRetrieving, LocationRepo locationRepo ) {
+	public TestDataGenerator( FlightDeckApp app, StatePersisting statePersisting, StateRetrieving stateRetrieving, LocationRepo locationRepo, LocationEntityMapper locationMapper ) {
 		this.app = app;
 		this.statePersisting = statePersisting;
 		this.stateRetrieving = stateRetrieving;
 		this.locationRepo = locationRepo;
+		this.locationMapper = locationMapper;
 	}
 
 	@Bean
@@ -71,9 +75,9 @@ public class TestDataGenerator {
 		User tea = createTeaTest();
 		User tim = createTimTest();
 
-		locationRepo.save( LocationEntity.from( createMonarchMeadowsPark( tia ) ) );
-		locationRepo.save( LocationEntity.from( createMorningCloakPark( tia ) ) );
-		locationRepo.save( LocationEntity.from( createCottonwoodHeights( tia ) ) );
+		locationRepo.save( locationMapper.toEntity( createMonarchMeadowsPark( tia ) ) );
+		locationRepo.save( locationMapper.toEntity( createMorningCloakPark( tia ) ) );
+		locationRepo.save( locationMapper.toEntity( createCottonwoodHeights( tia ) ) );
 
 		Aircraft aftyn = statePersisting.upsert( createAftyn().owner( tia.id() ).ownerType( OwnerType.USER ) );
 		Aircraft bianca = statePersisting.upsert( createBianca().owner( tia.id() ).ownerType( OwnerType.USER ) );

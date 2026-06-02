@@ -1,7 +1,7 @@
 package com.desertskyrangers.flightdeck.adapter.store;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.*;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.AwardEntityMapper;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.*;
 import com.desertskyrangers.flightdeck.adapter.store.repo.*;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.StateRetrieving;
@@ -41,6 +41,26 @@ public class StateRetrievingService implements StateRetrieving {
 	private final ProjectionRepo projectionRepo;
 
 	private final UserRepo userRepo;
+	
+	private final UserEntityMapper userMapper;
+
+	private final GroupEntityMapper groupMapper;
+
+	private final LocationEntityMapper locationMapper;
+
+	private final MemberEntityMapper memberMapper;
+
+	private final TokenEntityMapper tokenMapper;
+
+	private final VerificationEntityMapper verificationMapper;
+
+	private final BatteryEntityMapper batteryMapper;
+
+	private final AircraftEntityMapper aircraftMapper;
+
+	private final FlightEntityMapper flightMapper;
+
+	private final PreferencesEntityMapper preferencesMapper;
 
 	private final TokenRepo tokenRepo;
 
@@ -74,7 +94,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<Aircraft> findAircraft( UUID id ) {
-		return aircraftRepo.findById( id ).map( AircraftEntity::toAircraft );
+		return aircraftRepo.findById( id ).map( aircraftMapper::toAircraft );
 	}
 
 	@Override
@@ -84,13 +104,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Page<Aircraft> findAircraftPageByOwner( UUID owner, int page, int size ) {
-		return aircraftRepo.findAircraftByOwner( owner, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( AircraftEntity::toAircraft );
+		return aircraftRepo.findAircraftByOwner( owner, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( aircraftMapper::toAircraft );
 	}
 
 	@Override
 	public Page<Aircraft> findAircraftPageByOwnerAndStatus( UUID owner, Set<Aircraft.Status> status, int page, int size ) {
 		Set<String> statusValues = status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() );
-		return aircraftRepo.findAircraftByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( AircraftEntity::toAircraft );
+		return aircraftRepo.findAircraftByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( aircraftMapper::toAircraft );
 	}
 
 	@Override
@@ -105,7 +125,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<Battery> findBattery( UUID id ) {
-		return batteryRepo.findById( id ).map( BatteryEntity::toBattery );
+		return batteryRepo.findById( id ).map( batteryMapper::toBattery );
 	}
 
 	public Page<Award> findAwards( UUID id, int page, int size ) {
@@ -119,13 +139,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Page<Battery> findBatteriesPageByOwner( UUID owner, int page, int size ) {
-		return batteryRepo.findBatteryEntitiesByOwnerOrderByName( owner, PageRequest.of( page, size ) ).map( BatteryEntity::toBattery );
+		return batteryRepo.findBatteryEntitiesByOwnerOrderByName( owner, PageRequest.of( page, size ) ).map( batteryMapper::toBattery );
 	}
 
 	@Override
 	public Page<Battery> findBatteriesPageByOwnerAndStatus( UUID owner, Set<Battery.Status> status, int page, int size ) {
 		Set<String> statusValues = status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() );
-		return batteryRepo.findBatteryEntitiesByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size ) ).map( BatteryEntity::toBattery );
+		return batteryRepo.findBatteryEntitiesByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size ) ).map( batteryMapper::toBattery );
 	}
 
 	@Override
@@ -136,12 +156,12 @@ public class StateRetrievingService implements StateRetrieving {
 	@Override
 	public Optional<Flight> findFlight( UUID id ) {
 		return flightRepo.findById( id ).map( fe -> {
-			Flight flight = FlightEntity.toFlight( fe );
+			Flight flight = flightMapper.toFlight( fe );
 
 			UUID locationId = fe.getLocationId();
 			if( locationId != null ) {
 				Optional<LocationEntity> optional = locationRepo.findById( locationId );
-				optional.ifPresentOrElse( entity -> flight.location( LocationEntity.toLocation( entity ) ), () -> flight.location( Location.forId( locationId ) ) );
+				optional.ifPresentOrElse( entity -> flight.location( locationMapper.toLocation( entity ) ), () -> flight.location( Location.forId( locationId ) ) );
 			}
 
 			return flight;
@@ -150,13 +170,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public List<Flight> findFlightsByPilot( UUID id ) {
-		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id ).stream().map( FlightEntity::toFlight ).toList();
+		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id ).stream().map( flightMapper::toFlight ).toList();
 	}
 
 	// Pilot
 	@Override
 	public Page<Flight> findFlightsPageByPilot( UUID id, int page, int size ) {
-		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	public List<Flight> findFlightsByPilotAndTimestampAfter( UUID id, long timestamp ) {
@@ -170,7 +190,7 @@ public class StateRetrievingService implements StateRetrieving {
 	// Observer
 	@Override
 	public Page<Flight> findFlightsPageByObserver( UUID id, int page, int size ) {
-		return flightRepo.findFlightEntitiesByObserver_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByObserver_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	public List<Flight> findFlightsByObserverAndTimestampAfter( UUID id, long timestamp ) {
@@ -184,7 +204,7 @@ public class StateRetrievingService implements StateRetrieving {
 	// Owner
 	@Override
 	public Page<Flight> findFlightsPageByOwner( UUID id, int page, int size ) {
-		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	public List<Flight> findFlightsByOwnerAndTimestampAfter( UUID id, long timestamp ) {
@@ -201,20 +221,20 @@ public class StateRetrievingService implements StateRetrieving {
 	}
 
 	private List<Aircraft> convertAircraft( Iterable<AircraftEntity> entities ) {
-		return StreamSupport.stream( entities.spliterator(), false ).map( AircraftEntity::toAircraft ).toList();
+		return StreamSupport.stream( entities.spliterator(), false ).map( aircraftMapper::toAircraft ).toList();
 	}
 
 	private List<Battery> convertBatteries( Iterable<BatteryEntity> entities ) {
-		return StreamSupport.stream( entities.spliterator(), false ).map( BatteryEntity::toBattery ).toList();
+		return StreamSupport.stream( entities.spliterator(), false ).map( batteryMapper::toBattery ).toList();
 	}
 
 	private List<Flight> convertFlights( List<FlightEntity> entities ) {
-		return entities.stream().map( FlightEntity::toFlight ).toList();
+		return entities.stream().map( flightMapper::toFlight ).toList();
 	}
 
 	@Override
 	public List<Flight> findFlightsByAircraft( UUID id ) {
-		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id ).stream().map( FlightEntity::toFlight ).toList();
+		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id ).stream().map( flightMapper::toFlight ).toList();
 	}
 
 	@Override
@@ -227,54 +247,54 @@ public class StateRetrievingService implements StateRetrieving {
 		UUID pilotId = pilot == null ? null : pilot.id();
 		UUID observerId = observer == null ? null : observer.id();
 		UUID ownerId = owner == null ? null : owner.id();
-		return flightRepo.findFlightEntitiesByPilot_IdOrObserver_IdOrAircraft_OwnerOrderByTimestampDesc( pilotId, observerId, ownerId, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByPilot_IdOrObserver_IdOrAircraft_OwnerOrderByTimestampDesc( pilotId, observerId, ownerId, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
 	public Set<Group> findAllAvailableGroups( User user ) {
 		Set<Group> groups = findAllGroups();
-		groups.removeAll( memberRepo.findAllByUser( UserEntity.from( user ) ).stream().map( MemberEntity::getGroup ).map( GroupEntity::toGroup ).collect( Collectors.toSet() ) );
+		groups.removeAll( memberRepo.findAllByUser( userMapper.toEntity( user ) ).stream().map( MemberEntity::getGroup ).map( g -> groupMapper.toGroup( g ) ).collect( Collectors.toSet() ) );
 		return groups;
 	}
 
 	public Set<Group> findAllGroups() {
-		return groupRepo.findAll().stream().map( GroupEntity::toGroup ).collect( Collectors.toSet() );
+		return groupRepo.findAll().stream().map( g -> groupMapper.toGroup( g ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Optional<Group> findGroup( UUID id ) {
-		return groupRepo.findById( id ).map( GroupEntity::toGroup );
+		return groupRepo.findById( id ).map( g -> groupMapper.toGroup( g ) );
 	}
 
 	@Override
 	public Set<Group> findGroupsByOwner( User user ) {
-		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getGroup ).map( GroupEntity::toGroup ).collect( Collectors.toSet() );
+		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getGroup ).map( g -> groupMapper.toGroup( g ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Page<Group> findGroupsPageByOwner( User user, int page, int size ) {
-		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase(), PageRequest.of( page, size ) ).map( MemberEntity::getGroup ).map( GroupEntity::toGroup );
+		return memberRepo.findAllByUser_IdAndStatus( user.id(), Member.Status.OWNER.title().toLowerCase(), PageRequest.of( page, size ) ).map( MemberEntity::getGroup ).map( g -> groupMapper.toGroup( g ) );
 	}
 
 	@Override
 	public Set<User> findGroupOwners( Group group ) {
-		return memberRepo.findAllByGroup_IdAndStatus( group.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getUser ).map( UserEntity::toUser ).collect( Collectors.toSet() );
+		return memberRepo.findAllByGroup_IdAndStatus( group.id(), Member.Status.OWNER.title().toLowerCase() ).stream().map( MemberEntity::getUser ).map( u -> userMapper.toUser( u ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Set<Location> findAllActiveLocations( User user ) {
 		Set<Location> locations = findAllLocations();
-		locations.removeAll( locationRepo.findAllByUser( UserEntity.from( user ) ).stream().map( LocationEntity::toLocation ).collect( Collectors.toSet() ) );
+		locations.removeAll( locationRepo.findAllByUser( userMapper.toEntity( user ) ).stream().map( l -> locationMapper.toLocation( l ) ).collect( Collectors.toSet() ) );
 		return locations;
 	}
 
 	public Set<Location> findAllLocations() {
-		return locationRepo.findAll().stream().map( LocationEntity::toLocation ).collect( Collectors.toSet() );
+		return locationRepo.findAll().stream().map( l -> locationMapper.toLocation( l ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Optional<Location> findLocation( UUID id ) {
-		return locationRepo.findById( id ).map( LocationEntity::toLocation );
+		return locationRepo.findById( id ).map( l -> locationMapper.toLocation( l ) );
 	}
 
 	@Override
@@ -285,44 +305,45 @@ public class StateRetrievingService implements StateRetrieving {
 	@Override
 	public Set<Location> findLocationsByUserAndStatus( User user, Set<Location.Status> status ) {
 		return locationRepo
-			.findAllByUserAndStatusIn( UserEntity.from( user ), status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() ) )
+			.findAllByUserAndStatusIn( userMapper.toEntity( user ), status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() ) )
 			.stream()
-			.map( LocationEntity::toLocation )
+			.map( l -> locationMapper.toLocation( l ) )
 			.collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Page<Location> findLocationsPageByUser( User user, int page, int size ) {
-		return locationRepo.findAllPageByUserAndStatusIn( UserEntity.from( user ), Set.of( Location.Status.ACTIVE.name().toLowerCase() ), PageRequest.of( page, size ) ).map( LocationEntity::toLocation );
+		return locationRepo.findAllPageByUserAndStatusIn( userMapper.toEntity( user ), Set.of( Location.Status.ACTIVE.name().toLowerCase() ), PageRequest.of( page, size ) ).map( l -> locationMapper.toLocation( l ) );
 	}
 
 	@Override
 	public Optional<Member> findMembership( UUID id ) {
-		return memberRepo.findById( id ).map( MemberEntity::toMember );
+		return memberRepo.findById( id ).map( m -> memberMapper.toMember( m ) );
 	}
 
 	@Override
 	public Optional<Member> findMembership( Group group, User user ) {
-		return memberRepo.findByGroupAndUser( GroupEntity.from( group ), UserEntity.from( user ) ).map( MemberEntity::toMember );
+		return memberRepo.findByGroupAndUser( groupMapper.toEntity( group ), userMapper.toEntity( user ) ).map( m -> memberMapper.toMember( m ) );
 	}
 
 	@Override
 	public Set<Member> findMemberships( User user ) {
-		return memberRepo.findAllByUser( UserEntity.from( user ) ).stream().map( MemberEntity::toMember ).collect( Collectors.toSet() );
+		return memberRepo.findAllByUser( userMapper.toEntity( user ) ).stream().map( m -> memberMapper.toMember( m ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Set<Member> findMemberships( Group group ) {
-		return memberRepo.findAllByGroup( GroupEntity.from( group ) ).stream().map( MemberEntity::toMember ).collect( Collectors.toSet() );
+		return memberRepo.findAllByGroup( groupMapper.toEntity( group ) ).stream().map( m -> memberMapper.toMember( m ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Optional<UserToken> findUserToken( UUID id ) {
-		return tokenRepo.findById( id ).map( TokenEntity::toUserToken );
+		return tokenRepo.findById( id ).map( tokenMapper::toUserToken );
 	}
 
+	@Override
 	public Map<String, Object> findPreferences( User user ) {
-		return Json.asMap( preferencesRepo.findById( user.id() ).orElse( new PreferencesProjection().setJson( "{}" ) ).getJson() );
+		return preferencesRepo.findById( user.id() ).map( preferencesMapper::toPreferences ).orElse( Map.of() );
 	}
 
 	public boolean isPreferenceSet( User user, String key ) {
@@ -345,62 +366,62 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<UserToken> findUserTokenByPrincipal( String username ) {
-		return tokenRepo.findByPrincipal( username ).map( TokenEntity::toUserTokenDeep );
+		return tokenRepo.findByPrincipal( username ).map( tokenMapper::toUserTokenDeep );
 	}
 
 	@Override
 	public Set<User> findAllUsers() {
-		return userRepo.findAll().stream().map( UserEntity::toUser ).collect( Collectors.toSet() );
+		return userRepo.findAll().stream().map( u -> userMapper.toUser( u ) ).collect( Collectors.toSet() );
 	}
 
 	@Override
 	public Optional<User> findUser( UUID id ) {
 		if( id == null ) return Optional.empty();
-		return userRepo.findById( id ).map( UserEntity::toUser );
+		return userRepo.findById( id ).map( u -> userMapper.toUser( u ) );
 	}
 
 	@Override
 	public List<Verification> findAllVerifications() {
-		return StreamSupport.stream( verificationRepo.findAll().spliterator(), false ).map( VerificationEntity::toVerification ).collect( Collectors.toList() );
+		return StreamSupport.stream( verificationRepo.findAll().spliterator(), false ).map( verificationMapper::toVerification ).collect( Collectors.toList() );
 	}
 
 	@Override
 	public Optional<Verification> findVerification( UUID id ) {
-		return verificationRepo.findById( id ).map( VerificationEntity::toVerification );
+		return verificationRepo.findById( id ).map( verificationMapper::toVerification );
 	}
 
 	@Override
 	public int getPilotFlightCount( User user ) {
-		Integer count = flightRepo.countByPilot( UserEntity.from( user ) );
+		Integer count = flightRepo.countByPilot( userMapper.toEntity( user ) );
 		return count == null ? 0 : count;
 	}
 
 	@Override
 	public long getPilotFlightTime( User user ) {
-		Long time = flightRepo.getFlightTimeByPilot( UserEntity.from( user ) );
+		Long time = flightRepo.getFlightTimeByPilot( userMapper.toEntity( user ) );
 		return time == null ? 0 : time;
 	}
 
 	@Override
 	public int getObserverFlightCount( User user ) {
-		Integer count = flightRepo.getFlightCountByObserver( UserEntity.from( user ) );
+		Integer count = flightRepo.getFlightCountByObserver( userMapper.toEntity( user ) );
 		return count == null ? 0 : count;
 	}
 
 	@Override
 	public long getObserverFlightTime( User user ) {
-		Long time = flightRepo.getFlightTimeByObserver( UserEntity.from( user ) );
+		Long time = flightRepo.getFlightTimeByObserver( userMapper.toEntity( user ) );
 		return time == null ? 0 : time;
 	}
 
 	@Override
 	public Optional<Flight> getLastAircraftFlight( Aircraft aircraft ) {
-		return flightRepo.findFirstByAircraftOrderByTimestampDesc( AircraftEntity.from( aircraft ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByAircraftOrderByTimestampDesc( aircraftMapper.toEntity( aircraft ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
 	public Optional<Flight> getLastPilotFlight( User pilot ) {
-		return flightRepo.findFirstByPilotOrderByTimestampDesc( UserEntity.from( pilot ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByPilotOrderByTimestampDesc( userMapper.toEntity( pilot ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
@@ -417,24 +438,24 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public int getBatteryFlightCount( Battery battery ) {
-		Integer count = flightRepo.countByBattery( BatteryEntity.from( battery ) );
+		Integer count = flightRepo.countByBattery( batteryMapper.toEntity( battery ) );
 		return count == null ? 0 : count;
 	}
 
 	@Override
 	public long getBatteryFlightTime( Battery battery ) {
-		Long time = flightRepo.getFlightTimeByBattery( BatteryEntity.from( battery ) );
+		Long time = flightRepo.getFlightTimeByBattery( batteryMapper.toEntity( battery ) );
 		return time == null ? 0 : time;
 	}
 
 	@Override
 	public Optional<Flight> getFlightWithLongestTime( User user ) {
-		return flightRepo.findFirstByPilotOrderByDurationDesc( UserEntity.from( user ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByPilotOrderByDurationDesc( userMapper.toEntity( user ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
 	public Optional<Flight> getFlightWithLongestTime( Aircraft aircraft ) {
-		return flightRepo.findFirstByAircraftOrderByDurationDesc( AircraftEntity.from( aircraft ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByAircraftOrderByDurationDesc( aircraftMapper.toEntity( aircraft ) ).map( flightMapper::toFlight );
 	}
 
 	@Override

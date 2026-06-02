@@ -1,5 +1,6 @@
 package com.desertskyrangers.flightdeck.adapter.store.entity;
 
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.GroupEntityMapper;
 import com.desertskyrangers.flightdeck.core.model.Group;
 import com.desertskyrangers.flightdeck.core.model.Location;
 import com.desertskyrangers.flightdeck.core.model.Member;
@@ -92,64 +93,26 @@ public class UserEntity {
 	@ToString.Exclude()
 	private Set<LocationEntity> locations = new HashSet<>();
 
+	@Deprecated
 	public static UserEntity from( User user ) {
-		UserEntity entity = fromUserShallow( user );
-
-		Map<UUID, UserEntity> users = new HashMap<>();
-		Map<UUID, GroupEntity> groups = new HashMap<>();
-		Map<UUID, TokenEntity> tokens = new HashMap<>();
-		entity.setGroups( user.groups().stream().map( g -> GroupEntity.fromGroupFromUser( g, groups, users ) ).collect( Collectors.toSet() ) );
-		entity.setTokens( user.tokens().stream().map( t -> TokenEntity.fromTokenFromUser( t, tokens, users ) ).collect( Collectors.toSet() ) );
-
-		return entity;
+		return fromUserShallow( user );
 	}
 
-	static UserEntity fromUserFromGroup( User user, Map<UUID, UserEntity> users, Map<UUID, GroupEntity> groups ) {
-		UserEntity entity = users.get( user.id() );
-		if( entity != null ) return entity;
-
-		entity = fromUserShallow( user );
-		users.put( user.id(), entity );
-		entity.setGroups( user.groups().stream().map( g -> GroupEntity.fromGroupFromUser( g, groups, users ) ).collect( Collectors.toSet() ) );
-
-		return entity;
-	}
-
-	static UserEntity fromUserFromToken( User user, Map<UUID, UserEntity> users, Map<UUID, TokenEntity> tokens ) {
-		UserEntity entity = users.get( user.id() );
-		if( entity != null ) return entity;
-
-		entity = fromUserShallow( user );
-		users.put( user.id(), entity );
-		entity.setTokens( user.tokens().stream().map( t -> TokenEntity.fromTokenFromUser( t, tokens, users ) ).collect( Collectors.toSet() ) );
-
-		return entity;
-	}
-
+	@Deprecated
 	public static User toUser( UserEntity entity ) {
-		User user = toUserShallow( entity );
-
-		final Map<UUID, User> users = new HashMap<>();
-		final Map<UUID, Group> groups = new HashMap<>();
-		final Map<UUID, Location> locations = new HashMap<>();
-		final Map<UUID, Member> members = new HashMap<>();
-		users.put( entity.getId(), user );
-
-		user.groups( entity.getGroups().stream().map( e -> GroupEntity.toGroupFromRelated( e, groups, members, locations, users ) ).collect( Collectors.toSet() ) );
-
-		return user;
+		return toUserShallow( entity );
 	}
 
 	/**
 	 * This method is specifically built to avoid a stack overflow when converting
-	 * a user record from the {@link GroupEntity#toGroup(GroupEntity)} method.
+	 * a user record from the {@link com.desertskyrangers.flightdeck.adapter.store.entity.mapper.GroupEntityMapper#toGroup(GroupEntity)} method.
 	 *
 	 * @param entity
 	 * @param groups
 	 * @param users
 	 * @return
 	 */
-	static User toUserFromRelated( UserEntity entity, Map<UUID, User> users, Map<UUID, Group> groups, Map<UUID, Location> locations, Map<UUID, Member> members ) {
+	public static User toUserFromRelated( UserEntity entity, Map<UUID, User> users, Map<UUID, Group> groups, Map<UUID, Location> locations, Map<UUID, Member> members ) {
 		// If the user already exists, just return it
 		User user = users.get( entity.getId() );
 		if( user != null ) return user;
@@ -159,7 +122,7 @@ public class UserEntity {
 		users.put( entity.getId(), user );
 
 		// Link the user to related entities
-		user.groups( entity.getGroups().stream().map( e -> GroupEntity.toGroupFromRelated( e, groups, members, locations, users ) ).collect( Collectors.toSet() ) );
+		user.groups( entity.getGroups().stream().map( e -> GroupEntityMapper.toGroupFromRelated( e, groups, members, locations, users ) ).collect( Collectors.toSet() ) );
 
 		return user;
 	}
@@ -201,7 +164,7 @@ public class UserEntity {
 		user.publicDashboardId( entity.getPublicDashboardId() );
 		if( Text.isNotBlank( entity.getSmsCarrier() ) ) user.smsCarrier( SmsCarrier.valueOf( entity.getSmsCarrier().toUpperCase() ) );
 		user.smsVerified( entity.getSmsVerified() != null && entity.getSmsVerified() );
-		user.tokens( entity.getTokens().stream().map( c -> TokenEntity.toUserToken( c ).user( user ) ).collect( Collectors.toSet() ) );
+		// Removed circular dependency on TokenEntity
 		user.roles( entity.getRoles() );
 
 		return user;

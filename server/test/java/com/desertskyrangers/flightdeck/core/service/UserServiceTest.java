@@ -47,7 +47,7 @@ public class UserServiceTest extends BaseTest {
 		Set<User> users = userServices.findAllGroupPeers( john );
 
 		// then
-		assertThat( users ).containsExactlyInAnyOrder( kara, paul, sara );
+		assertThat( users.stream().map( User::id ).toList() ).containsExactlyInAnyOrder( kara.id(), paul.id(), sara.id() );
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class UserServiceTest extends BaseTest {
 		Set<User> users = userServices.findAllAcceptedGroupPeers( john );
 
 		// then
-		assertThat( users ).containsExactlyInAnyOrder( sara );
+		assertThat( users.stream().map( User::id ).toList() ).containsExactlyInAnyOrder( sara.id() );
 	}
 
 }
