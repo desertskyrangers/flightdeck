@@ -4,6 +4,7 @@ import com.desertskyrangers.flightdeck.BaseTest;
 import com.desertskyrangers.flightdeck.adapter.store.entity.BatteryEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.FlightEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.BatteryEntityMapper;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.FlightEntityMapper;
 import com.desertskyrangers.flightdeck.core.model.Battery;
 import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
@@ -30,6 +31,9 @@ public class FlightRepoTest extends BaseTest {
 
 	@Autowired
 	private BatteryEntityMapper batteryEntityMapper;
+
+	@Autowired
+	private FlightEntityMapper flightEntityMapper;
 
 	@Test
 	void testFindWithPageable() {
@@ -81,7 +85,7 @@ public class FlightRepoTest extends BaseTest {
 	}
 
 	private FlightEntity createTestFlightEntity( User pilot ) {
-		return FlightEntity.from( createTestFlight( pilot ) );
+		return flightEntityMapper.toEntity( createTestFlight( pilot ) );
 	}
 
 }

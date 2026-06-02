@@ -58,6 +58,8 @@ public class StateRetrievingService implements StateRetrieving {
 
 	private final AircraftEntityMapper aircraftMapper;
 
+	private final FlightEntityMapper flightMapper;
+
 	private final TokenRepo tokenRepo;
 
 	private final VerificationRepo verificationRepo;
@@ -152,7 +154,7 @@ public class StateRetrievingService implements StateRetrieving {
 	@Override
 	public Optional<Flight> findFlight( UUID id ) {
 		return flightRepo.findById( id ).map( fe -> {
-			Flight flight = FlightEntity.toFlight( fe );
+			Flight flight = flightMapper.toFlight( fe );
 
 			UUID locationId = fe.getLocationId();
 			if( locationId != null ) {
@@ -166,13 +168,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public List<Flight> findFlightsByPilot( UUID id ) {
-		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id ).stream().map( FlightEntity::toFlight ).toList();
+		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id ).stream().map( flightMapper::toFlight ).toList();
 	}
 
 	// Pilot
 	@Override
 	public Page<Flight> findFlightsPageByPilot( UUID id, int page, int size ) {
-		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByPilot_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	public List<Flight> findFlightsByPilotAndTimestampAfter( UUID id, long timestamp ) {
@@ -186,7 +188,7 @@ public class StateRetrievingService implements StateRetrieving {
 	// Observer
 	@Override
 	public Page<Flight> findFlightsPageByObserver( UUID id, int page, int size ) {
-		return flightRepo.findFlightEntitiesByObserver_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByObserver_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	public List<Flight> findFlightsByObserverAndTimestampAfter( UUID id, long timestamp ) {
@@ -200,7 +202,7 @@ public class StateRetrievingService implements StateRetrieving {
 	// Owner
 	@Override
 	public Page<Flight> findFlightsPageByOwner( UUID id, int page, int size ) {
-		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	public List<Flight> findFlightsByOwnerAndTimestampAfter( UUID id, long timestamp ) {
@@ -225,12 +227,12 @@ public class StateRetrievingService implements StateRetrieving {
 	}
 
 	private List<Flight> convertFlights( List<FlightEntity> entities ) {
-		return entities.stream().map( FlightEntity::toFlight ).toList();
+		return entities.stream().map( flightMapper::toFlight ).toList();
 	}
 
 	@Override
 	public List<Flight> findFlightsByAircraft( UUID id ) {
-		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id ).stream().map( FlightEntity::toFlight ).toList();
+		return flightRepo.findFlightEntitiesByAircraft_IdOrderByTimestampDesc( id ).stream().map( flightMapper::toFlight ).toList();
 	}
 
 	@Override
@@ -243,7 +245,7 @@ public class StateRetrievingService implements StateRetrieving {
 		UUID pilotId = pilot == null ? null : pilot.id();
 		UUID observerId = observer == null ? null : observer.id();
 		UUID ownerId = owner == null ? null : owner.id();
-		return flightRepo.findFlightEntitiesByPilot_IdOrObserver_IdOrAircraft_OwnerOrderByTimestampDesc( pilotId, observerId, ownerId, PageRequest.of( page, size ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFlightEntitiesByPilot_IdOrObserver_IdOrAircraft_OwnerOrderByTimestampDesc( pilotId, observerId, ownerId, PageRequest.of( page, size ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
@@ -387,36 +389,36 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public int getPilotFlightCount( User user ) {
-		Integer count = flightRepo.countByPilot( UserEntity.from( user ) );
+		Integer count = flightRepo.countByPilot( userMapper.toEntity( user ) );
 		return count == null ? 0 : count;
 	}
 
 	@Override
 	public long getPilotFlightTime( User user ) {
-		Long time = flightRepo.getFlightTimeByPilot( UserEntity.from( user ) );
+		Long time = flightRepo.getFlightTimeByPilot( userMapper.toEntity( user ) );
 		return time == null ? 0 : time;
 	}
 
 	@Override
 	public int getObserverFlightCount( User user ) {
-		Integer count = flightRepo.getFlightCountByObserver( UserEntity.from( user ) );
+		Integer count = flightRepo.getFlightCountByObserver( userMapper.toEntity( user ) );
 		return count == null ? 0 : count;
 	}
 
 	@Override
 	public long getObserverFlightTime( User user ) {
-		Long time = flightRepo.getFlightTimeByObserver( UserEntity.from( user ) );
+		Long time = flightRepo.getFlightTimeByObserver( userMapper.toEntity( user ) );
 		return time == null ? 0 : time;
 	}
 
 	@Override
 	public Optional<Flight> getLastAircraftFlight( Aircraft aircraft ) {
-		return flightRepo.findFirstByAircraftOrderByTimestampDesc( aircraftMapper.toEntity( aircraft ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByAircraftOrderByTimestampDesc( aircraftMapper.toEntity( aircraft ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
 	public Optional<Flight> getLastPilotFlight( User pilot ) {
-		return flightRepo.findFirstByPilotOrderByTimestampDesc( UserEntity.from( pilot ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByPilotOrderByTimestampDesc( userMapper.toEntity( pilot ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
@@ -445,12 +447,12 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<Flight> getFlightWithLongestTime( User user ) {
-		return flightRepo.findFirstByPilotOrderByDurationDesc( UserEntity.from( user ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByPilotOrderByDurationDesc( userMapper.toEntity( user ) ).map( flightMapper::toFlight );
 	}
 
 	@Override
 	public Optional<Flight> getFlightWithLongestTime( Aircraft aircraft ) {
-		return flightRepo.findFirstByAircraftOrderByDurationDesc( aircraftMapper.toEntity( aircraft ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByAircraftOrderByDurationDesc( aircraftMapper.toEntity( aircraft ) ).map( flightMapper::toFlight );
 	}
 
 	@Override

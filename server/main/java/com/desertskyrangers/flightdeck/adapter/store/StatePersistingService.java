@@ -61,6 +61,8 @@ public class StatePersistingService implements StatePersisting {
 
 	private final AircraftEntityMapper aircraftMapper;
 
+	private final FlightEntityMapper flightMapper;
+
 //	public StatePersistingService(
 //		AircraftRepo aircraftRepo,
 //		BatteryRepo batteryRepo,
@@ -112,11 +114,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Flight upsert( Flight flight ) {
-		FlightEntity entity = FlightEntity.from( flight );
-		if( flight.pilot() != null ) entity.setPilot( userRepo.getReferenceById( flight.pilot().id() ) );
-		if( flight.observer() != null ) entity.setObserver( userRepo.getReferenceById( flight.observer().id() ) );
-		if( flight.aircraft() != null ) entity.setAircraft( aircraftRepo.getReferenceById( flight.aircraft().id() ) );
-		return FlightEntity.toFlight( flightRepo.save( entity ) );
+		return flightMapper.toFlight( flightRepo.save( flightMapper.toEntity( flight ) ) );
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import com.desertskyrangers.flightdeck.adapter.store.entity.GroupEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.LocationEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.MemberEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.FlightEntityMapper;
 import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.GroupEntityMapper;
 import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.LocationEntityMapper;
 import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.MemberEntityMapper;
@@ -48,6 +49,9 @@ public abstract class BaseTest {
 
 	@Autowired
 	protected GroupEntityMapper groupEntityMapper;
+
+	@Autowired
+	protected FlightEntityMapper flightEntityMapper;
 
 	@Autowired
 	protected User unlistedUser;
