@@ -52,6 +52,8 @@ public class StateRetrievingService implements StateRetrieving {
 
 	private final TokenEntityMapper tokenMapper;
 
+	private final VerificationEntityMapper verificationMapper;
+
 	private final TokenRepo tokenRepo;
 
 	private final VerificationRepo verificationRepo;
@@ -371,12 +373,12 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public List<Verification> findAllVerifications() {
-		return StreamSupport.stream( verificationRepo.findAll().spliterator(), false ).map( VerificationEntity::toVerification ).collect( Collectors.toList() );
+		return StreamSupport.stream( verificationRepo.findAll().spliterator(), false ).map( verificationMapper::toVerification ).collect( Collectors.toList() );
 	}
 
 	@Override
 	public Optional<Verification> findVerification( UUID id ) {
-		return verificationRepo.findById( id ).map( VerificationEntity::toVerification );
+		return verificationRepo.findById( id ).map( verificationMapper::toVerification );
 	}
 
 	@Override

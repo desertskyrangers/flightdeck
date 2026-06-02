@@ -54,6 +54,8 @@ public class StatePersistingService implements StatePersisting {
 	private final MemberEntityMapper memberMapper;
 
 	private final TokenEntityMapper tokenMapper;
+	
+	private final VerificationEntityMapper verificationMapper;
 
 //	public StatePersistingService(
 //		AircraftRepo aircraftRepo,
@@ -205,7 +207,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Verification upsert( Verification verification ) {
-		verificationRepo.save( VerificationEntity.from( verification ) );
+		verificationRepo.save( verificationMapper.toEntity( verification ) );
 		return verification;
 	}
 
