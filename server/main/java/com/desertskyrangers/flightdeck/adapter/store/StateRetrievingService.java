@@ -56,6 +56,8 @@ public class StateRetrievingService implements StateRetrieving {
 
 	private final BatteryEntityMapper batteryMapper;
 
+	private final AircraftEntityMapper aircraftMapper;
+
 	private final TokenRepo tokenRepo;
 
 	private final VerificationRepo verificationRepo;
@@ -88,7 +90,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<Aircraft> findAircraft( UUID id ) {
-		return aircraftRepo.findById( id ).map( AircraftEntity::toAircraft );
+		return aircraftRepo.findById( id ).map( aircraftMapper::toAircraft );
 	}
 
 	@Override
@@ -98,13 +100,13 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Page<Aircraft> findAircraftPageByOwner( UUID owner, int page, int size ) {
-		return aircraftRepo.findAircraftByOwner( owner, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( AircraftEntity::toAircraft );
+		return aircraftRepo.findAircraftByOwner( owner, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( aircraftMapper::toAircraft );
 	}
 
 	@Override
 	public Page<Aircraft> findAircraftPageByOwnerAndStatus( UUID owner, Set<Aircraft.Status> status, int page, int size ) {
 		Set<String> statusValues = status.stream().map( s -> s.name().toLowerCase() ).collect( Collectors.toSet() );
-		return aircraftRepo.findAircraftByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( AircraftEntity::toAircraft );
+		return aircraftRepo.findAircraftByOwnerAndStatusInOrderByName( owner, statusValues, PageRequest.of( page, size, Sort.Direction.ASC, "name" ) ).map( aircraftMapper::toAircraft );
 	}
 
 	@Override
@@ -215,7 +217,7 @@ public class StateRetrievingService implements StateRetrieving {
 	}
 
 	private List<Aircraft> convertAircraft( Iterable<AircraftEntity> entities ) {
-		return StreamSupport.stream( entities.spliterator(), false ).map( AircraftEntity::toAircraft ).toList();
+		return StreamSupport.stream( entities.spliterator(), false ).map( aircraftMapper::toAircraft ).toList();
 	}
 
 	private List<Battery> convertBatteries( Iterable<BatteryEntity> entities ) {
@@ -409,7 +411,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<Flight> getLastAircraftFlight( Aircraft aircraft ) {
-		return flightRepo.findFirstByAircraftOrderByTimestampDesc( AircraftEntity.from( aircraft ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByAircraftOrderByTimestampDesc( aircraftMapper.toEntity( aircraft ) ).map( FlightEntity::toFlight );
 	}
 
 	@Override
@@ -448,7 +450,7 @@ public class StateRetrievingService implements StateRetrieving {
 
 	@Override
 	public Optional<Flight> getFlightWithLongestTime( Aircraft aircraft ) {
-		return flightRepo.findFirstByAircraftOrderByDurationDesc( AircraftEntity.from( aircraft ) ).map( FlightEntity::toFlight );
+		return flightRepo.findFirstByAircraftOrderByDurationDesc( aircraftMapper.toEntity( aircraft ) ).map( FlightEntity::toFlight );
 	}
 
 	@Override

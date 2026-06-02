@@ -72,7 +72,7 @@ public class FlightEntity {
 		entity.setUnlistedPilot( flight.unlistedPilot() );
 		if( flight.observer() != null ) entity.setObserver( UserEntity.from( flight.observer() ) );
 		entity.setUnlistedObserver( flight.unlistedObserver() );
-		if( flight.aircraft() != null ) entity.setAircraft( AircraftEntity.from( flight.aircraft() ) );
+		if( flight.aircraft() != null ) entity.setAircraft( new com.desertskyrangers.flightdeck.adapter.store.entity.mapper.AircraftEntityMapper().toEntity( flight.aircraft() ) );
 		if( flight.batteries() != null ) entity.setBatteries( flight.batteries().stream().map( b -> new com.desertskyrangers.flightdeck.adapter.store.entity.mapper.BatteryEntityMapper().toEntity( b ) ).collect( Collectors.toSet() ) );
 		entity.setTimestamp( flight.timestamp() );
 		entity.setDuration( flight.duration() );
@@ -94,7 +94,7 @@ public class FlightEntity {
 		flight.unlistedPilot( entity.getUnlistedPilot() );
 		if( entity.getObserver() != null ) flight.observer( UserEntity.toUser( entity.getObserver() ) );
 		flight.unlistedObserver( entity.getUnlistedObserver() );
-		if( entity.getAircraft() != null ) flight.aircraft( AircraftEntity.toAircraft( entity.getAircraft() ) );
+		if( entity.getAircraft() != null ) flight.aircraft( new com.desertskyrangers.flightdeck.adapter.store.entity.mapper.AircraftEntityMapper().toAircraft( entity.getAircraft() ) );
 		if( entity.getBatteries() != null ) flight.batteries( entity.getBatteries().stream().map( b -> new com.desertskyrangers.flightdeck.adapter.store.entity.mapper.BatteryEntityMapper().toBattery( b ) ).collect( Collectors.toSet() ) );
 		flight.timestamp( entity.getTimestamp() );
 		flight.duration( entity.getDuration() );
