@@ -22,14 +22,17 @@ public class UserEntityMapper {
 
 	private final GroupRepo groupRepo;
 
+	private final GroupEntityMapper groupMapper;
+
 	private final TokenRepo tokenRepo;
 
 	private final TokenEntityMapper tokenMapper;
 
-	public UserEntityMapper( GroupRepo groupRepo, TokenRepo tokenRepo, TokenEntityMapper tokenMapper ) {
+	public UserEntityMapper( GroupRepo groupRepo, TokenRepo tokenRepo, TokenEntityMapper tokenMapper, GroupEntityMapper groupMapper ) {
 		this.groupRepo = groupRepo;
 		this.tokenRepo = tokenRepo;
 		this.tokenMapper = tokenMapper;
+		this.groupMapper = groupMapper;
 	}
 
 	public UserEntity toEntity( User user ) {
@@ -52,7 +55,7 @@ public class UserEntityMapper {
 		entity.setRoles( user.roles() );
 
 		if( user.groups() != null ) {
-			entity.setGroups( user.groups().stream().map( g -> groupRepo.getReferenceById( g.id() ) ).collect( Collectors.toSet() ) );
+			entity.setGroups( user.groups().stream().map( groupMapper::toEntity ).collect( Collectors.toSet() ) );
 		}
 
 		if( user.tokens() != null ) {

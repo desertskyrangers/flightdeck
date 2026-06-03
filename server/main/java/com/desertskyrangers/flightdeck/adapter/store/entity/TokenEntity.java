@@ -15,7 +15,7 @@ public class TokenEntity {
 	@Id
 	private UUID id;
 
-	@ManyToOne( optional = false, fetch = FetchType.EAGER )
+	@ManyToOne( optional = false, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE } )
 	@JoinColumn( name = "userid", nullable = false, updatable = false )
 	private UserEntity user;
 

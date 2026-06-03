@@ -21,7 +21,7 @@ public class LocationEntity {
 
 	private double altitude;
 
-	@ManyToOne( optional = false, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@ManyToOne( optional = false, fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE } )
 	@JoinColumn( name = "userid", nullable = false, updatable = false )
 	private UserEntity user;
 
