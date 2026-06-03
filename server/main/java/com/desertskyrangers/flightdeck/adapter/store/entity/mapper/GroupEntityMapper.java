@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,9 @@ public class GroupEntityMapper {
 
 		if( group.members() != null ) {
 			entity.setMemberships( group.members().stream()
-				.map( m -> memberRepo.getReferenceById( m.id() ) )
+				.map( m -> memberRepo.findById( m.id() ) )
+				.filter( Optional::isPresent )
+				.map( Optional::get )
 				.collect( Collectors.toSet() ) );
 		}
 
