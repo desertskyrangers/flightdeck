@@ -55,12 +55,12 @@ public class UserEntityMapper {
 		entity.setRoles( user.roles() );
 
 		if( user.groups() != null ) {
-			entity.setGroups( user.groups().stream().map( groupMapper::toEntity ).collect( Collectors.toSet() ) );
+			entity.setGroups( user.groups().stream().map( g -> groupRepo.findById( g.id() ).orElse( null ) ).filter( java.util.Objects::nonNull ).collect( Collectors.toSet() ) );
 		}
 
 		if( user.tokens() != null ) {
 			entity.setTokens( user.tokens().stream().map( t -> {
-				TokenEntity tokenEntity = new TokenEntity();
+				TokenEntity tokenEntity = tokenRepo.findById( t.id() ).orElse( new TokenEntity() );
 				tokenEntity.setId( t.id() );
 				tokenEntity.setPrincipal( t.principal() );
 				tokenEntity.setCredential( t.credential() );
