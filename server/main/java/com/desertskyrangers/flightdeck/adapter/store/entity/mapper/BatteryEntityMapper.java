@@ -1,6 +1,7 @@
 package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.BatteryEntity;
+import com.desertskyrangers.flightdeck.adapter.store.repo.BatteryRepo;
 import com.desertskyrangers.flightdeck.core.model.Battery;
 import com.desertskyrangers.flightdeck.core.model.OwnerType;
 import org.springframework.stereotype.Component;
@@ -8,10 +9,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class BatteryEntityMapper {
 
+	private final BatteryRepo batteryRepo;
+
+	public BatteryEntityMapper( BatteryRepo batteryRepo ) {
+		this.batteryRepo = batteryRepo;
+	}
+
 	public BatteryEntity toEntity( Battery battery ) {
 		if( battery == null ) return null;
 
-		BatteryEntity entity = new BatteryEntity();
+		BatteryEntity entity = batteryRepo.findById( battery.id() ).orElse( new BatteryEntity() );
 
 		entity.setId( battery.id() );
 		entity.setName( battery.name() );
