@@ -2,7 +2,6 @@ package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.GroupEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.MemberEntity;
-import com.desertskyrangers.flightdeck.adapter.store.repo.GroupRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.MemberRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.UserRepo;
 import com.desertskyrangers.flightdeck.core.model.Group;
@@ -20,8 +19,6 @@ import static org.mockito.Mockito.when;
 
 class GroupEntityMapperTest {
 
-	private GroupRepo groupRepo;
-
 	private UserRepo userRepo;
 
 	private MemberRepo memberRepo;
@@ -30,10 +27,9 @@ class GroupEntityMapperTest {
 
 	@BeforeEach
 	void setUp() {
-		groupRepo = Mockito.mock( GroupRepo.class );
 		userRepo = Mockito.mock( UserRepo.class );
 		memberRepo = Mockito.mock( MemberRepo.class );
-		groupEntityMapper = new GroupEntityMapper( groupRepo, userRepo, memberRepo );
+		groupEntityMapper = new GroupEntityMapper( userRepo, memberRepo );
 	}
 
 	@Test
@@ -54,7 +50,6 @@ class GroupEntityMapperTest {
 		MemberEntity activeMemberEntity = new MemberEntity().setId( activeMemberId );
 
 		// Mock memberRepo to return the active member but return empty for the missing member
-		when( groupRepo.findById( Mockito.any() ) ).thenReturn( Optional.empty() );
 		when( memberRepo.findById( activeMemberId ) ).thenReturn( Optional.of( activeMemberEntity ) );
 		when( memberRepo.findById( missingMemberId ) ).thenReturn( Optional.empty() );
 

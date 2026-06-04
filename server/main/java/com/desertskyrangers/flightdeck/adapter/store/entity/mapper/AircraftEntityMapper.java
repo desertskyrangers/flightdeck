@@ -1,7 +1,6 @@
 package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.AircraftEntity;
-import com.desertskyrangers.flightdeck.adapter.store.repo.AircraftRepo;
 import com.desertskyrangers.flightdeck.core.model.Aircraft;
 import com.desertskyrangers.flightdeck.core.model.AircraftType;
 import com.desertskyrangers.flightdeck.core.model.OwnerType;
@@ -10,16 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AircraftEntityMapper {
 
-	private final AircraftRepo aircraftRepo;
-
-	public AircraftEntityMapper( AircraftRepo aircraftRepo ) {
-		this.aircraftRepo = aircraftRepo;
-	}
-
 	public AircraftEntity toEntity( Aircraft aircraft ) {
 		if( aircraft == null ) return null;
 
-		AircraftEntity entity = aircraftRepo.findById( aircraft.id() ).orElse( new AircraftEntity() );
+		AircraftEntity entity = new AircraftEntity();
 
 		entity.setId( aircraft.id() );
 		entity.setName( aircraft.name() );

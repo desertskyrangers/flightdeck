@@ -4,7 +4,6 @@ import com.desertskyrangers.flightdeck.adapter.store.entity.FlightEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
 import com.desertskyrangers.flightdeck.adapter.store.repo.AircraftRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.BatteryRepo;
-import com.desertskyrangers.flightdeck.adapter.store.repo.FlightRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.UserRepo;
 import com.desertskyrangers.flightdeck.core.model.Flight;
 import org.springframework.stereotype.Component;
@@ -13,8 +12,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class FlightEntityMapper {
-
-	private final FlightRepo flightRepo;
 
 	private final UserRepo userRepo;
 
@@ -28,8 +25,7 @@ public class FlightEntityMapper {
 
 	private final BatteryEntityMapper batteryMapper;
 
-	public FlightEntityMapper( FlightRepo flightRepo, UserRepo userRepo, AircraftRepo aircraftRepo, BatteryRepo batteryRepo, UserEntityMapper userMapper, AircraftEntityMapper aircraftMapper, BatteryEntityMapper batteryMapper ) {
-		this.flightRepo = flightRepo;
+	public FlightEntityMapper( UserRepo userRepo, AircraftRepo aircraftRepo, BatteryRepo batteryRepo, UserEntityMapper userMapper, AircraftEntityMapper aircraftMapper, BatteryEntityMapper batteryMapper ) {
 		this.userRepo = userRepo;
 		this.aircraftRepo = aircraftRepo;
 		this.batteryRepo = batteryRepo;
@@ -41,7 +37,7 @@ public class FlightEntityMapper {
 	public FlightEntity toEntity( Flight flight ) {
 		if( flight == null ) return null;
 
-		FlightEntity entity = flightRepo.findById( flight.id() ).orElse( new FlightEntity() );
+		FlightEntity entity = new FlightEntity();
 
 		entity.setId( flight.id() );
 		if( flight.pilot() != null ) {
