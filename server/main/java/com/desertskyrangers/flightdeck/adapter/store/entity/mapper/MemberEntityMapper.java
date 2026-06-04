@@ -28,10 +28,19 @@ public class MemberEntityMapper {
 		MemberEntity entity = new MemberEntity();
 		entity.setId( member.id() );
 		if( member.user() != null ) {
-			entity.setUser( userRepo.findById( member.user().id() ).orElse( null ) );
+			UserEntity userEntity = new UserEntity();
+			userEntity.setId( member.user().id() );
+			userEntity.setUsername( member.user().username() );
+			userEntity.setEmail( member.user().email() );
+			// Add other necessary fields if needed, but for persistence PERSIST will handle it if it's new
+			entity.setUser( userEntity );
 		}
 		if( member.group() != null ) {
-			entity.setGroup( groupRepo.findById( member.group().id() ).orElse( null ) );
+			GroupEntity groupEntity = new GroupEntity();
+			groupEntity.setId( member.group().id() );
+			groupEntity.setName( member.group().name() );
+			groupEntity.setType( member.group().type().name() );
+			entity.setGroup( groupEntity );
 		}
 		entity.setStatus( member.status().title().toLowerCase() );
 		return entity;

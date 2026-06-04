@@ -27,7 +27,11 @@ public class LocationEntityMapper {
 		entity.setLongitude( location.longitude() );
 		entity.setAltitude( location.altitude() );
 		if( location.user() != null ) {
-			entity.setUser( userRepo.findById( location.user().id() ).orElse( null ) );
+			UserEntity userEntity = new UserEntity();
+			userEntity.setId( location.user().id() );
+			userEntity.setUsername( location.user().username() );
+			userEntity.setEmail( location.user().email() );
+			entity.setUser( userEntity );
 		}
 		entity.setName( location.name() );
 		entity.setSize( location.size() );
