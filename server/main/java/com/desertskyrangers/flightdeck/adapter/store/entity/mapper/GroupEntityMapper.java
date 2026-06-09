@@ -1,7 +1,6 @@
 package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.*;
-import com.desertskyrangers.flightdeck.adapter.store.repo.GroupRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.MemberRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.UserRepo;
 import com.desertskyrangers.flightdeck.core.model.*;
@@ -16,14 +15,11 @@ import java.util.stream.Collectors;
 @Component
 public class GroupEntityMapper {
 
-	private final GroupRepo groupRepo;
-
 	private final UserRepo userRepo;
 
 	private final MemberRepo memberRepo;
 
-	public GroupEntityMapper( GroupRepo groupRepo, UserRepo userRepo, MemberRepo memberRepo ) {
-		this.groupRepo = groupRepo;
+	public GroupEntityMapper( UserRepo userRepo, MemberRepo memberRepo ) {
 		this.userRepo = userRepo;
 		this.memberRepo = memberRepo;
 	}
@@ -31,7 +27,7 @@ public class GroupEntityMapper {
 	public GroupEntity toEntity( Group group ) {
 		if( group == null ) return null;
 
-		GroupEntity entity = groupRepo.findById( group.id() ).orElse( new GroupEntity() );
+		GroupEntity entity = new GroupEntity();
 		entity.setId( group.id() );
 		entity.setType( group.type().name().toLowerCase() );
 		entity.setName( group.name() );

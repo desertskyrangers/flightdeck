@@ -2,7 +2,6 @@ package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.*;
 import com.desertskyrangers.flightdeck.adapter.store.repo.GroupRepo;
-import com.desertskyrangers.flightdeck.adapter.store.repo.MemberRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.UserRepo;
 import com.desertskyrangers.flightdeck.core.model.*;
 import org.springframework.stereotype.Component;
@@ -14,14 +13,11 @@ import java.util.UUID;
 @Component
 public class MemberEntityMapper {
 
-	private final MemberRepo memberRepo;
-
 	private final UserRepo userRepo;
 
 	private final GroupRepo groupRepo;
 
-	public MemberEntityMapper( MemberRepo memberRepo, UserRepo userRepo, GroupRepo groupRepo ) {
-		this.memberRepo = memberRepo;
+	public MemberEntityMapper( UserRepo userRepo, GroupRepo groupRepo ) {
 		this.userRepo = userRepo;
 		this.groupRepo = groupRepo;
 	}
@@ -29,7 +25,7 @@ public class MemberEntityMapper {
 	public MemberEntity toEntity( Member member ) {
 		if( member == null ) return null;
 
-		MemberEntity entity = memberRepo.findById( member.id() ).orElse( new MemberEntity() );
+		MemberEntity entity = new MemberEntity();
 		entity.setId( member.id() );
 		if( member.user() != null ) {
 			entity.setUser( userRepo.findById( member.user().id() ).orElse( null ) );

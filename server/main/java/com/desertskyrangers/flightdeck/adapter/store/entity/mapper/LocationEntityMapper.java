@@ -1,7 +1,6 @@
 package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.*;
-import com.desertskyrangers.flightdeck.adapter.store.repo.LocationRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.UserRepo;
 import com.desertskyrangers.flightdeck.core.model.*;
 import org.springframework.stereotype.Component;
@@ -13,19 +12,16 @@ import java.util.UUID;
 @Component
 public class LocationEntityMapper {
 
-	private final LocationRepo locationRepo;
-
 	private final UserRepo userRepo;
 
-	public LocationEntityMapper( LocationRepo locationRepo, UserRepo userRepo ) {
-		this.locationRepo = locationRepo;
+	public LocationEntityMapper( UserRepo userRepo ) {
 		this.userRepo = userRepo;
 	}
 
 	public LocationEntity toEntity( Location location ) {
 		if( location == null ) return null;
 
-		LocationEntity entity = locationRepo.findById( location.id() ).orElse( new LocationEntity() );
+		LocationEntity entity = new LocationEntity();
 		entity.setId( location.id() );
 		entity.setLatitude( location.latitude() );
 		entity.setLongitude( location.longitude() );
