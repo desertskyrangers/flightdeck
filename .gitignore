@@ -1,7 +1,6 @@
 # Logs
 logs
 *.log
-*.log.gz
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -27,6 +26,3 @@ target
 *.iml
 
 tsconfig.tsbuildinfo
-
-# Junie files
-.output.txt
