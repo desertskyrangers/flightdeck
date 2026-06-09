@@ -4,6 +4,7 @@ import com.desertskyrangers.flightdeck.adapter.store.entity.TokenEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
 import com.desertskyrangers.flightdeck.adapter.store.repo.GroupRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.TokenRepo;
+import com.desertskyrangers.flightdeck.adapter.store.repo.UserRepo;
 import com.desertskyrangers.flightdeck.core.model.Group;
 import com.desertskyrangers.flightdeck.core.model.Location;
 import com.desertskyrangers.flightdeck.core.model.Member;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Component
 public class UserEntityMapper {
 
+	private final UserRepo userRepo;
+
 	private final GroupRepo groupRepo;
 
 	private final GroupEntityMapper groupMapper;
@@ -28,7 +31,8 @@ public class UserEntityMapper {
 
 	private final TokenEntityMapper tokenMapper;
 
-	public UserEntityMapper( GroupRepo groupRepo, TokenRepo tokenRepo, TokenEntityMapper tokenMapper, GroupEntityMapper groupMapper ) {
+	public UserEntityMapper( UserRepo userRepo, GroupRepo groupRepo, TokenRepo tokenRepo, TokenEntityMapper tokenMapper, GroupEntityMapper groupMapper ) {
+		this.userRepo = userRepo;
 		this.groupRepo = groupRepo;
 		this.tokenRepo = tokenRepo;
 		this.tokenMapper = tokenMapper;
@@ -38,7 +42,7 @@ public class UserEntityMapper {
 	public UserEntity toEntity( User user ) {
 		if( user == null ) return null;
 
-		UserEntity entity = new UserEntity();
+		UserEntity entity = userRepo.findById( user.id() ).orElse( new UserEntity() );
 		entity.setId( user.id() );
 		entity.setUsername( user.username() );
 		entity.setFirstName( user.firstName() );
