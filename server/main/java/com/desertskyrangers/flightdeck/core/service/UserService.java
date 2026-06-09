@@ -144,7 +144,7 @@ public class UserService implements UserServices {
 
 	@Override
 	public Map<String, Object> getPreferences( User user ) {
-		Map<String, Object> preferences = new HashMap<>( stateRetrieving.findPreferences( user ) );
+		Map<String, Object> preferences = stateRetrieving.findPreferences( user );
 
 		preferences.put( "username", user.username() );
 

@@ -4,11 +4,6 @@ import com.desertskyrangers.flightdeck.adapter.store.entity.GroupEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.LocationEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.MemberEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.FlightEntityMapper;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.GroupEntityMapper;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.LocationEntityMapper;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.MemberEntityMapper;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.PreferencesEntityMapper;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.LocationServices;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
@@ -41,21 +36,6 @@ public abstract class BaseTest {
 
 	@Autowired
 	protected UserServices userServices;
-
-	@Autowired
-	protected MemberEntityMapper memberEntityMapper;
-	
-	@Autowired
-	protected LocationEntityMapper locationEntityMapper;
-
-	@Autowired
-	protected GroupEntityMapper groupEntityMapper;
-
-	@Autowired
-	protected FlightEntityMapper flightEntityMapper;
-
-	@Autowired
-	protected PreferencesEntityMapper preferencesEntityMapper;
 
 	@Autowired
 	protected User unlistedUser;
@@ -161,7 +141,7 @@ public abstract class BaseTest {
 
 	protected LocationEntity createTestLocationEntity() {
 		User user = statePersisting.upsert( createTestUser() );
-		return locationEntityMapper.toEntity( createTestLocation( user ) );
+		return LocationEntity.from( createTestLocation( user ) );
 	}
 
 	protected Group createTestGroup() {
@@ -173,7 +153,7 @@ public abstract class BaseTest {
 	}
 
 	protected GroupEntity createTestGroupEntity( String name, Group.Type type ) {
-		return groupEntityMapper.toEntity( createTestGroup( name, type ) ).setId( UUID.randomUUID() );
+		return GroupEntity.from( createTestGroup( name, type ) ).setId( UUID.randomUUID() );
 	}
 
 	protected Member createTestMember( User user, Group group, Member.Status status ) {
@@ -181,10 +161,7 @@ public abstract class BaseTest {
 	}
 
 	protected MemberEntity createTestMemberEntity( UserEntity user, GroupEntity group, Member.Status status ) {
-		return memberEntityMapper.toEntity( createTestMember( UserEntity.toUser( user ), groupEntityMapper.toGroup( group ), status ) )
-			.setId( UUID.randomUUID() )
-			.setUser( user )
-			.setGroup( group );
+		return MemberEntity.from( createTestMember( UserEntity.toUser( user ), GroupEntity.toGroup( group ), status ) ).setId( UUID.randomUUID() );
 	}
 
 }

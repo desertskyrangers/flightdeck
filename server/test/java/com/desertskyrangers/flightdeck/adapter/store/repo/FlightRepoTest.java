@@ -3,8 +3,6 @@ package com.desertskyrangers.flightdeck.adapter.store.repo;
 import com.desertskyrangers.flightdeck.BaseTest;
 import com.desertskyrangers.flightdeck.adapter.store.entity.BatteryEntity;
 import com.desertskyrangers.flightdeck.adapter.store.entity.FlightEntity;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.BatteryEntityMapper;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.FlightEntityMapper;
 import com.desertskyrangers.flightdeck.core.model.Battery;
 import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
@@ -28,12 +26,6 @@ public class FlightRepoTest extends BaseTest {
 
 	@Autowired
 	private StatePersisting statePersisting;
-
-	@Autowired
-	private BatteryEntityMapper batteryEntityMapper;
-
-	@Autowired
-	private FlightEntityMapper flightEntityMapper;
 
 	@Test
 	void testFindWithPageable() {
@@ -59,11 +51,11 @@ public class FlightRepoTest extends BaseTest {
 		// given
 		User pilot = statePersisting.upsert( createTestUser( "Quinn", "quinn@exemple.com" ) );
 		Battery battery = statePersisting.upsert( createTestBattery( pilot ) );
-		flightRepo.save( createTestFlightEntity( pilot ).setBatteries( Set.of( batteryEntityMapper.toEntity( battery ) ) ) );
-		flightRepo.save( createTestFlightEntity( pilot ).setBatteries( Set.of( batteryEntityMapper.toEntity( battery ) ) ) );
+		flightRepo.save( createTestFlightEntity( pilot ).setBatteries( Set.of( BatteryEntity.from( battery ) ) ) );
+		flightRepo.save( createTestFlightEntity( pilot ).setBatteries( Set.of( BatteryEntity.from( battery ) ) ) );
 
 		// when
-		int count = flightRepo.countByBattery( batteryEntityMapper.toEntity( battery ) );
+		int count = flightRepo.countByBattery( BatteryEntity.from( battery ) );
 
 		// then
 		assertThat( count ).isEqualTo( 2 );
@@ -74,18 +66,18 @@ public class FlightRepoTest extends BaseTest {
 		// given
 		User pilot = statePersisting.upsert( createTestUser( "roger", "roger@exemple.com" ) );
 		Battery battery = statePersisting.upsert( createTestBattery( pilot ) );
-		flightRepo.save( createTestFlightEntity( pilot ).setDuration( 45 ).setBatteries( Set.of( batteryEntityMapper.toEntity( battery ) ) ) );
-		flightRepo.save( createTestFlightEntity( pilot ).setDuration( 25 ).setBatteries( Set.of( batteryEntityMapper.toEntity( battery ) ) ) );
+		flightRepo.save( createTestFlightEntity( pilot ).setDuration( 45 ).setBatteries( Set.of( BatteryEntity.from( battery ) ) ) );
+		flightRepo.save( createTestFlightEntity( pilot ).setDuration( 25 ).setBatteries( Set.of( BatteryEntity.from( battery ) ) ) );
 
 		// when
-		long time = flightRepo.getFlightTimeByBattery( batteryEntityMapper.toEntity( battery ) );
+		long time = flightRepo.getFlightTimeByBattery( BatteryEntity.from( battery ) );
 
 		// then
 		assertThat( time ).isEqualTo( 70 );
 	}
 
 	private FlightEntity createTestFlightEntity( User pilot ) {
-		return flightEntityMapper.toEntity( createTestFlight( pilot ) );
+		return FlightEntity.from( createTestFlight( pilot ) );
 	}
 
 }

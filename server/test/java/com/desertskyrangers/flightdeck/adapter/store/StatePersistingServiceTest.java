@@ -32,7 +32,7 @@ public class StatePersistingServiceTest extends BaseTest {
 		// then
 		GroupEntity actual = groupRepo.findById( expected.id() ).orElse( null );
 		assertThat( actual ).isNotNull();
-		assertThat( groupEntityMapper.toGroup( actual ) ).isEqualTo( expected );
+		assertThat( GroupEntity.toGroup( actual ) ).isEqualTo( expected );
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class StatePersistingServiceTest extends BaseTest {
 		// then
 		GroupEntity actual = groupRepo.findById( expected.id() ).orElse( null );
 		assertThat( actual ).isNotNull();
-		assertThat( groupEntityMapper.toGroup( actual ) ).isEqualTo( expected );
+		assertThat( GroupEntity.toGroup( actual ) ).isEqualTo( expected );
 
 		// when
 		statePersisting.remove( expected );
@@ -63,7 +63,7 @@ public class StatePersistingServiceTest extends BaseTest {
 		// then
 		PreferencesProjection actual = preferencesRepo.findById( user.id() ).orElse( null );
 		assertThat( actual ).isNotNull();
-		assertThat( preferencesEntityMapper.toPreferences( actual ) ).isEqualTo( expected );
+		assertThat( PreferencesEntity.toPreferences( actual ) ).isEqualTo( expected );
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class StatePersistingServiceTest extends BaseTest {
 		// then
 		PreferencesProjection actual = preferencesRepo.findById( user.id() ).orElse( null );
 		assertThat( actual ).isNotNull();
-		assertThat( preferencesEntityMapper.toPreferences( actual ) ).isEqualTo( expected );
+		assertThat( PreferencesEntity.toPreferences( actual ) ).isEqualTo( expected );
 
 		// when
 		statePersisting.removePreferences( user );

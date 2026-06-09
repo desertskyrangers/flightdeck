@@ -1,7 +1,7 @@
 package com.desertskyrangers.flightdeck.adapter.store;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.*;
-import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.*;
+import com.desertskyrangers.flightdeck.adapter.store.entity.mapper.AwardEntityMapper;
 import com.desertskyrangers.flightdeck.adapter.store.repo.*;
 import com.desertskyrangers.flightdeck.core.model.*;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
@@ -45,26 +45,6 @@ public class StatePersistingService implements StatePersisting {
 
 	private final VerificationRepo verificationRepo;
 
-	private final UserEntityMapper userMapper;
-
-	private final GroupEntityMapper groupMapper;
-
-	private final LocationEntityMapper locationMapper;
-
-	private final MemberEntityMapper memberMapper;
-
-	private final TokenEntityMapper tokenMapper;
-	
-	private final VerificationEntityMapper verificationMapper;
-
-	private final BatteryEntityMapper batteryMapper;
-
-	private final AircraftEntityMapper aircraftMapper;
-
-	private final FlightEntityMapper flightMapper;
-
-	private final PreferencesEntityMapper preferencesMapper;
-
 //	public StatePersistingService(
 //		AircraftRepo aircraftRepo,
 //		BatteryRepo batteryRepo,
@@ -93,7 +73,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Aircraft upsert( Aircraft aircraft ) {
-		return aircraftMapper.toAircraft( aircraftRepo.save( aircraftMapper.toEntity( aircraft ) ) );
+		return AircraftEntity.toAircraft( aircraftRepo.save( AircraftEntity.from( aircraft ) ) );
 	}
 
 	public Award upsert(Award award ) {
@@ -106,7 +86,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Battery upsert( Battery battery ) {
-		return batteryMapper.toBattery( batteryRepo.save( batteryMapper.toEntity( battery ) ) );
+		return BatteryEntity.toBattery( batteryRepo.save( BatteryEntity.from( battery ) ) );
 	}
 
 	@Override
@@ -116,7 +96,11 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Flight upsert( Flight flight ) {
-		return flightMapper.toFlight( flightRepo.save( flightMapper.toEntity( flight ) ) );
+		FlightEntity entity = FlightEntity.from( flight );
+		if( entity.getPilot() != null ) entity.setPilot( userRepo.findById( entity.getPilot().getId() ).orElse( entity.getPilot() ) );
+		if( entity.getObserver() != null ) entity.setObserver( userRepo.findById( entity.getObserver().getId() ).orElse( entity.getObserver() ) );
+		if( entity.getAircraft() != null ) entity.setAircraft( aircraftRepo.findById( entity.getAircraft().getId() ).orElse( entity.getAircraft() ) );
+		return FlightEntity.toFlight( flightRepo.save( entity ) );
 	}
 
 	@Override
@@ -131,8 +115,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Group upsert( Group group ) {
-		GroupEntity entity = groupMapper.toEntity( group );
-		return groupMapper.toGroup( groupRepo.save( entity ) );
+		return GroupEntity.toGroup( groupRepo.save( GroupEntity.from( group ) ) );
 	}
 
 	@Override
@@ -147,8 +130,9 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Location upsert( Location location ) {
-		LocationEntity entity = locationMapper.toEntity( location );
-		return locationMapper.toLocation( locationRepo.save( entity ) );
+		LocationEntity entity = LocationEntity.from( location );
+		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
+		return LocationEntity.toLocation( locationRepo.save( entity ) );
 	}
 
 	@Override
@@ -164,8 +148,10 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Member upsert( Member member ) {
-		MemberEntity entity = memberMapper.toEntity( member );
-		return memberMapper.toMember( memberRepo.save( entity ) );
+		MemberEntity entity = MemberEntity.from( member );
+		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
+		if( entity.getGroup() != null ) entity.setGroup( groupRepo.findById( entity.getGroup().getId() ).orElse( entity.getGroup() ) );
+		return MemberEntity.toMember( memberRepo.save( entity ) );
 	}
 
 	@Override
@@ -181,7 +167,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Map<String, Object> upsertPreferences( User user, Map<String, Object> preferences ) {
-		return Json.asMap( preferencesRepo.save( preferencesMapper.toProjection( user, preferences ) ).getJson() );
+		return Json.asMap( preferencesRepo.save( PreferencesEntity.from( user, preferences ) ).getJson() );
 	}
 
 	@Override
@@ -193,12 +179,14 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public void upsert( UserToken token ) {
-		tokenRepo.save( tokenMapper.toEntity( token ) );
+		TokenEntity entity = TokenEntity.from( token );
+		if( entity.getUser() != null ) entity.setUser( userRepo.findById( entity.getUser().getId() ).orElse( entity.getUser() ) );
+		tokenRepo.save( entity );
 	}
 
 	@Override
 	public User upsert( User user ) {
-		User storedUser = userMapper.toUser( userRepo.save( userMapper.toEntity( user ) ) );
+		User storedUser = UserEntity.toUser( userRepo.save( UserEntity.from( user ) ) );
 		userRepo.flush();
 		return storedUser;
 	}
@@ -211,7 +199,7 @@ public class StatePersistingService implements StatePersisting {
 
 	@Override
 	public Verification upsert( Verification verification ) {
-		verificationRepo.save( verificationMapper.toEntity( verification ) );
+		verificationRepo.save( VerificationEntity.from( verification ) );
 		return verification;
 	}
 
