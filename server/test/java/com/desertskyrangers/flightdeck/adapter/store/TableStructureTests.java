@@ -74,7 +74,6 @@ public class TableStructureTests {
 	void testAwardTable() throws Exception {
 		Set<String> expected = new HashSet<>();
 		expected.add( "id" );
-		expected.add( "awardtype" );
 		expected.add( "recipienttype" );
 		expected.add( "recipientid" );
 		expected.add( "presentertype" );
