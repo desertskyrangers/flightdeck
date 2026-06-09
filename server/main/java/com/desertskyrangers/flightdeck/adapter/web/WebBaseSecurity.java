@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -43,7 +43,8 @@ public class WebBaseSecurity {
 
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider( appUserDetailsService );
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService( appUserDetailsService );
 		authenticationProvider.setPasswordEncoder( passwordEncoder() );
 		return authenticationProvider;
 	}
@@ -54,15 +55,15 @@ public class WebBaseSecurity {
 		return http
 			.csrf( AbstractHttpConfigurer::disable )
 			.authorizeHttpRequests( requests -> requests
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.POST, ApiPath.AUTH_RECOVER )).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.POST, ApiPath.AUTH_REGISTER) ).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.POST, ApiPath.AUTH_RESEND) ).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.POST, ApiPath.AUTH_RESET) ).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.POST, ApiPath.AUTH_VERIFY) ).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.POST, ApiPath.AUTH_LOGIN )).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.POST, ApiPath.AUTH_LOGOUT) ).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.GET, ApiPath.DASHBOARD + "/**") ).permitAll()
-				.requestMatchers( PathPatternRequestMatcher.pathPattern(HttpMethod.GET, ApiPath.MONITOR_STATUS) ).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.POST, ApiPath.AUTH_RECOVER )).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.POST, ApiPath.AUTH_REGISTER) ).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.POST, ApiPath.AUTH_RESEND) ).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.POST, ApiPath.AUTH_RESET) ).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.POST, ApiPath.AUTH_VERIFY) ).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.POST, ApiPath.AUTH_LOGIN )).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.POST, ApiPath.AUTH_LOGOUT) ).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.GET, ApiPath.DASHBOARD + "/**") ).permitAll()
+				.requestMatchers( AntPathRequestMatcher.antMatcher(HttpMethod.GET, ApiPath.MONITOR_STATUS) ).permitAll()
 				.anyRequest().authenticated()
 			)
 			.addFilterAfter( new JwtFilter( jwtTokenProvider ), UsernamePasswordAuthenticationFilter.class )

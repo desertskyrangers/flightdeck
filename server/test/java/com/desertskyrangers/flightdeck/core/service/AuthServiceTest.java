@@ -6,9 +6,9 @@ import com.desertskyrangers.flightdeck.port.StatePersisting;
 import com.desertskyrangers.flightdeck.port.StateRetrieving;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,13 +20,16 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class AuthServiceTest {
 
-	@MockitoBean
+	@Mock
 	private StatePersisting statePersisting;
 
-	@MockitoBean
+	@Mock
 	private StateRetrieving stateRetrieving;
 
-	@Autowired
+	//	@Mock
+	//	private HumanInterface humanInterface;
+
+	@InjectMocks
 	private AuthService service;
 
 	private User account;

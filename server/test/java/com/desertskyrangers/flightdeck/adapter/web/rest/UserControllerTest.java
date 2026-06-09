@@ -10,13 +10,14 @@ import com.desertskyrangers.flightdeck.port.DashboardServices;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
 import com.desertskyrangers.flightdeck.port.UserServices;
 import com.desertskyrangers.flightdeck.util.Json;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -75,9 +76,8 @@ public class UserControllerTest extends BaseControllerTest {
 		MvcResult result = this.mockMvc.perform( MockMvcRequestBuilders.get( ApiPath.PROFILE ).with( jwt() ).headers( headers ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
-		Map<String, Object> expected = Json.asMap( Json.stringify( new ReactProfileResponse().setAccount( ReactUser.from( getMockUser() ) ) ) );
-		Map<String, Object> actual = Json.asMap( result.getResponse().getContentAsString() );
-		assertThat( actual ).isEqualTo( expected );
+		String accountJson = Json.stringify( new ReactProfileResponse().setAccount( ReactUser.from( getMockUser() ) ) );
+		assertThat( result.getResponse().getContentAsString() ).isEqualTo( accountJson );
 	}
 
 	@Test
@@ -86,9 +86,8 @@ public class UserControllerTest extends BaseControllerTest {
 		MvcResult result = this.mockMvc.perform( get( ApiPath.USER + "/" + getMockUser().id() ).with( jwt() ).headers( headers ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
-		Map<String, Object> expected = Json.asMap( Json.stringify( new ReactProfileResponse().setAccount( ReactUser.from( getMockUser() ) ) ) );
-		Map<String, Object> actual = Json.asMap( result.getResponse().getContentAsString() );
-		assertThat( actual ).isEqualTo( expected );
+		String accountJson = Json.stringify( new ReactProfileResponse().setAccount( ReactUser.from( getMockUser() ) ) );
+		assertThat( result.getResponse().getContentAsString() ).isEqualTo( accountJson );
 	}
 
 	@Test
@@ -107,10 +106,11 @@ public class UserControllerTest extends BaseControllerTest {
 			.andReturn();
 
 		// then
-		Map<String, Object> expected = Json.asMap( Json.stringify( new ReactProfileResponse().setAccount( reactAccount ) ) );
-		Map<String, Object> actual = Json.asMap( result.getResponse().getContentAsString() );
-		assertThat( actual ).isEqualTo( expected );
-		Map<?, ?> account = (Map<?, ?>)actual.get( "account" );
+		String accountJson = Json.stringify( new ReactProfileResponse().setAccount( reactAccount ) );
+		String resultContent = result.getResponse().getContentAsString();
+		assertThat( resultContent ).isEqualTo( accountJson );
+		Map<?, ?> map = Json.asMap( resultContent );
+		Map<?, ?> account = (Map<?, ?>)map.get( "account" );
 		assertThat( account.get( "firstName" ) ).isEqualTo( "Anton" );
 	}
 
@@ -535,7 +535,7 @@ public class UserControllerTest extends BaseControllerTest {
 
 		// when
 		MvcResult result = this.mockMvc
-			.perform( put( ApiPath.USER_MEMBERSHIP ).with( jwt() ).content( Json.stringify( request ) ).contentType( MediaType.APPLICATION_JSON ) )
+			.perform( put( ApiPath.USER_MEMBERSHIP ).content( Json.stringify( request ) ).contentType( MediaType.APPLICATION_JSON ) )
 			.andExpect( status().isBadRequest() )
 			.andReturn();
 
@@ -583,7 +583,7 @@ public class UserControllerTest extends BaseControllerTest {
 
 		// when
 		MvcResult result = this.mockMvc
-			.perform( delete( ApiPath.USER_MEMBERSHIP ).with( jwt() ).content( Json.stringify( request ) ).contentType( MediaType.APPLICATION_JSON ) )
+			.perform( delete( ApiPath.USER_MEMBERSHIP ).content( Json.stringify( request ) ).contentType( MediaType.APPLICATION_JSON ) )
 			.andExpect( status().isBadRequest() )
 			.andReturn();
 
@@ -699,7 +699,7 @@ public class UserControllerTest extends BaseControllerTest {
 		User paula = statePersisting.upsert( createTestUser( "paula", "paula@example.com" ) );
 
 		// when
-		this.mockMvc.perform( get( ApiPath.USER_PREFERENCES + "/" + paula.id() ).with( jwt() ).headers( headers ) ).andExpect( status().isForbidden() ).andReturn();
+		this.mockMvc.perform( get( ApiPath.USER_PREFERENCES + "/" + paula.id() ).with( jwt() ) ).andExpect( status().isForbidden() ).andReturn();
 	}
 
 	@Test

@@ -32,7 +32,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 		aircraftServices.upsert( aircraft );
 
 		// when
-		MvcResult result = this.mockMvc.perform( get( ApiPath.AIRCRAFT + "/" + aircraft.id() ).with( jwt() ) ).andExpect( status().isOk() ).andReturn();
+		MvcResult result = this.mockMvc.perform( get( ApiPath.AIRCRAFT + "/" + aircraft.id() ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
 		Map<?, ?> map = Json.asMap( result.getResponse().getContentAsString() );
@@ -42,7 +42,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 
 	@Test
 	void getAircraftWithBadRequest() throws Exception {
-		this.mockMvc.perform( get( ApiPath.AIRCRAFT + "/" + "bad-id" ).with( jwt() ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( get( ApiPath.AIRCRAFT + "/" + "bad-id" ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 		ReactAircraft aircraft = createTestReactAircraft();
 		aircraft.setId( "new" );
 
-		this.mockMvc.perform( post( ApiPath.AIRCRAFT ).with( jwt() ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+		this.mockMvc.perform( post( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 		aircraft.setId( "new" );
 		aircraft.setType( "invalid" );
 
-		this.mockMvc.perform( post( ApiPath.AIRCRAFT ).with( jwt() ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( post( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 		ReactAircraft aircraft = createTestReactAircraft();
 		aircraft.setName( "Afton" );
 
-		MvcResult result = this.mockMvc.perform( put( ApiPath.AIRCRAFT ).with( jwt() ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+		MvcResult result = this.mockMvc.perform( put( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
 		Map<?, ?> map = Json.asMap( result.getResponse().getContentAsString() );
@@ -83,7 +83,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 		aircraft.setStatus( Aircraft.Status.PREFLIGHT.name() );
 
 		// when
-		MvcResult result = this.mockMvc.perform( put( ApiPath.AIRCRAFT ).with( jwt() ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+		MvcResult result = this.mockMvc.perform( put( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
 		Map<?, ?> map = Json.asMap( result.getResponse().getContentAsString() );
@@ -93,7 +93,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 
 		// when
 		aircraft.setStatus( Aircraft.Status.AIRWORTHY.name() );
-		MvcResult updateResult = this.mockMvc.perform( post( ApiPath.AIRCRAFT ).with( jwt() ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+		MvcResult updateResult = this.mockMvc.perform( post( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
 		Map<?, ?> updateMap = Json.asMap( updateResult.getResponse().getContentAsString() );
@@ -106,7 +106,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 		ReactAircraft aircraft = createTestReactAircraft();
 		aircraft.setType( "invalid" );
 
-		this.mockMvc.perform( put( ApiPath.AIRCRAFT ).with( jwt() ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( put( ApiPath.AIRCRAFT ).content( Json.stringify( aircraft ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -117,7 +117,7 @@ public class AircraftControllerTest extends BaseControllerTest {
 
 		// when
 		MvcResult result = this.mockMvc
-			.perform( delete( ApiPath.AIRCRAFT ).with( jwt() ).content( "{\"id\":\"" + aircraft.id() + "\"}" ).contentType( MediaType.APPLICATION_JSON ) )
+			.perform( delete( ApiPath.AIRCRAFT ).content( "{\"id\":\"" + aircraft.id() + "\"}" ).contentType( MediaType.APPLICATION_JSON ) )
 			.andExpect( status().isOk() )
 			.andReturn();
 

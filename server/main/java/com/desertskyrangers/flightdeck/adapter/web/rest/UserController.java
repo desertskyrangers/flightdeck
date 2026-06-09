@@ -451,21 +451,19 @@ public class UserController extends BaseController {
 	@PreAuthorize( "hasAuthority('USER')" )
 	@GetMapping( path = ApiPath.USER_PREFERENCES )
 	ResponseEntity<ReactResponse<Map<String, Object>>> getPreferencesByRequester( Authentication authentication ) {
-		return getPreferences( authentication, getRequester( authentication ).id().toString() );
+		return getPreferences( getRequester( authentication ).id().toString() );
 	}
 
-	@PreAuthorize( "hasAnyAuthority('USER','ADMIN')" )
+	@PreAuthorize( "hasAuthority('ADMIN')" )
 	@GetMapping( path = ApiPath.USER_PREFERENCES + "/{id}" )
-	ResponseEntity<ReactResponse<Map<String, Object>>> getPreferences( Authentication authentication, @PathVariable String id ) {
+	ResponseEntity<ReactResponse<Map<String, Object>>> getPreferences( @PathVariable String id ) {
 		List<String> messages = new ArrayList<>();
 
 		try {
 			if( Uuid.isNotValid( id ) ) messages.add( "Invalid user ID" );
 			if( !messages.isEmpty() ) return new ResponseEntity<>( ReactResponse.messages( messages ), HttpStatus.BAD_REQUEST );
 
-			User requester = getRequester( authentication );
-			boolean isAdmin = authentication.getAuthorities().stream().anyMatch( a -> a.getAuthority().equals( "ADMIN" ) );
-			if( !isAdmin && !requester.id().toString().equals( id ) ) return new ResponseEntity<>( HttpStatus.FORBIDDEN );
+			// TODO Verify the requester access the users preferences
 
 			Optional<User> optional = userServices.find( UUID.fromString( id ) );
 			if( optional.isEmpty() ) {

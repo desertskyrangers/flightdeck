@@ -1,13 +1,13 @@
 package com.desertskyrangers.flightdeck.core;
 
-import com.desertskyrangers.flightdeck.BaseTest;
 import com.desertskyrangers.flightdeck.core.model.User;
 import com.desertskyrangers.flightdeck.core.model.UserToken;
 import com.desertskyrangers.flightdeck.port.StateRetrieving;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Optional;
 import java.util.Set;
@@ -15,12 +15,13 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class AppUserDetailsServiceTest extends BaseTest {
+@SpringBootTest
+public class AppUserDetailsServiceTest {
 
-	@MockitoBean
-	StateRetrieving mockStateRetrieving;
+	@Mock
+	StateRetrieving stateRetrieving;
 
-	@Autowired
+	@InjectMocks
 	private AppUserDetailsService appUserDetailsService;
 
 	@Test
@@ -34,7 +35,7 @@ public class AppUserDetailsServiceTest extends BaseTest {
 		credential.user( user );
 		user.tokens( Set.of( credential ) );
 
-		when( mockStateRetrieving.findUserTokenByPrincipal( username ) ).thenReturn( Optional.of( credential ) );
+		when( stateRetrieving.findUserTokenByPrincipal( username ) ).thenReturn( Optional.of( credential ) );
 
 		// when
 		UserDetails details = appUserDetailsService.loadUserByUsername( username );

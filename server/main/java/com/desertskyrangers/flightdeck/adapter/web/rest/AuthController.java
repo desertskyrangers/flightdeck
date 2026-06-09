@@ -189,7 +189,7 @@ public class AuthController extends BaseController {
 
 	@PostMapping( path = ApiPath.AUTH_LOGOUT, consumes = "application/json", produces = "application/json" )
 	ResponseEntity<Object> logout( @RequestBody Map<String, Object> request ) {
-		return new ResponseEntity<>( (Object)null, HttpStatus.OK );
+		return new ResponseEntity<>( null, HttpStatus.OK );
 	}
 
 	private String authenticate( String username, String password, boolean remember ) {

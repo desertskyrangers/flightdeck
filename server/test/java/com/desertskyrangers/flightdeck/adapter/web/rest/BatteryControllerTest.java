@@ -32,7 +32,7 @@ public class BatteryControllerTest extends BaseControllerTest {
 		batteryServices.upsert( battery );
 
 		// when
-		MvcResult result = this.mockMvc.perform( get( ApiPath.BATTERY + "/" + battery.id() ).with( jwt() ) ).andExpect( status().isOk() ).andReturn();
+		MvcResult result = this.mockMvc.perform( get( ApiPath.BATTERY + "/" + battery.id() ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
 		Map<?, ?> map = Json.asMap( result.getResponse().getContentAsString() );
@@ -42,7 +42,7 @@ public class BatteryControllerTest extends BaseControllerTest {
 
 	@Test
 	void getBatteryWithBadRequest() throws Exception {
-		this.mockMvc.perform( get( ApiPath.BATTERY + "/" + "bad-id" ).with( jwt() ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( get( ApiPath.BATTERY + "/" + "bad-id" ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class BatteryControllerTest extends BaseControllerTest {
 		ReactBattery battery = createTestReactBattery();
 		battery.setId( "new" );
 
-		this.mockMvc.perform( post( ApiPath.BATTERY ).with( jwt() ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+		this.mockMvc.perform( post( ApiPath.BATTERY ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
 	}
 
 	@Test
@@ -59,14 +59,14 @@ public class BatteryControllerTest extends BaseControllerTest {
 		battery.setId( "new" );
 		battery.setType( "invalid" );
 
-		this.mockMvc.perform( post( ApiPath.BATTERY ).with( jwt() ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( post( ApiPath.BATTERY ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
 	void testUpdateBatteryWithSuccess() throws Exception {
 		ReactBattery battery = createTestReactBattery();
 
-		this.mockMvc.perform( put( ApiPath.BATTERY ).with( jwt() ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
+		this.mockMvc.perform( put( ApiPath.BATTERY ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() ).andReturn();
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class BatteryControllerTest extends BaseControllerTest {
 		ReactBattery battery = createTestReactBattery();
 		battery.setType( "invalid" );
 
-		this.mockMvc.perform( put( ApiPath.BATTERY ).with( jwt() ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( put( ApiPath.BATTERY ).content( Json.stringify( battery ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -85,7 +85,7 @@ public class BatteryControllerTest extends BaseControllerTest {
 
 		// when
 		MvcResult result = this.mockMvc
-			.perform( delete( ApiPath.BATTERY ).with( jwt() ).content( "{\"id\":\"" + battery.id() + "\"}" ).contentType( MediaType.APPLICATION_JSON ) )
+			.perform( delete( ApiPath.BATTERY ).content( "{\"id\":\"" + battery.id() + "\"}" ).contentType( MediaType.APPLICATION_JSON ) )
 			.andExpect( status().isOk() )
 			.andReturn();
 

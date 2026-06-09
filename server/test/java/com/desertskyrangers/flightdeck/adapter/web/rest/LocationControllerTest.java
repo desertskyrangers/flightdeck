@@ -27,7 +27,7 @@ public class LocationControllerTest extends BaseControllerTest {
 		ReactLocation location = createTestReactLocation();
 
 		// when
-		MvcResult result = this.mockMvc.perform( get( ApiPath.LOCATION + "/" + location.getId() ).with( jwt() ) ).andExpect( status().isOk() ).andReturn();
+		MvcResult result = this.mockMvc.perform( get( ApiPath.LOCATION + "/" + location.getId() ) ).andExpect( status().isOk() ).andReturn();
 
 		// then
 		Map<?, ?> map = Json.asMap( result.getResponse().getContentAsString() );
@@ -37,7 +37,7 @@ public class LocationControllerTest extends BaseControllerTest {
 
 	@Test
 	void testGetLocationWithBadRequest() throws Exception {
-		this.mockMvc.perform( get( ApiPath.LOCATION + "/" + "bad-id" ).with( jwt() ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( get( ApiPath.LOCATION + "/" + "bad-id" ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class LocationControllerTest extends BaseControllerTest {
 		ReactLocation location = createTestReactLocation();
 
 		location.setStatus( "not-really-a-status" );
-		this.mockMvc.perform( post( ApiPath.LOCATION ).with( jwt() ).content( Json.stringify( location ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( post( ApiPath.LOCATION ).content( Json.stringify( location ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class LocationControllerTest extends BaseControllerTest {
 		ReactLocation location = createTestReactLocation();
 		location.setId( "bad" );
 
-		this.mockMvc.perform( put( ApiPath.LOCATION ).with( jwt() ).content( Json.stringify( location ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
+		this.mockMvc.perform( put( ApiPath.LOCATION ).content( Json.stringify( location ) ).contentType( MediaType.APPLICATION_JSON ) ).andExpect( status().isBadRequest() ).andReturn();
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class LocationControllerTest extends BaseControllerTest {
 
 		// when
 		MvcResult result = this.mockMvc
-			.perform( delete( ApiPath.LOCATION ).with( jwt() ).content( "{\"id\":\"" + location.getId() + "\"}" ).contentType( MediaType.APPLICATION_JSON ) )
+			.perform( delete( ApiPath.LOCATION ).content( "{\"id\":\"" + location.getId() + "\"}" ).contentType( MediaType.APPLICATION_JSON ) )
 			.andExpect( status().isOk() )
 			.andReturn();
 
