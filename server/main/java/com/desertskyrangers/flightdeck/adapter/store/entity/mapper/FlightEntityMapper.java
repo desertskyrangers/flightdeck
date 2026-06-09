@@ -1,7 +1,6 @@
 package com.desertskyrangers.flightdeck.adapter.store.entity.mapper;
 
 import com.desertskyrangers.flightdeck.adapter.store.entity.FlightEntity;
-import com.desertskyrangers.flightdeck.adapter.store.entity.UserEntity;
 import com.desertskyrangers.flightdeck.adapter.store.repo.AircraftRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.BatteryRepo;
 import com.desertskyrangers.flightdeck.adapter.store.repo.UserRepo;
@@ -40,28 +39,12 @@ public class FlightEntityMapper {
 		FlightEntity entity = new FlightEntity();
 
 		entity.setId( flight.id() );
-		if( flight.pilot() != null ) {
-			UserEntity pilotEntity = new UserEntity();
-			pilotEntity.setId( flight.pilot().id() );
-			pilotEntity.setUsername( flight.pilot().username() );
-			pilotEntity.setEmail( flight.pilot().email() );
-			entity.setPilot( pilotEntity );
-		}
+		if( flight.pilot() != null ) entity.setPilot( userRepo.getReferenceById( flight.pilot().id() ) );
 		entity.setUnlistedPilot( flight.unlistedPilot() );
-		if( flight.observer() != null ) {
-			UserEntity observerEntity = new UserEntity();
-			observerEntity.setId( flight.observer().id() );
-			observerEntity.setUsername( flight.observer().username() );
-			observerEntity.setEmail( flight.observer().email() );
-			entity.setObserver( observerEntity );
-		}
+		if( flight.observer() != null ) entity.setObserver( userRepo.getReferenceById( flight.observer().id() ) );
 		entity.setUnlistedObserver( flight.unlistedObserver() );
-		if( flight.aircraft() != null ) {
-			entity.setAircraft( aircraftMapper.toEntity( flight.aircraft() ) );
-		}
-		if( flight.batteries() != null ) {
-			entity.setBatteries( flight.batteries().stream().map( batteryMapper::toEntity ).collect( Collectors.toSet() ) );
-		}
+		if( flight.aircraft() != null ) entity.setAircraft( aircraftRepo.getReferenceById( flight.aircraft().id() ) );
+		if( flight.batteries() != null ) entity.setBatteries( flight.batteries().stream().map( b -> batteryRepo.getReferenceById( b.id() ) ).collect( Collectors.toSet() ) );
 		entity.setTimestamp( flight.timestamp() );
 		entity.setDuration( flight.duration() );
 		if( flight.location() != null ) entity.setLocationId( flight.location().id() );

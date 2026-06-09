@@ -17,21 +17,21 @@ public class FlightEntity {
 	@Id
 	private UUID id;
 
-	@ManyToOne( fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE } )
+	@ManyToOne( fetch = FetchType.EAGER )
 	@JoinColumn( name = "pilotid", nullable = false )
 	private UserEntity pilot;
 
 	@Column( name = "unlistedpilot" )
 	private String unlistedPilot;
 
-	@ManyToOne( fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE } )
+	@ManyToOne( fetch = FetchType.EAGER )
 	@JoinColumn( name = "observerid" )
 	private UserEntity observer;
 
 	@Column( name = "unlistedobserver" )
 	private String unlistedObserver;
 
-	@ManyToOne( fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE } )
+	@ManyToOne( fetch = FetchType.EAGER )
 	@JoinColumn( name = "aircraftid", nullable = false )
 	private AircraftEntity aircraft;
 

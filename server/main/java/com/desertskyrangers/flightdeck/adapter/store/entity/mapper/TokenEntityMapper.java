@@ -25,13 +25,7 @@ public class TokenEntityMapper {
 
 		TokenEntity entity = new TokenEntity();
 		entity.setId( token.id() );
-		if( token.user() != null ) {
-			UserEntity userEntity = new UserEntity();
-			userEntity.setId( token.user().id() );
-			userEntity.setUsername( token.user().username() );
-			userEntity.setEmail( token.user().email() );
-			entity.setUser( userEntity );
-		}
+		if( token.user() != null ) entity.setUser( userRepo.getReferenceById( token.user().id() ) );
 		entity.setPrincipal( token.principal() );
 		entity.setCredential( token.credential() );
 		return entity;
