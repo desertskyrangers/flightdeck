@@ -83,11 +83,13 @@ public class UserEntity {
 	private Set<GroupEntity> groups = new HashSet<>();
 
 	@OneToMany( mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true )
+	@CollectionTable( name = "usermembership", joinColumns = @JoinColumn( name = "userid" ) )
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude()
 	private Set<MemberEntity> memberships = new HashSet<>();
 
 	@OneToMany( mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true )
+	@CollectionTable( name = "userlocation", joinColumns = @JoinColumn( name = "userid" ) )
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude()
 	private Set<LocationEntity> locations = new HashSet<>();
