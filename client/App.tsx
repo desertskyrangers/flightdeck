@@ -32,19 +32,34 @@ import Aircraft from "./edit/Aircraft";
 import Battery from "./edit/Battery";
 import Flight from "./edit/Flight";
 import Manifest from './public/manifest.json';
-import Profile from "./edit/Profile.tsx";
-import Group from "./edit/Group.tsx";
-import Password from "./edit/Password.tsx";
-import Preferences from "./edit/Preferences.tsx";
 
 function Protect({children}) {
   return TokenService.isAuthenticated() ? <div><Menu/>{children}</div> : <Navigate to={AppPath.LOGIN}/>;
+}
+
+function Password() {
+  return null;
+}
+
+function Profile() {
+  return null;
+}
+
+function Preferences() {
+  return null;
+}
+
+function Group() {
+  return null;
 }
 
 export function App() {
 
   const [appVersion, setAppVersion] = useState('')
   const [apiVersion, setApiVersion] = useState('')
+
+  useEffect(() => loadAppInformation(), [])
+  useEffect(() => loadApiInformation(), [])
 
   function loadAppInformation() {
     setAppVersion(Manifest.version)
@@ -56,9 +71,6 @@ export function App() {
     }, () => {
     })
   }
-
-  useEffect(() => loadAppInformation(), [])
-  useEffect(() => loadApiInformation(), [])
 
   return (
     <div className="app">
