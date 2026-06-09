@@ -34,13 +34,7 @@ public class GroupEntityMapper {
 		entity.setDashboardId( group.dashboardId() );
 
 		if( group.users() != null ) {
-			entity.setUsers( group.users().stream().map( u -> {
-				UserEntity userEntity = new UserEntity();
-				userEntity.setId( u.id() );
-				userEntity.setUsername( u.username() );
-				userEntity.setEmail( u.email() );
-				return userEntity;
-			} ).collect( Collectors.toSet() ) );
+			entity.setUsers( group.users().stream().map( u -> userRepo.findById( u.id() ).orElse( null ) ).filter( java.util.Objects::nonNull ).collect( Collectors.toSet() ) );
 		}
 
 		if( group.members() != null ) {
