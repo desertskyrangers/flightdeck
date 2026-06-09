@@ -41,11 +41,19 @@ public class FlightEntityMapper {
 
 		entity.setId( flight.id() );
 		if( flight.pilot() != null ) {
-			entity.setPilot( userRepo.findById( flight.pilot().id() ).orElse( userMapper.toEntity( flight.pilot() ) ) );
+			UserEntity pilotEntity = new UserEntity();
+			pilotEntity.setId( flight.pilot().id() );
+			pilotEntity.setUsername( flight.pilot().username() );
+			pilotEntity.setEmail( flight.pilot().email() );
+			entity.setPilot( pilotEntity );
 		}
 		entity.setUnlistedPilot( flight.unlistedPilot() );
 		if( flight.observer() != null ) {
-			entity.setObserver( userRepo.findById( flight.observer().id() ).orElse( userMapper.toEntity( flight.observer() ) ) );
+			UserEntity observerEntity = new UserEntity();
+			observerEntity.setId( flight.observer().id() );
+			observerEntity.setUsername( flight.observer().username() );
+			observerEntity.setEmail( flight.observer().email() );
+			entity.setObserver( observerEntity );
 		}
 		entity.setUnlistedObserver( flight.unlistedObserver() );
 		if( flight.aircraft() != null ) {
