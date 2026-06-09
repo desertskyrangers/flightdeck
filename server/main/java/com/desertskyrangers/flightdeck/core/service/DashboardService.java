@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
@@ -66,15 +67,13 @@ public class DashboardService implements DashboardServices {
 	}
 
 	@Override
-	//@Async
+	@Async
 	public Future<String> update( User user ) {
 		// Assign dashboard ids if they do not exist
 		if( user.dashboardId() == null ) user.dashboardId( UUID.randomUUID() );
 		if( user.publicDashboardId() == null ) user.publicDashboardId( UUID.randomUUID() );
 
-		// FIXME Why does this line cause a TransientObjectException in production?
-		//  So far I don't have a test to reproduce it either.
-		//statePersisting.upsert( user );
+		statePersisting.upsert( user );
 
 		// Update the user dashboards
 		update( user, user.publicDashboardId(), true );
@@ -146,7 +145,7 @@ public class DashboardService implements DashboardServices {
 	}
 
 	@Override
-	//@Async
+	@Async
 	public Future<String> update( final Group group ) {
 		// Assign a group dashboard id if one does not exist
 		if( group.dashboardId() == null ) statePersisting.upsert( group.dashboardId( UUID.randomUUID() ) );
