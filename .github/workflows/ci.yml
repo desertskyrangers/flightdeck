@@ -29,10 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: desertskyrangers/cicd
           path: .github
@@ -76,10 +76,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: desertskyrangers/cicd
           path: .github
