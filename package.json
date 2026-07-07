@@ -19,6 +19,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+		"@fortawesome/fontawesome-common-types": "^7.3",
     "@fortawesome/fontawesome-svg-core": "^7.2",
     "@fortawesome/free-brands-svg-icons": "^7.2",
     "@fortawesome/free-regular-svg-icons": "^7.3",
