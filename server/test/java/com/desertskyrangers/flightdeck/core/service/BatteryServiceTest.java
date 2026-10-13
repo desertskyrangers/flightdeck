@@ -74,8 +74,8 @@ public class BatteryServiceTest extends BaseTest {
 		assertThat( optional.isPresent() ).isTrue();
 		assertThat( optional.get().initialCycles() ).isEqualTo( 1 );
 		assertThat( optional.get().cycles() ).isEqualTo( 2 );
+		assertThat( optional.get().flightCount() ).isEqualTo( 1 );
 	}
-
 
 	@Test
 	void testUpdateCycleCountWithAFlightAndZeroCycles() {
@@ -83,7 +83,7 @@ public class BatteryServiceTest extends BaseTest {
 
 		// given
 		User pilot = statePersisting.upsert( createTestUser() );
-		Battery battery = statePersisting.upsert(createTestBattery( pilot ).initialCycles( 1 ).cycles( 0 ));
+		Battery battery = statePersisting.upsert( createTestBattery( pilot ).initialCycles( 1 ).cycles( 0 ) );
 
 		// Because the number of flights on the battery is zero, this will get set to cycles
 		assertThat( battery.initialCycles() ).isEqualTo( 1 );
@@ -97,6 +97,34 @@ public class BatteryServiceTest extends BaseTest {
 		assertThat( optional.isPresent() ).isTrue();
 		assertThat( optional.get().initialCycles() ).isEqualTo( 1 );
 		assertThat( optional.get().cycles() ).isEqualTo( 2 );
+	}
+
+	@Test
+	void testUpdateBatteryAfterAFlight() {
+		// given
+		User pilot = statePersisting.upsert( createTestUser() );
+		Battery battery = batteryServices.upsert( createTestBattery( pilot ).cycles( 1 ) );
+		// Because the number of flights on the battery is zero, this will get set to cycles
+		assertThat( battery.initialCycles() ).isEqualTo( 1 );
+		assertThat( battery.cycles() ).isEqualTo( 1 );
+		flightServices.upsert( createTestFlight( pilot ).batteries( Set.of( battery ) ) );
+		Optional<Battery> optional = batteryServices.find( battery.id() );
+		assertThat( optional.isPresent() ).isTrue();
+		Battery flownBattery = optional.get();
+		assertThat( flownBattery.initialCycles() ).isEqualTo( 1 );
+		assertThat( flownBattery.cycles() ).isEqualTo( 2 );
+		assertThat( flownBattery.flightCount() ).isEqualTo( 1 );
+
+		// when
+		batteryServices.upsert( flownBattery );
+
+		// then
+		optional = batteryServices.find( battery.id() );
+		assertThat( optional.isPresent() ).isTrue();
+		Battery updatedBattery = optional.get();
+		assertThat( updatedBattery.initialCycles() ).isEqualTo( 1 );
+		assertThat( updatedBattery.cycles() ).isEqualTo( 2 );
+		assertThat( updatedBattery.flightCount() ).isEqualTo( 1 );
 	}
 
 }
