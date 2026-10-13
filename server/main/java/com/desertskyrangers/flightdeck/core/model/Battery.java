@@ -130,28 +130,43 @@ public class Battery {
 
 	public enum Chemistry {
 
-		NICD( "NiCd", 1.2D ),
-		LIPO( "LiPo", 3.7D ),
-		LIFE( "LiFe", 3.3D ),
-		NIMH( "NiMH", 1.2D ),
-		NIZN( "NiZn", 1.6D ),
-		LEAD( "Lead", 2.0D );
+		NICD( "NiCd", 1.4, 1.2, 1.0 ),
+		LIPO( "LiPo", 4.2, 3.7, 3.0 ),
+		LIFE( "LiFe", 3.65, 3.2, 2.5 ),
+		LIHV( "LiHV", 4.4, 3.7, 3.0 ),
+		LIION( "LiIon", 4.2, 3.6, 3.0 ),
+		NIMH( "NiMH", 1.5, 1.2, 1.0 ),
+		NIZN( "NiZn", 1.85, 1.65, 1.2 ),
+		LEAD( "Lead", 2.1, 2.1, 1.83 );
 
 		private final String name;
 
+		private final double maxVoltsPerCell;
 		private final double voltsPerCell;
 
-		Chemistry( String name, double voltsPerCell ) {
+		private final double minVoltsPerCell;
+
+		Chemistry( String name, double maxVoltsPerCell, double voltsPerCell, double minVoltsPerCell ) {
 			this.name = name;
+			this.maxVoltsPerCell = maxVoltsPerCell;
 			this.voltsPerCell = voltsPerCell;
+			this.minVoltsPerCell = minVoltsPerCell;
 		}
 
 		public String getName() {
 			return name;
 		}
 
+		public double getMaxVoltsPerCell() {
+			return maxVoltsPerCell;
+		}
+
 		public double getVoltsPerCell() {
 			return voltsPerCell;
+		}
+
+		public double getMinVoltsPerCell() {
+			return minVoltsPerCell;
 		}
 
 		public static boolean isValid( String string ) {
