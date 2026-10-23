@@ -216,7 +216,7 @@ public class UserController extends BaseController {
 		List<String> messages = new ArrayList<>();
 
 		Set<Battery.Status> status = Set.of( Battery.Status.NEW, Battery.Status.AVAILABLE );
-		if( "unavailable".equals( filter ) ) status = Set.of( Battery.Status.DESTROYED );
+		if( "unavailable".equals( filter ) ) status = Set.of( Battery.Status.UNUSABLE, Battery.Status.DESTROYED );
 
 		try {
 			User user = getRequester( authentication );

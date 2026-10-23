@@ -10,7 +10,6 @@ import com.desertskyrangers.flightdeck.port.DashboardServices;
 import com.desertskyrangers.flightdeck.port.StatePersisting;
 import com.desertskyrangers.flightdeck.port.UserServices;
 import com.desertskyrangers.flightdeck.util.Json;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -404,6 +403,7 @@ public class UserControllerTest extends BaseControllerTest {
 	void testGetBatteryLookup() throws Exception {
 		statePersisting.upsert( createTestBattery( getMockUser() ).status( Battery.Status.NEW ) );
 		statePersisting.upsert( createTestBattery( getMockUser() ).status( Battery.Status.AVAILABLE ) );
+		statePersisting.upsert( createTestBattery( getMockUser() ).status( Battery.Status.UNUSABLE ) );
 		statePersisting.upsert( createTestBattery( getMockUser() ).status( Battery.Status.DESTROYED ) );
 		// Plus the 'No battery specified' option
 		MvcResult result = this.mockMvc.perform( get( ApiPath.USER_BATTERY_LOOKUP ).with( jwt() ) ).andExpect( status().isOk() ).andReturn();
