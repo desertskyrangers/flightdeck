@@ -71,6 +71,7 @@ class Icon {
   BATTERY_HALF = <FontAwesomeIcon icon={faBatteryHalf}/>
   BATTERY_QUARTER = <FontAwesomeIcon icon={faBatteryQuarter}/>
   BATTERY_EMPTY = <FontAwesomeIcon icon={faBatteryEmpty}/>
+  BATTERY_UNUSABLE = <span className='fa-layers fa-fw'><FontAwesomeIcon icon={faBatteryEmpty}/><FontAwesomeIcon icon={faSlash}/></span>
   BATTERY_DESTROYED = <span className='fa-layers fa-fw'><FontAwesomeIcon icon={faBatteryEmpty}/><FontAwesomeIcon icon={faSlash}/></span>
   CALENDAR = <FontAwesomeIcon icon={faCalendar}/>
   CALLOUT = <FontAwesomeIcon icon={faBullhorn}/>
@@ -150,6 +151,7 @@ class Icon {
   private batteryStatusIcon: { [key: string]: ReactElement<any, any> } = {
     new: this.BATTERY_NEW,
     available: this.BATTERY,
+    unusable: this.BATTERY_UNUSABLE,
     destroyed: this.BATTERY_DESTROYED
   }
 
