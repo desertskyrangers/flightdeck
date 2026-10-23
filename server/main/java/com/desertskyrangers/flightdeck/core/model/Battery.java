@@ -94,6 +94,7 @@ public class Battery {
 
 		NEW( "New", true ),
 		AVAILABLE( "Available", true ),
+		UNUSABLE( "Unusable", false ),
 		DESTROYED( "Destroyed", false );
 
 		private final String name;
