@@ -5,5 +5,5 @@ logging:
     max-history: 10
   level:
     com:
-      avereon:
+      acromere:
         www: INFO
